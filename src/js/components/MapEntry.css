@@ -1,0 +1,15 @@
+.entryBody{
+    width:100%;
+    padding: 10px 0px 10px 30px;
+    background-color: rgb(77, 77, 77);
+    color: whitesmoke;
+    text-align: left;
+    font-size: 18px;
+
+    border-left: 25px solid rgb(77, 77, 77) ;
+}
+
+.entryBody:hover{
+    background: linear-gradient( to right,rgb(44, 44, 44), rgb(77, 77, 77));
+    border-left: 25px solid rgb(44, 44, 44) ;
+}

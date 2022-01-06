@@ -1,0 +1,7 @@
+{
+    "src": "testTileset2",
+    "tileWidth":32,
+    "tileHeight":32,
+    "margin":1,
+    "spacing":2
+}

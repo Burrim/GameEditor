@@ -1,0 +1,23 @@
+
+
+.mainContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+
+    background-color: rgb(99, 99, 99);
+
+}
+
+.header{
+    font-size: 32px;
+    text-align: center;
+    padding: 5px 0px 15px 0px;
+    
+    width: 100%;
+
+    color: whitesmoke;
+    background-color: rgb(50, 50, 50);
+
+}

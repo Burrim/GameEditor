@@ -43,3 +43,7 @@ canvas
 #tilesetSelector{
     width: 200px;;
 }
+
+div{
+    user-select: none; /* Standard */
+}

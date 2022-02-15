@@ -52,7 +52,6 @@ class SelectionColumn extends React.Component {
         if(this.event == undefined) //creates event for selection
         this.event = new Event(`${this.props.id}Select`)
 
-        
         return (
             <div className='mainContainer' id={this.props.id}>
                 <div className='header'> {this.props.title} </div>

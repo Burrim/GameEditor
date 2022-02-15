@@ -1,5 +1,11 @@
-import Phaser from 'phaser'
+import Phaser, { Input } from 'phaser'
 import HistoryObject from './History.js'
+import placeTile from './functions/placeTile.js';
+import removeTile from './functions/removeTile.js';
+import changeTool from './functions/changeTool.js';
+
+import eraserTile from '../assets/ui/eraserTile.png'
+import emptyTile from '../assets/ui/emptyTile.png'
 
 export default class World extends Phaser.Scene{
     constructor() {
@@ -12,54 +18,68 @@ preload()
 {
     //Loads all tilesets
     TM.tilesets.forEach(set => {
+        //Loads Images for Tileset Objects
         let img = loadImages(set.name)
-        console.log('sad')
         this.load.image(set.name, img)
     }) 
+
+    //Loads tilesets as sprites for the preview tiles
+    Object.keys(files.tilesets).forEach(key => {
+        let set = files.tilesets[key]
+        this.load.spritesheet(`${set.data.name}-Ghost`, set.graphic, {
+            frameWidth: set.data.tilewidth,
+            frameHeight: set.data.tileheight,
+            spacing: set.data.spacing,
+            margin: set.data.margin
+        } )
+    })
+
+    this.load.image('eraserTile', eraserTile)
+    this.load.image('emptyTile', emptyTile)
     
-    //Wird in Zukunft wohl unnötig, da direkt die TilesetBilder verwendet werden können.
-    this.load.spritesheet ('ghost', loadImages('inverted'),
-    {
-            frameWidth: TM.config.tilewidth, 
-            frameHeight: TM.config.tileheight,
-            spacing: TM.config.spacing,
-            margin: TM.config.margin
-    });
 }
 
 //****************************************************************************************************************************************************** */
 
 create()
 {
-this.maps = []
+//General Data
+this.pointer = this.input.activePointer; //Pointer Object
+this.activeTool = 'brush'
 
+this.tileSelection = [] //List of Tile coordinates that were already interacted with in the current step
+
+//Events
 document.addEventListener('MapListSelect', () => {
     this.openMap(window.reactData.mapList[window.MapList.state.selected])
 })
 
-// ***** Ghosts ****************************************************************************************************************************************
-/*
-this.ghostTile = this.add.sprite(-200,-200, 'ghost', Tileset.selectedTile).setAlpha(0.5).setOrigin(0).setDepth(5)
-this.ghostEraser = this.add.rectangle(-200, -200, TM.config.tilewidth, TM.config.tileheight, '0xd73434').setAlpha(0.5).setOrigin(0).setDepth(5).setVisible(false)
-this.ghost = this.ghostTile; //Referenzwert für alle Ghosts
+//Opens Selected Tilesets
+document.addEventListener('TilesetListSelect', () => {
+    renderTileset(files.tilesets[reactData.tilesetList[TilesetList.state.selected]])
+  })
 
-this.setGhosts = function()
-{
-        switch(selectedTool){
-        case 'brush':
-        World.ghostTile.setVisible(true)
-        World.ghostEraser.setVisible(false)
-        World.ghostTile.setFrame(Tileset.selectedTile-1)
-        World.ghost = World.ghostTile; //Aktualisiert Referenz
-        break;
+//Changes Preview Tile to selected Tile in current tileset
+document.addEventListener('tileSelected', () => {
+    console.log(tileset.selected)
+    this.previewTile.setTexture(`${reactData.tilesetList[TilesetList.state.selected]}-Ghost`, tileset.selected)
+})
 
-        case 'eraser':
-        World.ghostTile.setVisible(false)
-        World.ghostEraser.setVisible(true)
-        World.ghostEraser; //Aktualisiert Referenz
-        break;
-}}
-*/
+this.listener = addEventListener("keydown", (event) => {
+    switch(event.key){
+        case 'w': if(tileset.props) tileset.keySelect(0,-1); break;
+        case 'a': if(tileset.props) tileset.keySelect(-1,0); break;
+        case 's': if(tileset.props) tileset.keySelect(0,1); break;
+        case 'd': if(tileset.props) tileset.keySelect(1,0); break;
+        case 'b': changeTool('brush'); break;
+        case 'e': changeTool('eraser'); break;
+    }
+})
+
+// ***** PreviewTile ****************************************************************************************************************************************
+
+this.previewTile = this.add.sprite(-200,-200, `emptyTile`).setAlpha(0.5).setOrigin(0).setDepth(5)
+
 
 //Particle Effects **************************************************************
 
@@ -93,106 +113,6 @@ this.maps = {}; //Alle Mapobjekte
 this.activeMap = undefined
 
 this.loadMaps()
-
-//***** Tile Placement *****************************************************************************************************************/
-
-this.placeTile = function()
-{
-    //Überprüft ob die Linke Maustaste gedrückt wird, ob eine Map aktiv ist und ob der cursor sich nicht über einem menuelement befindet
-    if(!IM.pointer.leftButtonDown())  return; 
-
-    let tile = World.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, World.cameras.main, World.ground)
-    
-    //Floor
-    if(TM.hasTileProp((Tileset.selectedTile-1),"Floor"))
-    {
-        if(Tileset.selectedTile == tile.index) return; //Verhindert das jeden Frame ein neues Tile platziert wird
-        World.activeMap.history.addTileAction(tile, Tileset.selectedTile)
-        World.activeMap.core.putTileAtWorldXY(Tileset.selectedTile, IM.pointer.worldX, IM.pointer.worldY,null,null, World.ground)
-        World.whiteParticle.emitParticleAt(tile.x*tile.width, tile.y*tile.height);
-        
-    }
-
-    //Above
-    else if((TM.hasTileProp((Tileset.selectedTile-1),"Above")))
-    {
-       for(let i = 0; i < World.activeMap.above.length; i++)
-       {
-        if(Tileset.selectedTile == World.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, World.cameras.main, World.activeMap.above[i]).index) return; //Bricht Vorgang ab, wenn versucht wird das gleiche tile zu platzieren, das bereits gelegt wurde.
-        if(World.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, World.cameras.main, World.activeMap.above[i]).index == 1 || i+1 == World.activeMap.above.length)
-        { 
-            World.activeMap.history.addTileAction(World.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, World.cameras.main, World.activeMap.above[i]), Tileset.selectedTile)
-            World.activeMap.core.putTileAtWorldXY(Tileset.selectedTile, IM.pointer.worldX, IM.pointer.worldY,null,null, World.activeMap.above[i])
-            World.whiteParticle.emitParticleAt(tile.x*tile.width, tile.y*tile.height);
-            return;
-    }}}
-
-    //Structure
-    else
-    {
-        for(let i = 0; i < World.activeMap.normal.length; i++)
-        {
-        if(Tileset.selectedTile == World.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, World.cameras.main, World.activeMap.normal[i]).index) return; //Bricht Vorgang ab, wenn versucht wird das gleiche tile zu platzieren, das bereits gelegt wurde.
-        if(World.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, World.cameras.main, World.activeMap.normal[i]).index == 1 || i+1 == World.activeMap.normal.length)
-        { 
-            World.activeMap.history.addTileAction(World.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, World.cameras.main, World.activeMap.normal[i]), Tileset.selectedTile)
-            World.activeMap.core.putTileAtWorldXY(Tileset.selectedTile, IM.pointer.worldX, IM.pointer.worldY,null,null, World.activeMap.normal[i])
-            World.whiteParticle.emitParticleAt(tile.x*tile.width, tile.y*tile.height);
-            return;
-    }}}
-
-}
-//--------------------------------------------------------------------------------------------------------------
-
-this.removeTile = function()
-{
-    //Überprüft ob die Linke Maustaste gedrückt wird, ob eine Map aktiv ist und ob der cursor sich nicht über einem menuelement befindet
-    if(!IM.pointer.leftButtonDown())
-    {
-        eraserConfig.temp = [] //Leert temp Array wenn Linke Muastaste losgelassen wird.
-        return;
-    } 
-
-    IM.pointer.updateWorldPoint(World.cameras.main)
-
-    let tile = World.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, World.cameras.main, World.ground)
-
-    let cord = `${tile.x}${tile.y}`
-
-    if(eraserConfig.temp.includes(cord)) return; //Wenn die exakten Koordinaten bereits in Temp gespeichert wurden dann wird der Vorgang übersprungen.
-    else eraserConfig.temp.push(cord);
-
-    //Above
-    for(let i = World.activeMap.above.length; i >= 0; i--)
-    {
-        if(World.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, World.cameras.main, World.activeMap.above[i]).index != 1)
-        {
-            World.activeMap.history.addTileAction(World.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, World.cameras.main, World.activeMap.above[i]), 1)
-            World.activeMap.core.putTileAtWorldXY(1, IM.pointer.worldX, IM.pointer.worldY,null,null, World.activeMap.above[i])
-            World.redParticle.emitParticleAt(tile.x*tile.width, tile.y*tile.height);
-            return;
-    }}
-    
-    //Normal
-    for(let i = World.activeMap.normal.length; i >= 0; i--)
-    {
-        if(World.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, World.cameras.main, World.activeMap.normal[i]).index != 1)
-        {
-            World.activeMap.history.addTileAction(World.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, World.cameras.main, World.activeMap.normal[i]), 1)
-            World.activeMap.core.putTileAtWorldXY(1, IM.pointer.worldX, IM.pointer.worldY,null,null, World.activeMap.normal[i])
-            World.redParticle.emitParticleAt(tile.x*tile.width, tile.y*tile.height);
-            return;
-    }}
-    
-    //Ground
-    if(World.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, World.cameras.main, World.ground).index != 1)
-    {
-        World.activeMap.history.addTileAction(World.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, World.cameras.main, World.ground), 1)
-        World.activeMap.core.putTileAtWorldXY(1, IM.pointer.worldX, IM.pointer.worldY,null,null, World.ground)
-        World.redParticle.emitParticleAt(tile.x*tile.width, tile.y*tile.height);
-    }
-    
-}
 
 //***** Camera *************************************************************************************************************************/
 
@@ -240,44 +160,12 @@ this.input.on('wheel', function (pointer, gameObjects, deltaX, deltaY, deltaZ) {
     if((this.cameras.main.zoom > 0.3 && deltaY > 0) || (this.cameras.main.zoom < 3 && deltaY < 0))
     this.cameras.main.zoom -= deltaY/1000
 });
-
-//***** Update **************************************************************************************************************************************************************
-
-this.loop = function()
-{
-    if(this.activeMap == undefined)return; //Bricht ab, wenn keine Map aktiv ist
-    IM.pointer.updateWorldPoint(this.cameras.main) //Aktualisiert WorldCursor
-
-    if( document.querySelectorAll( ":hover" )[document.querySelectorAll( ":hover" ).length-2] == document.getElementById('parent') && //Überprüft ob Maus nicht auf einem UI Element liegt
-        IM.pointer.worldX < this.activeMap.core.widthInPixels && IM.pointer.worldY < this.activeMap.core.heightInPixels && //Überprüft ob eine Welt geladen ist und falls ja, ob die Maus sich innerhalb dieser befindet
-        IM.pointer.worldX > 0 && IM.pointer.worldY > 0 &&
-        IM.pointer.x < window.innerWidth-602) 
-        {
-            
-        this.drag()
-            this.ghost.setVisible(true);
-            this.ghost.setPosition(this.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, this.cameras.main, World.ground).x*32, this.activeMap.core.getTileAtWorldXY(IM.pointer.worldX, IM.pointer.worldY, false, this.cameras.main, this.ground).y*32,) 
-            switch(selectedTool){
-                case 'brush': this.placeTile(); break;
-                case 'eraser':this.removeTile(); break;
-    }}
-    else
-    {
-        this.ghost.setVisible(false)
-    }
 }
 
-level2Proc.World = this.loop
-
-}
 // Functions --------------------------------------------------------------
 
 loadMaps()
 {
-    //Funktion muss wahrscheinlich ausgelagert werden und als Class Method definiert werden, statt als Funktion in Create
-    window.reactData.mapList = fs.readdirSync(Setup.path+'src/mapData/maps') //Sammelt Alle Maps im Entsprechenden Ordner
-    for(let i = 0; i < window.reactData.mapList.length; i++) {window.reactData.mapList[i] = window.reactData.mapList[i].slice(0,window.reactData.mapList[i].length-5)} //Schneidet die .json endung aus dem String
-
     window.reactData.mapList.forEach(key =>
     {
         this.loadMap(key);
@@ -289,42 +177,95 @@ loadMap(key) {
     {
     
         this.load.tilemapTiledJSON(key, loadMaps(key)); //Bereitet das laden der mapdaten vor
-        this.load.once('complete', function() //Setzt eine Callback Funktion auf für sobald die Mapdaten geladen wurden
+        this.load.once('complete', () => //Setzt eine Callback Funktion auf für sobald die Mapdaten geladen wurden
         {
-            //Erstellt Map, Tileset, die einzelnen layer und Extras
-            this.maps[key] = {}
-            this.maps[key].core = this.make.tilemap({key: key}); //Tilemap Datei
-            this.maps[key].tilesetKey = JSON.parse(fs.readFileSync(Setup.path+'src/mapData/maps/'+key+'.json')).tilesetKey //Tilesetkey für Tilesetinteraktionen       
-            this.maps[key].tileset = this.maps[key].core.addTilesetImage(this.maps[key].tilesetKey, this.maps[key].tilesetKey) //Tatsächliches Tileset
-            
-            this.maps[key].history = new HistoryObject() //Objekt zum Verfolgen von Änderungen
+            //Creates Tilemap and other related objects
+            this.maps[key] = {
+                core : this.make.tilemap({key: key}), //Tilemap Object
+                tilesetKeys: files.maps[key].tilesetKeys,
+                tilesets : [],
+                history : new HistoryObject(),
+                layers: {
+                    ground: [],
+                    below: [],
+                    above: []
+                },
+                shortMemory: []
+            }
 
-            this.maps[key].ground = this.maps[key].core.createLayer('Ground', this.maps[key].tileset, 0, 0).setVisible(false);
+            //Creates Tileset Objects
+            this.maps[key].tilesetKeys.forEach(setKey =>{
+                this.maps[key].tilesets.push(this.maps[key].core.addTilesetImage(setKey, setKey))
+            })
 
-            this.maps[key].normal = []       
-            this.maps[key].normal[0] = this.maps[key].core.createLayer('Structure1', this.maps[key].tileset, 0, 0).setVisible(false); 
-            this.maps[key].normal[1] = this.maps[key].core.createLayer('Structure2', this.maps[key].tileset, 0, 0).setVisible(false);
-
-            this.maps[key].above = []
-            this.maps[key].above[0] = this.maps[key].core.createLayer('Above1', this.maps[key].tileset, 0, 0).setVisible(false);   
-            this.maps[key].above[1] = this.maps[key].core.createLayer('Above2',  this.maps[key].tileset, 0, 0).setVisible(false);       
+            //Creates Layers
+            files.maps[key].layers.forEach(layerData =>{
+                let layer = this.maps[key].core.createLayer(layerData.name, this.maps[key].tilesets, 0, 0).setVisible(false)
+                switch(layerData.name[0]){ //Reads first letter of layername to determine the layertype
+                    case 'G': this.maps[key].layers.ground[0] = layer; break;
+                    case 'B': this.maps[key].layers.below.push(layer); break;
+                    case 'A': this.maps[key].layers.above.push(layer); break;
+                }
+            })
 
             this.maps[key].border = this.add.rectangle(0, 0, this.maps[key].core.widthInPixels, this.maps[key].core.heightInPixels).setOrigin(0).setFillStyle(0x323232, 1).setVisible(false).setDepth(-1);
-        },this);  
-            
+            //Event for Placing or removing Tiles. Fires every ms
+            this.maps[key].border.setInteractive().on('pointerdown', ()=>{
+                this.tilePlacement = this.time.addEvent({
+                    delay: 1,  
+                    repeat: -1,             
+                    callback: ()=> {
+                        if(this.pointer.leftButtonDown()){ //The Event gets triggered with every mouse button but only left MB can proceed past here
+                            let allow = true
+                            this.pointer.updateWorldPoint(this.cameras.main)
+
+                            //Checks if the targeted tile was already manipulated in this cycle
+                            for(let i = 0; i < this.activeMap.shortMemory.length; i++){
+                                if(this.pointer.worldX == this.activeMap.shortMemory[i].x && this.pointer.worldY == this.activeMap.shortMemory[i].y){
+                                    allow = false
+                                    break;
+                                }
+                            }
+                            if(!allow) {return} //Retuns
+                            //Ads Tile to list of tiles that should not be interacted with until the end of that cycle
+                            this.activeMap.shortMemory.push({x:this.pointer.worldX, y:this.pointer.worldY})
+
+                            switch(this.activeTool){
+                                case 'brush': placeTile(); break;
+                                case 'eraser': removeTile(); break;
+                            }
+                        }
+                      else {
+                          //Removes Event and resets some values
+                          this.tilePlacement.remove()
+                          this.time.removeEvent( this.tilePlacement)
+                          this.maps[key].shortMemory = []
+                      }  
+                    },
+                }); // Fun with brackets \o/
+            })
+        });  
     }
+
     this.load.start(); //Startet den ladevorgang
     window.MapList.update()
+}
 
-
-    /* Nicht mehr nötig wegen React Implementation
-    //Fügt ein HTML Eintrag in der Mapliste hinzu
-    let div = document.createElement('DIV') 
-    div.classList.add('mapEntry')
-    div.addEventListener('click', World.openMap)
-    div.innerHTML = `${key}`
-    document.getElementById('mapList').appendChild(div) 
-    */
+addTimer(config){
+    let timer = {
+        key : config.key,
+        interruptable: config.interruptable, //Clears Timer on statechange when true
+        recycle: false, //Marks the object so it can be overwritten
+        main : World.time.delayedCall(
+            config.duration*frame, 
+            function(){ 
+                config.callback(); 
+                timer.deactivate()
+            },
+            null, this),
+        deactivate : function(){ World.time.removeEvent(this.main); this.recycle = true},
+    }
+    this.timers.push(timer)
 }
 
 openMap(key)
@@ -338,11 +279,37 @@ openMap(key)
         this.activeMap.core.layers.forEach( layer =>{layer.tilemapLayer.setVisible(false)})
         this.activeMap.border.setVisible(false);
     }
-    this.activeMap = this.maps[mapKey]
+    this.activeMap = this.maps[key]
     this.activeMap.core.layers.forEach( layer =>{layer.tilemapLayer.setVisible(true)})
     this.activeMap.border.setVisible(true);
     this.cameraCursor.setPosition(this.activeMap.core.widthInPixels/2,this.activeMap.core.heightInPixels/2) //Zentriert Kamera auf neue Map
     //Tileset.renderTileset()
+}
+
+update(){
+    if(!this.activeMap) return
+    if(!document.querySelectorAll( ":hover" )[2]) return
+
+    this.pointer.updateWorldPoint(this.cameras.main)
+
+    if( //Disables Previewtile if the pointer is'n on the map any more
+        this.pointer.worldX < 0 || this.pointer.worldX > this.activeMap.core.widthInPixels ||
+        this.pointer.worldY < 0 || this.pointer.worldY > this.activeMap.core.heightInPixels ||
+        document.querySelectorAll( ":hover" )[2].id != 'parent'
+        ){
+        this.previewTile.setVisible(false)
+        return;
+    }
+    else this.previewTile.setVisible(true)
+    //Rounds coordinates so the preview aligns with he tilemap
+    let pos = {
+        x:this.pointer.worldX - (this.pointer.worldX % this.activeMap.core.tileWidth), 
+        y:this.pointer.worldY - (this.pointer.worldY % this.activeMap.core.tileHeight)
+    }
+    
+    this.previewTile.setPosition(pos.x,pos.y)
+
+
 }
 
 } //End of Class

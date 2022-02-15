@@ -1,0 +1,47 @@
+
+#Tileset {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  z-index: 10;
+  padding: 20px;
+  background-color: rgb(50, 50, 50);
+  
+}
+#TilesetLimiter{
+  position:relative;
+  width: 600px;
+  height: 600px;
+  z-index: initial;
+  overflow: hidden;
+  border: 2px solid black
+}
+#TilesetBase {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    user-select: none;
+    z-index: -1;
+  }
+  
+  .Tile {
+    margin: 0px;
+    user-select: none;
+    overflow: hidden;
+    background-color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .tileSelector {
+    margin: 0px;
+    user-select: none;
+    border: 2px solid rgba(255, 53, 53, 0);
+    z-index: 1;
+  }
+  
+  .tileSelector:hover {
+    background-color: rgba(246, 246, 246, 0.2) !important; 
+    border: 2px solid rgba(246, 246, 246, 0.2);
+  }

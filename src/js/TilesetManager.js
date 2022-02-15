@@ -33,7 +33,6 @@ loadTileset()
         {
             this[set.slice(0,set.length-5)] = JSON.parse(fs.readFileSync(`${Setup.path}src/mapData/tilesets/${set}`));
             this.tilesets.push(this[set.slice(0,set.length-5)])
-            window.reactData.tilesetList.push(set.slice(0,set.length-5))
         }
     })
     this.config = JSON.parse(fs.readFileSync(`${Setup.path}src/mapData/tileset.json`))

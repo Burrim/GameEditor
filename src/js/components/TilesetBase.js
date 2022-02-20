@@ -37,8 +37,8 @@ class TilesetBase extends React.Component {
       }
     });
     //Fires Event only if there is usable data
-    if(this.selected)
-    document.dispatchEvent(this.event)
+    if(id != -69) document.dispatchEvent(this.event)
+    else this.selected = undefined
   }
 
   keySelect = (x,y) => {

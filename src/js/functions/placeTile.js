@@ -16,7 +16,7 @@ const placeTile = () =>{
         case 'ground':
             //Check if Layer exists
             if(!World.activeMap.layers.ground[0]){ 
-                let layer = World.activeMap.core.createBlankLayer(`Ground`, World.activeMap.tilesets ,0 ,0 ,World.activeMap.core.width, World.activeMap.core.height ,World.activeMap.core.tileWidth ,World.activeMap.core.tileHeight)
+                let layer = World.activeMap.core.createBlankLayer(`ground`, World.activeMap.tilesets ,0 ,0 ,World.activeMap.core.width, World.activeMap.core.height ,World.activeMap.core.tileWidth ,World.activeMap.core.tileHeight)
                 World.activeMap.layers.ground[0] = layer
             }
         let id = currentTileset.data.tiles[tileset.selected].id + currentTileset.data.firstgid 

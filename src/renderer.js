@@ -13,7 +13,8 @@ import Tileset from './js/components/TilesetCover.js'
 
 import './stylesheet.css'
 
-let path = 'D:/Programming_Stuff/Ongoing_Projects/TestProject/src'
+
+window.path = 'D:/Programming_Stuff/Ongoing_Projects/TestProject/src'
 
 // *** Asset Loader *************************************************************************************************
 
@@ -29,15 +30,17 @@ window.files = {
   tilesetGraphics:{},
   tilesetData: {},
   tilesets: {},
-  sprites:{all:{}},
+  sprites:{},
   maps:{}, 
   particles : {},
-  graphics : {}
+  graphics : {},
+  editorGraphics: {}
 }
 
 window.reactData = {
   mapList:[],
-  tilesetList:[]
+  tilesetList:[],
+  objects:[]
 }
 
 window.tileset = {} //Placeholder to prevent crashes until tileset is booted up
@@ -73,6 +76,20 @@ Object.keys(maps).forEach(key =>{
   reactData.mapList.push(key.replace(/.(png|json)/,'')) //Prepares data for use in React
 })
 
+// *** Sprites ***
+//Loads all sprites
+let sprites = importAll(require.context(`D:/Programming_Stuff/Ongoing_Projects/TestProject/src/assets/editorSprites`, false, /.(png|jpe?g|svg)$/));
+Object.keys(sprites).forEach(key =>{
+  files.sprites[key.replace(/.(png|json)/,'')] = sprites[key]
+})
+
+// *** Editor Graphics ***
+//Loads all graphics from the internal editor assets
+let editorGraphics = importAll(require.context(`./assets/ui`, false, /.(png|jpe?g|svg)$/));
+Object.keys(editorGraphics).forEach(key =>{
+  files.editorGraphics[key.replace(/.(png|json)/,'')] = editorGraphics[key]
+})
+
 // *********************************************************************************************************************************************************
 
 //Old loader functions. Need to be removed in due time
@@ -86,8 +103,15 @@ window.loadMaps = function(prop){
   return map
 }
 
-//*** Event Listeners ************************************************************************************************************************************************************ */
+//*** Global Functions *********************************************************************************************************************************************************** */
+global.id = 0 
+global.assignId = function(){
+  global.id++;
+  return global.id
+}
 
+//*** Event Listeners ************************************************************************************************************************************************************ */
+//Not sure if they are even used at the moment since the pointer object from phaser is just more handy
 window.addEventListener("mousedown", (event) => {
   if (event.button === 0) window.leftClick = true;
   if (event.button === 1) window.middleClick = true;
@@ -140,7 +164,6 @@ window.Game = new Game();
 //*** Rendering React Menu Elements *********************************************************************************************************************************************************************** */
 
 //Renderfunctions
-
   window.renderTileset = function(tileset){
     window.currentTileset = tileset
     ReactDOM.render(
@@ -148,6 +171,14 @@ window.Game = new Game();
         <Tileset input={tileset}/>
       </div> 
       ,document.getElementById("tilesetWindow"));
+  }
+
+  window.renderObjectList = function(){
+    ReactDOM.render(
+      <div>
+        <SelectionColumn id='ObjectList' title='Objects' dataReader='objects'/>
+      </div> 
+      ,document.getElementById("objectSelector"));
   }
 
   //Startup  
@@ -162,3 +193,5 @@ window.Game = new Game();
         <SelectionColumn id='TilesetList' title='Tilesets' dataReader='tilesetList'/>
       </div> 
       ,document.getElementById("tilesetSelector"));
+
+      

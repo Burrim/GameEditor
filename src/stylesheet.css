@@ -31,10 +31,19 @@ canvas
 
 #tilesetSelector{
     width: 200px;
+
+}
+
+#objectSelector{
+    width: 250px;
+    border-right: 10px solid rgba(0, 0, 0, 0.24);
+    padding-right: 10px;
+    overflow: hidden;
 }
 
 #rightUI{
-
+    display: flex;
+    flex-direction: row;
 }
 #tilesetWindow{
     position: absolute;

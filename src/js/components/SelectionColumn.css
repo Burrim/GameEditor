@@ -6,8 +6,13 @@
     align-items: start;
     justify-content: center;
 
-    background-color: rgb(99, 99, 99);
+    
 
+}
+
+.entryContainer{
+    overflow: hidden;
+    width: 100%;
 }
 
 .header{
@@ -16,6 +21,8 @@
     padding: 5px 0px 15px 0px;
     
     width: 100%;
+
+    z-index: 10;
 
     color: whitesmoke;
     background-color: rgb(50, 50, 50);

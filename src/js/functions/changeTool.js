@@ -9,9 +9,11 @@ const changeTool = (tool) => {
             World.previewTile.setTexture(`${reactData.tilesetList[TilesetList.state.selected]}-Ghost`, tileset.selected)
             else  World.previewTile.setTexture('emptyTile')
         break;
-
         case 'eraser':
             World.previewTile.setTexture('eraserTile')
+            ObjectList.select()
+        break;
+        case 'object':
         break;
     }
 }   

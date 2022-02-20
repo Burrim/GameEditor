@@ -1,8 +1,10 @@
 import Phaser, { Input } from 'phaser'
 import HistoryObject from './History.js'
 import placeTile from './functions/placeTile.js';
+import placeObject from './functions/placeObject.js';
 import removeTile from './functions/removeTile.js';
 import changeTool from './functions/changeTool.js';
+import saveMaps from './functions/saveMaps.js'
 
 import eraserTile from '../assets/ui/eraserTile.png'
 import emptyTile from '../assets/ui/emptyTile.png'
@@ -34,6 +36,16 @@ preload()
         } )
     })
 
+    //Loads all editor sprites
+    Object.keys(files.sprites).forEach(key => {
+        this.load.image(`${key}-Sprite`, files.sprites[key])
+    })
+
+    //Loads all editor graphics
+    Object.keys(files.editorGraphics).forEach(key => {
+        this.load.image(`${key}`, files.editorGraphics[key])
+    })
+
     this.load.image('eraserTile', eraserTile)
     this.load.image('emptyTile', emptyTile)
     
@@ -47,9 +59,13 @@ create()
 this.pointer = this.input.activePointer; //Pointer Object
 this.activeTool = 'brush'
 
+this.saveMaps = saveMaps
+
 this.tileSelection = [] //List of Tile coordinates that were already interacted with in the current step
 
-//Events
+// *** Events ********************************************************************************************************************************************
+
+//Map Selected
 document.addEventListener('MapListSelect', () => {
     this.openMap(window.reactData.mapList[window.MapList.state.selected])
 })
@@ -63,9 +79,25 @@ document.addEventListener('TilesetListSelect', () => {
 document.addEventListener('tileSelected', () => {
     console.log(tileset.selected)
     this.previewTile.setTexture(`${reactData.tilesetList[TilesetList.state.selected]}-Ghost`, tileset.selected)
+    ObjectList.select()
 })
 
-this.listener = addEventListener("keydown", (event) => {
+//Object in list selected
+document.addEventListener('ObjectListSelect', () => {
+    this.previewTile.setTexture(`${reactData.objects[ObjectList.state.selected].img}-Sprite`)
+    if(tileset.event)tileset.select()
+  })
+
+document.addEventListener("mouseup", (event) => {
+//Leftclick
+    if (event.button === 0){
+        if(this.activeMap)
+        this.activeMap.objects.forEach(obj=>{ obj.place()})
+    }   
+});
+
+
+this.keyListener = addEventListener("keydown", (event) => {
     switch(event.key){
         case 'w': if(tileset.props) tileset.keySelect(0,-1); break;
         case 'a': if(tileset.props) tileset.keySelect(-1,0); break;
@@ -73,13 +105,23 @@ this.listener = addEventListener("keydown", (event) => {
         case 'd': if(tileset.props) tileset.keySelect(1,0); break;
         case 'b': changeTool('brush'); break;
         case 'e': changeTool('eraser'); break;
+        case 'o': changeTool('object'); break;
     }
 })
 
-// ***** PreviewTile ****************************************************************************************************************************************
+//gets initial coordinates of object selector
+window.objectListY = document.getElementsByClassName('entryContainer')[0].getClientRects()[0].height
+//Checks for mouse wheel inputs and then when the mouse is hovering over the element scrolls it
+this.wheelListener = addEventListener('wheel', function(event) {
+    if(document.querySelectorAll( ":hover" )[3].id != 'objectSelector') return
+    objectListY -= event.deltaY/5
+    document.getElementsByClassName('entryContainer')[0].style.transform = `translate(0,${objectListY}px)`
+  });
 
+
+// ***** Special Sprites ****************************************************************************************************************************************
+//Tile Preview
 this.previewTile = this.add.sprite(-200,-200, `emptyTile`).setAlpha(0.5).setOrigin(0).setDepth(5)
-
 
 //Particle Effects **************************************************************
 
@@ -184,7 +226,9 @@ loadMap(key) {
                 core : this.make.tilemap({key: key}), //Tilemap Object
                 tilesetKeys: files.maps[key].tilesetKeys,
                 tilesets : [],
+                wip: false, //Flag that shows when the map had changes made to it
                 history : new HistoryObject(),
+                objects: [],
                 layers: {
                     ground: [],
                     below: [],
@@ -202,9 +246,9 @@ loadMap(key) {
             files.maps[key].layers.forEach(layerData =>{
                 let layer = this.maps[key].core.createLayer(layerData.name, this.maps[key].tilesets, 0, 0).setVisible(false)
                 switch(layerData.name[0]){ //Reads first letter of layername to determine the layertype
-                    case 'G': this.maps[key].layers.ground[0] = layer; break;
-                    case 'B': this.maps[key].layers.below.push(layer); break;
-                    case 'A': this.maps[key].layers.above.push(layer); break;
+                    case 'g': this.maps[key].layers.ground[0] = layer; break;
+                    case 'b': this.maps[key].layers.below.push(layer); break;
+                    case 'a': this.maps[key].layers.above.push(layer); break;
                 }
             })
 
@@ -231,7 +275,10 @@ loadMap(key) {
                             this.activeMap.shortMemory.push({x:this.pointer.worldX, y:this.pointer.worldY})
 
                             switch(this.activeTool){
-                                case 'brush': placeTile(); break;
+                                case 'brush': 
+                                if(tileset.selected != undefined) placeTile(); 
+                                if(ObjectList.state.selected != undefined) placeObject();
+                                break;
                                 case 'eraser': removeTile(); break;
                             }
                         }
@@ -270,7 +317,6 @@ addTimer(config){
 
 openMap(key)
 {
-    
     let mapKey = key  
     if(mapKey == this.activeMap) return;
 
@@ -292,15 +338,21 @@ update(){
 
     this.pointer.updateWorldPoint(this.cameras.main)
 
-    if( //Disables Previewtile if the pointer is'n on the map any more
-        this.pointer.worldX < 0 || this.pointer.worldX > this.activeMap.core.widthInPixels ||
+    //Pointer is not on the map anymore
+    if( this.pointer.worldX < 0 || this.pointer.worldX > this.activeMap.core.widthInPixels ||
         this.pointer.worldY < 0 || this.pointer.worldY > this.activeMap.core.heightInPixels ||
         document.querySelectorAll( ":hover" )[2].id != 'parent'
-        ){
+    ){
         this.previewTile.setVisible(false)
+        this.activeMap.objects.forEach(obj => {obj.return()})
         return;
     }
-    else this.previewTile.setVisible(true)
+    //Pointer is on the Map
+    else {
+        this.activeMap.objects.forEach(obj => {obj.move()})
+        if(this.activeTool == 'brush' || this.activeTool == 'eraser') this.previewTile.setVisible(true)
+        else this.previewTile.setVisible(false)
+    }
     //Rounds coordinates so the preview aligns with he tilemap
     let pos = {
         x:this.pointer.worldX - (this.pointer.worldX % this.activeMap.core.tileWidth), 

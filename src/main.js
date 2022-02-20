@@ -1,35 +1,32 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
-
-
-
-
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
 }
 
+// *** Main Window ******************************************************************************************************************
+
+//Creates the default window and sets it up
 const createWindow = () => {
-  // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
     frame: true,
     webPreferences:
     {       
-      nodeIntegration:true, //Notwendig um NodeJS Befehle zu nutzen
+      nodeIntegration:true, 
       contextIsolation:false,
       enableRemoteModule: true,
       preload: path.join(__dirname, 'preload.js')
     }
   });
 
-
-  // and load the index.html of the app.
+  //load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-//The Almighty holy best codelines ever in all existence
+//The Almighty holy best codelines ever in all existence. Fixes some annoying problems with the webpack testserver
 const { session } = require('electron')
 session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
   callback({
@@ -39,38 +36,56 @@ session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     }
   })
 })
-// -------- ^ --------------- ^ -----------------------------------------------------------
 
-  // Open the DevTools.
-  //mainWindow.webContents.openDevTools();
-
- 
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+// *** Settings Window ******************************************************************************************************************
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+//Creates the default window and sets it up
+const createSettingsWindow = () => {
+  const settingsWindow = new BrowserWindow({
+    width: 800,
+    height: 640,
+    frame: true,
+    webPreferences:
+    {       
+      nodeIntegration:true, 
+      contextIsolation:false,
+      enableRemoteModule: true,
+      preload: path.join(__dirname, 'preloadSettings.js')
+    }
+  });
+  settingsWindow.loadURL(SETTINGS_WINDOW_WEBPACK_ENTRY);
+  settingsWindow.removeMenu()
+}
+
+
+// *** IPC ************************************************************************************************************************
+
+ipcMain.on('openWindow', (event, arg) => {
+  console.log(arg)
+  createSettingsWindow() 
+  //event.reply('startup-reply', filterData(filter))
+})
+
+// *** Events *********************************************************************************************************************
+
+//Startup when App is loaded
+app.on('ready', function(){
+  createWindow()
+  
+});
+
+//Shuts app down when all windows are closed
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.on('activate', () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
-});
 
 
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+
+
 

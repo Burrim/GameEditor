@@ -14,7 +14,9 @@ import Tileset from './js/components/TilesetCover.js'
 import './stylesheet.css'
 
 
-window.path = 'D:/Programming_Stuff/Ongoing_Projects/TestProject/src'
+
+//localStorage.setItem('GameEditorProject','D:/Programming_Stuff/Ongoing_Projects/Project Mars V2');
+window.path = localStorage.getItem('GameEditorProject')
 
 // *** Asset Loader *************************************************************************************************
 
@@ -45,42 +47,45 @@ window.reactData = {
 
 window.tileset = {} //Placeholder to prevent crashes until tileset is booted up
 
+//For Now the Editor can't Actually Load new tilesets or images in general and has to be compiled again if this is needed. Only map data work for the time being
+
 // *** Tilesets ***
-
-//Loads all tileset graphics
-let tilesetGraphics = importAll(require.context(`D:/Programming_Stuff/Ongoing_Projects/TestProject/src/mapData/tilesets`, false, /.(png|jpe?g|svg)$/));
-Object.keys(tilesetGraphics).forEach(key =>{
-  files.tilesetGraphics[key.replace(/.(png|json)/,'')] = tilesetGraphics[key]
+//Reads every Entry in the target directory. Since Tilesets are stored in pairs of images and jsons a single key without file ending is generated for every pair
+//to itterate over
+let tilesets = fs.readdirSync(path + '/src/mapData/tilesets')
+let tilesetKeys = []
+tilesets.forEach(key => {
+  let cleanedKey = key.replace(/.(png|json)/,'')
+  if(!tilesetKeys.includes(cleanedKey)) tilesetKeys.push(cleanedKey)
 })
-
-//Loads all tileset data 
-let tilesetData = importAll(require.context(`D:/Programming_Stuff/Ongoing_Projects/TestProject/src/mapData/tilesets`, false, /.(json)$/));
-Object.keys(tilesetData).forEach(key =>{
-  files.tilesetData[key.replace(/.(png|json)/,'')] = tilesetData[key]
-})
-
-//Merges Tileset Data with Tileset Graphics
-Object.keys(files.tilesetData).forEach(key =>{
+//Itterates over every key and prepares the necessary data
+tilesetKeys.forEach(key => {
   files.tilesets[key] = {
-    data : files.tilesetData[key],
-    graphic : files.tilesetGraphics[key]
+    data : JSON.parse( fs.readFileSync(path+"/src/mapData/tilesets/"+ key + '.json')),
+    graphic : "data:image/png;base64, " + fs.readFileSync(path + "/src/mapData/tilesets/" + key + '.png', 'base64'),
+    proxy: new Image()
   }
-  reactData.tilesetList.push(key) //Prepares data for use in React
-})
+  reactData.tilesetList.push(key)
+  files.tilesets[key].proxy.src = files.tilesets[key].graphic
+});
 
 // *** Maps ***
-//Loads Map Files
-let maps = importAll(require.context(`D:/Programming_Stuff/Ongoing_Projects/TestProject/src/mapData/maps`, false, /.(json)$/));
-Object.keys(maps).forEach(key =>{
-  files.maps[key.replace(/.(png|json)/,'')] = maps[key]
-  reactData.mapList.push(key.replace(/.(png|json)/,'')) //Prepares data for use in React
+//Checks Directory for Files
+let maps = fs.readdirSync(path+"/src/mapData/maps")
+maps.forEach(key => {
+  //Load individual Files
+  let map = JSON.parse( fs.readFileSync(path+"/src/mapData/maps/"+key)) 
+  files.maps[key.replace(/.(json)/,'')] = map
+  reactData.mapList.push(key.replace(/.(json)/,''))
 })
 
 // *** Sprites ***
 //Loads all sprites
-let sprites = importAll(require.context(`D:/Programming_Stuff/Ongoing_Projects/TestProject/src/assets/editorSprites`, false, /.(png|jpe?g|svg)$/));
-Object.keys(sprites).forEach(key =>{
-  files.sprites[key.replace(/.(png|json)/,'')] = sprites[key]
+let sprites = fs.readdirSync(path + "/src/assets/editorSprites")
+sprites.forEach(key => {
+  let sprite = fs.readFileSync(path + "/src/assets/editorSprites/" + key, 'base64')
+  sprite = "data:image/png;base64, " + sprite 
+  files.sprites[key.replace(/.(png|jpg|jpeg)/,'')] = sprite
 })
 
 // *** Editor Graphics ***
@@ -90,18 +95,6 @@ Object.keys(editorGraphics).forEach(key =>{
   files.editorGraphics[key.replace(/.(png|json)/,'')] = editorGraphics[key]
 })
 
-// *********************************************************************************************************************************************************
-
-//Old loader functions. Need to be removed in due time
-window.loadImages = function(prop){
-  let img = require(`D:/Programming_Stuff/Ongoing_Projects/TestProject/src/mapData/tilesets/${prop}.png`)
-  return(img)
-}
-
-window.loadMaps = function(prop){
-  let map = require(`D:/Programming_Stuff/Ongoing_Projects/TestProject/src/mapData/maps/${prop}.json`)
-  return map
-}
 
 //*** Global Functions *********************************************************************************************************************************************************** */
 global.id = 0 
@@ -123,8 +116,6 @@ window.addEventListener("mouseup", (event) => {
   if (event.button === 1) window.middleClick = false;
   if (event.button === 2) window.rightClick = false;
 });
-
-
 
 //*** Phaser Instance ************************************************************************************************************************************************************ */
 
@@ -185,6 +176,7 @@ window.Game = new Game();
   ReactDOM.render(
     <div>
       <SelectionColumn id='MapList' title='Maps' dataReader='mapList'/>
+      <img id='Tools' src={files.editorGraphics.brush}/>
     </div> 
     ,document.getElementById("mapSelector"));
   

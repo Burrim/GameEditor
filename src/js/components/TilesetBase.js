@@ -1,5 +1,10 @@
 import React from "react";
 
+/*IMPORTANT -----------------------------------------------------------------------------
+Currenly the tileset preview doesn't support margin or spacing in a edited tileset and the old preview function doesn't work here
+since I've had currently no success in displaying base64 data in a backgroundImage property of a div
+which is necessary since only divs have the background position attribute
+----------------------------------------------------------------------------------------*/
 
 class TilesetBase extends React.Component {
   constructor() {
@@ -56,6 +61,8 @@ class TilesetBase extends React.Component {
     this.select()
 
     return (
+      <div>
+        <img id="TilesetBaseBG" src={this.props.input.graphic} /* Image of selected Tileset *//> 
       <div id="TilesetBase" //Container Element
         style={{
           minWidth: this.props.input.data.tilesX * this.props.input.data.tilewidth,
@@ -64,7 +71,6 @@ class TilesetBase extends React.Component {
           margin: this.props.input.data.margin
         }}
       >
-        
         {this.props.input.data.tiles.map((element, index) => {
           return ( //Creates individual Tiles
             <Tile
@@ -77,6 +83,8 @@ class TilesetBase extends React.Component {
             />
           );
         })}
+
+      </div>
 
       </div>
     );
@@ -116,8 +124,6 @@ function Tile(props) {
       style={{
         width: `${props.input.data.tilewidth}px`,
         height: `${props.input.data.tileheight}px`,
-        backgroundImage: `url(${props.input.graphic})`,
-        backgroundPosition: `${-x}px ${-y}px`,
       }}
     >
       <div

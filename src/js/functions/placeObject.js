@@ -1,10 +1,7 @@
 
+const placeObject = (cords, data, map) => {
 
-
-
-const placeObject = (cords) => {
     let pos = cords
-
     //If no cords are given take the pointer cords are taken and rounded to tilegrid
     if(!pos){
         pos = {
@@ -13,12 +10,16 @@ const placeObject = (cords) => {
         }
     }
     
+    let obj = data
+    //Pulls Data from Project Data if not given directly
+    if(!obj)
+    obj = Setup.project.objects[ObjectList.state.selected]
 
-    //Pulls Data for container from array for easy reference
-    let obj = Setup.project.objects[ObjectList.state.selected]
+    let targetMap = map
+    if(!targetMap) targetMap = World.activeMap
 
     //Creates Elements$
-    let sprite = World.add.image(0,0,`${obj.img}-Sprite`).setOrigin(0)
+    let sprite = World.add.image(0,0,`${obj.editorData.img}-Sprite`).setOrigin(0)
     let text = World.add.text(obj.editorData.width/2 ,0,obj.editorData.text).setOrigin(0.5,1)
 
     let edit = World.add.image(0,-24,`settings-mapIcon`).setOrigin(0)
@@ -26,11 +27,16 @@ const placeObject = (cords) => {
     let menu = World.add.container(obj.editorData.width+16,0,[edit,del]).setVisible(false)
 
     let container = World.add.container(pos.x,pos.y,[sprite,text,menu])
-    World.activeMap.objects.push(container)
+
+    targetMap.objects.push(container)
 
     //Setup Container
     container.data = obj
-    container.id = assignId()
+    container.data.id = {
+        num: assignId(),
+        map: targetMap.name
+    }
+    container.data.customData = {}
     container.dragActive = false
     container.previousCords = {x:container.x, y:container.y}
     sprite.setInteractive()
@@ -41,13 +47,20 @@ const placeObject = (cords) => {
 
     //Container Events and functions
     sprite.on('pointerdown', () => {
-        if(World.activeTool != 'object') return
         if(World.pointer.rightButtonDown()){
             if(menu.visible)menu.setVisible(false)
             else menu.setVisible(true)
         }
-        else if(World.pointer.leftButtonDown()){
+        else if(World.pointer.leftButtonDown() && World.activeTool == 'object'){
             container.dragActive = true
+        }
+    })
+
+    edit.on('pointerdown', ()=> {
+        if(World.activeTool != 'object') return
+        if(World.pointer.leftButtonDown()){
+            container.edit()
+            menu.setVisible(false)
         }
     })
 
@@ -73,6 +86,31 @@ const placeObject = (cords) => {
         this.dragActive = false
         this.x = this.previousCords.x
         this.y = this.previousCords.y
+    }
+
+    //Opens external Window to edit data
+    container.edit = function(){
+        openWindow(container.data)
+    }
+
+    //Receives Data from external window and inserts it back in
+    container.receiveData = function(data){
+        Object.keys(data.customData).forEach(key => {
+            container.data.customData[key] = data.customData[key]
+            container.data.data[key] = data.customData[key]
+        })
+    }
+
+    container.getSource = function(){
+        let value
+        for(let i = 0; i < Setup.project.objects.length; i++){
+            if(Setup.project.objects[i].name == this.data.name){
+                value = Setup.project.objects[i].data
+                break;
+            }
+            
+        }
+        return value
     }
 
     container.delete = function(){

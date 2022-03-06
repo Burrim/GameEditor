@@ -14,6 +14,8 @@ export default class Setup extends Phaser.Scene{
         window.Setup = this
       }
 
+      
+
 
 
 //***** Init/Preload ********************************************************************************************************************************************************* */
@@ -22,8 +24,7 @@ init()
 {
     this.config //Config später per ipc einfügen  = JSON.parse(fs.readFileSync("src/config.json")) //Interne Config des Editors$
     this.config = {
-        lastProject:"D:/Programming_Stuff/Ongoing_Projects/TestProject/testProject.haos",
-        path:"D:/Programming_Stuff/Ongoing_Projects/TestProject/testProject"
+        lastProject:`${window.path}/ProjectMars.json`,
     }
     this.project; //ProjektDaten
     this.path; //Projektpfad

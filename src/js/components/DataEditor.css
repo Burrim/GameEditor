@@ -1,0 +1,81 @@
+body{
+    background-color: #141414;
+}
+
+#source{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+}
+
+div{
+    color: whitesmoke;
+}
+
+input{
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    color: whitesmoke;
+    background-color: transparent;
+}
+
+input:focus 
+{
+    outline: none !important;
+}
+
+input::-webkit-inner-spin-button 
+{
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+button
+{
+    color: whitesmoke;
+    background-color: #2E2E2E;
+    border: 1px solid #555;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+    width: 200px;
+    height: 40px;
+    margin: 5px;
+}
+
+button:focus
+{
+    outline: none !important;
+}
+
+button:active
+{
+    background-color: #ccc;
+}
+
+.DataEditor-Body{
+    padding: 5px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.DataEditor-Title{
+    font-size: x-large;
+    text-align: center;
+    margin: 5px;
+}
+
+.DataEntry-Body{
+    padding: 5px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    margin: 2.5px;
+    background-color: #2E2E2E
+}
+

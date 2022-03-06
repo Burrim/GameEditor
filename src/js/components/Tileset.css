@@ -4,8 +4,8 @@
   bottom: 0px;
   right: 0px;
   z-index: 10;
-  padding: 20px;
-  background-color: rgb(50, 50, 50);
+  margin: 5px;
+  background-color: rgb(110, 110, 110);
   
 }
 #TilesetLimiter{
@@ -17,18 +17,25 @@
   border: 2px solid black
 }
 #TilesetBase {
-    position: relative;
+    position: absolute;
     display: flex;
     flex-wrap: wrap;
     user-select: none;
     z-index: -1;
   }
+
+#TilesetBaseBG {
+  position: absolute;
+  z-index: -3;
+  user-select: none;
+  pointer-events: none;
+}
   
   .Tile {
+    z-index: 1;
     margin: 0px;
     user-select: none;
     overflow: hidden;
-    background-color: gray;
     display: flex;
     justify-content: center;
     align-items: center;

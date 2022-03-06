@@ -1,6 +1,6 @@
 
 const saveMaps = () => {
-
+    document.getElementById('saveCover').style.display = 'block'
     //Itterates trough maps and saves those which were changed since the last save
     Object.keys(World.maps).forEach(key => {
         if(!World.maps[key].wip) return
@@ -57,11 +57,41 @@ const saveMaps = () => {
             }
             
         })
+        //Prepares Map Objects
+        map.objects = []
+        World.maps[key].objects.forEach(obj => {
+            //Creates new Object for data storage
+            let entry = {
+                name: obj.data.name,
+                position: {x:obj.x,y:obj.y},
+                customData: obj.data.customData,
+                editorData: obj.data.editorData,
+                data: {}
+            }
+            //Inserts Custom Data indirectly so it gets not linked per reference with the datasource
+            Object.keys(entry.customData).forEach(key => {
+                entry.data[key] = entry.customData[key]
+            })
+
+            //Gets the original Data and fills all values that are not already taken by custom ones.
+            //Important so that you can change default values of objects even after already a lot of pieces are placed on the map
+            let sourceData = obj.getSource()
+            Object.keys(sourceData).forEach(key => {
+                if(!entry.data[key])
+                entry.data[key] = sourceData[key] 
+            })
+            map.objects.push(entry)
+        })
+
         //Saves Map
-        fs.writeFileSync(`${window.path}/mapData/maps/${key}.json`, JSON.stringify(map, null, 5))
-        World.maps[key].wip = false
+        fs.writeFileSync(`${window.path}/src/mapData/maps/${key}.json`, JSON.stringify(map, null, 5))
+        document.getElementById('saveCover').style.display = 'none'
+        //World.maps[key].wip = false For debug reasons deactivated
         console.log(map)
     });
+    ctrl = false
+    alert('Project Saved')
+    
 }
 
 class LayerTemplate {

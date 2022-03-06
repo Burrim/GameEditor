@@ -18,7 +18,9 @@ const tileloop = (tileType, single,flag) =>{
         let selectedTile = World.activeMap.core.getTileAtWorldXY(World.pointer.worldX, World.pointer.worldY,false, World.cameras.main, World.activeMap.layers[tileType][i])
         if(selectedTile){
             console.log(tileType)
+            //Sets Index to an empty tile and clears properties
             selectedTile.index = -1
+            selectedTile.properties = {}
             //World.activeMap.core.removeTileAtWorldXY(World.pointer.worldX, World.pointer.worldY, true, false,World.cameras.main, World.activeMap.layers[tileType][i])
             //When single mode is active stop execution after first tile is removed
             if(single) flag.tileSet = true 

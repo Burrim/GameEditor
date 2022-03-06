@@ -18,30 +18,8 @@ export default class World extends Phaser.Scene{
 
 preload()
 {
-    //Loads all tilesets
-    TM.tilesets.forEach(set => {
-        //Loads Images for Tileset Objects
-        let img = loadImages(set.name)
-        this.load.image(set.name, img)
-    }) 
-
-    //Loads tilesets as sprites for the preview tiles
-    Object.keys(files.tilesets).forEach(key => {
-        let set = files.tilesets[key]
-        this.load.spritesheet(`${set.data.name}-Ghost`, set.graphic, {
-            frameWidth: set.data.tilewidth,
-            frameHeight: set.data.tileheight,
-            spacing: set.data.spacing,
-            margin: set.data.margin
-        } )
-    })
-
-    //Loads all editor sprites
-    Object.keys(files.sprites).forEach(key => {
-        this.load.image(`${key}-Sprite`, files.sprites[key])
-    })
-
     //Loads all editor graphics
+    //Editor Graphics are inserted in an ES6 import
     Object.keys(files.editorGraphics).forEach(key => {
         this.load.image(`${key}`, files.editorGraphics[key])
     })
@@ -55,6 +33,37 @@ preload()
 
 create()
 {
+    //Loads Base64 Graphics in to Phaser to use
+
+    let loadedData = 0
+    let loadedDataGoal = Object.keys(files.tilesets).length
+
+    //Loads all editor sprites
+    Object.keys(files.sprites).forEach(key => {
+        this.textures.addBase64(`${key}-Sprite`, files.sprites[key]);
+    })
+
+    //Loads Tileset graphics as well as sprites for tilepreview
+    Object.keys(files.tilesets).forEach(key => {
+        this.textures.addBase64( key, files.tilesets[key].graphic);
+        let sprite  = new Image();
+        sprite.onload = () => {
+        this.textures.addSpriteSheet(`${key}-Ghost`, sprite, {
+            frameWidth: files.tilesets[key].data.tilewidth,
+            frameHeight: files.tilesets[key].data.tileheight,
+            spacing: files.tilesets[key].data.spacing,
+            margin: files.tilesets[key].data.margin
+        });
+        //Loads Maps if the last Tileset has been loaded
+        loadedData++
+        if(loadedData >= loadedDataGoal)
+        this.loadMaps()
+        };
+        sprite.src = files.tilesets[key].graphic;
+    })
+
+    
+
 //General Data
 this.pointer = this.input.activePointer; //Pointer Object
 this.activeTool = 'brush'
@@ -84,7 +93,7 @@ document.addEventListener('tileSelected', () => {
 
 //Object in list selected
 document.addEventListener('ObjectListSelect', () => {
-    this.previewTile.setTexture(`${reactData.objects[ObjectList.state.selected].img}-Sprite`)
+    this.previewTile.setTexture(`${reactData.objects[ObjectList.state.selected].editorData.img}-Sprite`)
     if(tileset.event)tileset.select()
   })
 
@@ -98,14 +107,25 @@ document.addEventListener("mouseup", (event) => {
 
 
 this.keyListener = addEventListener("keydown", (event) => {
+    //console.log(event.key)
     switch(event.key){
         case 'w': if(tileset.props) tileset.keySelect(0,-1); break;
         case 'a': if(tileset.props) tileset.keySelect(-1,0); break;
-        case 's': if(tileset.props) tileset.keySelect(0,1); break;
+        case 's': 
+            if(window.ctrl) saveMaps()
+            else if(tileset.props) tileset.keySelect(0,1); 
+        break;
         case 'd': if(tileset.props) tileset.keySelect(1,0); break;
         case 'b': changeTool('brush'); break;
-        case 'e': changeTool('eraser'); break;
+        case 'e': changeTool('eraser'); break;s
         case 'o': changeTool('object'); break;
+        case 'Control': window.ctrl = true; break;
+    }
+})
+
+this.keyListener = addEventListener("keyup", (event) => {
+    switch(event.key){
+        case 'Control': global.ctrl = false; break;
     }
 })
 
@@ -154,7 +174,6 @@ this.redParticle.setDepth(5)
 this.maps = {}; //Alle Mapobjekte
 this.activeMap = undefined
 
-this.loadMaps()
 
 //***** Camera *************************************************************************************************************************/
 
@@ -218,15 +237,16 @@ loadMap(key) {
     if(this.maps[key] == undefined) //Falls Die Map nicht bereits geladen wurde wird sie jetzt geladen.
     {
     
-        this.load.tilemapTiledJSON(key, loadMaps(key)); //Bereitet das laden der mapdaten vor
+        this.load.tilemapTiledJSON(key, files.maps[key]); //Bereitet das laden der mapdaten vor
         this.load.once('complete', () => //Setzt eine Callback Funktion auf für sobald die Mapdaten geladen wurden
         {
             //Creates Tilemap and other related objects
             this.maps[key] = {
+                name : key,
                 core : this.make.tilemap({key: key}), //Tilemap Object
                 tilesetKeys: files.maps[key].tilesetKeys,
                 tilesets : [],
-                wip: false, //Flag that shows when the map had changes made to it
+                wip: true, //Flag that shows when the map had changes made to it. For debugreasons always true
                 history : new HistoryObject(),
                 objects: [],
                 layers: {
@@ -239,7 +259,9 @@ loadMap(key) {
 
             //Creates Tileset Objects
             this.maps[key].tilesetKeys.forEach(setKey =>{
+                console.log('is this error')
                 this.maps[key].tilesets.push(this.maps[key].core.addTilesetImage(setKey, setKey))
+                console.log('is this after error')
             })
 
             //Creates Layers
@@ -252,28 +274,38 @@ loadMap(key) {
                 }
             })
 
+            //Loads Objects
+            files.maps[key].objects.forEach(obj => {
+                placeObject(obj.position,obj,this.maps[key])
+            })
+
+            //Sets Area to interact with
             this.maps[key].border = this.add.rectangle(0, 0, this.maps[key].core.widthInPixels, this.maps[key].core.heightInPixels).setOrigin(0).setFillStyle(0x323232, 1).setVisible(false).setDepth(-1);
+            
             //Event for Placing or removing Tiles. Fires every ms
             this.maps[key].border.setInteractive().on('pointerdown', ()=>{
                 this.tilePlacement = this.time.addEvent({
                     delay: 1,  
                     repeat: -1,             
                     callback: ()=> {
-                        if(this.pointer.leftButtonDown()){ //The Event gets triggered with every mouse button but only left MB can proceed past here
-                            let allow = true
+                        //The Event gets triggered with every mouse button but only left MB can proceed past here
+                        if(this.pointer.leftButtonDown()){ 
+                            
+                            //Updates Mousepointer for following interactions
                             this.pointer.updateWorldPoint(this.cameras.main)
 
                             //Checks if the targeted tile was already manipulated in this cycle
+                            let allow = true
                             for(let i = 0; i < this.activeMap.shortMemory.length; i++){
                                 if(this.pointer.worldX == this.activeMap.shortMemory[i].x && this.pointer.worldY == this.activeMap.shortMemory[i].y){
-                                    allow = false
-                                    break;
-                                }
-                            }
-                            if(!allow) {return} //Retuns
+                                    allow = false; break; 
+                            }} 
+                            if(!allow) {return}
+
                             //Ads Tile to list of tiles that should not be interacted with until the end of that cycle
                             this.activeMap.shortMemory.push({x:this.pointer.worldX, y:this.pointer.worldY})
 
+                            //Executes Function according to currently selected tool
                             switch(this.activeTool){
                                 case 'brush': 
                                 if(tileset.selected != undefined) placeTile(); 
@@ -282,17 +314,14 @@ loadMap(key) {
                                 case 'eraser': removeTile(); break;
                             }
                         }
-                      else {
-                          //Removes Event and resets some values
-                          this.tilePlacement.remove()
-                          this.time.removeEvent( this.tilePlacement)
-                          this.maps[key].shortMemory = []
-                      }  
+                        else {
+                            //Removes Event and resets some values
+                            this.tilePlacement.remove()
+                            this.time.removeEvent( this.tilePlacement)
+                            this.maps[key].shortMemory = []
+                        }  
                     },
-                }); // Fun with brackets \o/
-            })
-        });  
-    }
+    })})})} // Fun with brackets \o/ I hope this never needs to be entangled
 
     this.load.start(); //Startet den ladevorgang
     window.MapList.update()
@@ -329,7 +358,6 @@ openMap(key)
     this.activeMap.core.layers.forEach( layer =>{layer.tilemapLayer.setVisible(true)})
     this.activeMap.border.setVisible(true);
     this.cameraCursor.setPosition(this.activeMap.core.widthInPixels/2,this.activeMap.core.heightInPixels/2) //Zentriert Kamera auf neue Map
-    //Tileset.renderTileset()
 }
 
 update(){

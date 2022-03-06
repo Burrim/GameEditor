@@ -10,7 +10,7 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 
 //Creates the default window and sets it up
 const createWindow = () => {
-  const mainWindow = new BrowserWindow({
+  global.mainWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
     frame: true,
@@ -42,9 +42,9 @@ session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
 // *** Settings Window ******************************************************************************************************************
 
 //Creates the default window and sets it up
-const createSettingsWindow = () => {
-  const settingsWindow = new BrowserWindow({
-    width: 800,
+const createSettingsWindow = (data) => {
+  global.settingsWindow = new BrowserWindow({
+    width: 480,
     height: 640,
     frame: true,
     webPreferences:
@@ -57,15 +57,22 @@ const createSettingsWindow = () => {
   });
   settingsWindow.loadURL(SETTINGS_WINDOW_WEBPACK_ENTRY);
   settingsWindow.removeMenu()
+  settingsWindow.webContents.send('openWindow-init', data);
 }
 
 
 // *** IPC ************************************************************************************************************************
-
+//Opens Additional Window for manipulating data
 ipcMain.on('openWindow', (event, arg) => {
   console.log(arg)
-  createSettingsWindow() 
-  //event.reply('startup-reply', filterData(filter))
+  createSettingsWindow(arg) 
+})
+
+//Forwards data from external window to main Window
+ipcMain.on('returnData', (event, arg) => {
+  console.log(arg)
+  settingsWindow.close()
+  mainWindow.webContents.send('returnData', arg); 
 })
 
 // *** Events *********************************************************************************************************************
@@ -73,7 +80,7 @@ ipcMain.on('openWindow', (event, arg) => {
 //Startup when App is loaded
 app.on('ready', function(){
   createWindow()
-  
+ 
 });
 
 //Shuts app down when all windows are closed

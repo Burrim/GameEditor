@@ -16,8 +16,8 @@ function Tileset(props) {
     if (!window.rightClick) return;
     let x = e.movementX;
     let y = e.movementY;
-    if (translate.x + x > 0 || translate.x + x < - (props.input.data.tilesX * props.input.data.tilewidth-600)) x = 0;
-    if (translate.y + y > 0 || translate.y + y < - (props.input.data.tilesY * props.input.data.tileheight-600)) y = 0;
+    if (translate.x + x > 0 || translate.x + x < - (props.input.data.tilesX * props.input.data.tilewidth-400)) x = 0;
+    if (translate.y + y > 0 || translate.y + y < - (props.input.data.tilesY * props.input.data.tileheight-400)) y = 0;
     setTranslate({
       x: translate.x + x,
       y: translate.y + y

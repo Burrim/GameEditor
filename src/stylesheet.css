@@ -26,17 +26,17 @@ canvas
 }
 
 #mapSelector{
-    width: 200px;
+    width: 150px;
     border-right: 1px solid rgba(0, 0, 0, 0.863);
 }
 
 #tilesetSelector{
-    width: 200px;
+    width: 201px;
 
 }
 
 #objectSelector{
-    width: 250px;
+    width: 201px;
     border-right: 10px solid rgba(0, 0, 0, 0.24);
     border-left: 1px solid rgba(0, 0, 0, 0.863);
     overflow: hidden;

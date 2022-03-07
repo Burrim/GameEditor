@@ -10,8 +10,8 @@
 }
 #TilesetLimiter{
   position:relative;
-  width: 600px;
-  height: 600px;
+  width: 400px;
+  height: 400px;
   z-index: initial;
   overflow: hidden;
   border: 2px solid black

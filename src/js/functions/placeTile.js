@@ -20,8 +20,9 @@ const placeTile = () =>{
                 let layer = World.activeMap.core.createBlankLayer(`ground`, World.activeMap.tilesets ,0 ,0 ,World.activeMap.core.width, World.activeMap.core.height ,World.activeMap.core.tileWidth ,World.activeMap.core.tileHeight)
                 World.activeMap.layers.ground[0] = layer
             }
-        let id = currentTileset.data.tiles[tileset.selected].id + currentTileset.data.firstgid //No Idea what this is good for
-        World.maps[key].core.getTileAtWorldXY(World.pointer.worldX, World.pointer.worldY,false, World.cameras.main, World.activeMap.layers.ground[0])
+        let id = currentTileset.data.tiles[tileset.selected].id + currentTileset.data.firstgid
+        console.log(currentTileset.data.tiles[tileset.selected].id, currentTileset.data.firstgid) 
+        placedTile = World.activeMap.core.putTileAtWorldXY(id, World.pointer.worldX, World.pointer.worldY ,false, World.cameras.main, World.activeMap.layers.ground[0] )
         break;
         case 'above': case 'below':
         let i = 0 

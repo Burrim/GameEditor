@@ -13,7 +13,8 @@ const placeObject = (cords, data, map) => {
     let obj = data
     //Pulls Data from Project Data if not given directly
     if(!obj)
-    obj = Setup.project.objects[ObjectList.state.selected]
+    obj = Object.assign({}, Setup.project.objects[ObjectList.state.selected])
+    //obj = Setup.project.objects[ObjectList.state.selected]
 
     let targetMap = map
     if(!targetMap) targetMap = World.activeMap

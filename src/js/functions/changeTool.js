@@ -8,6 +8,8 @@ const changeTool = (tool) => {
             document.getElementById('Tools').src = files.editorGraphics.brush
             if(tileset.select)
             World.previewTile.setTexture(`${reactData.tilesetList[TilesetList.state.selected]}-Ghost`, tileset.selected)
+            else if(ObjectList.state.selected)
+            World.previewTile.setTexture(`${reactData.objects[ObjectList.state.selected].editorData.img}-Sprite`)
             else  World.previewTile.setTexture('emptyTile')
         break;
         case 'eraser':

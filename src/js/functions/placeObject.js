@@ -1,8 +1,9 @@
 
 const placeObject = (cords, data, map) => {
 
+//---Set coordinates -------------------------------------------------------------------------------------
     let pos = cords
-    //If no cords are given take the pointer cords are taken and rounded to tilegrid
+    //If no cords are given take the pointer cords are taken and rounded to tilegrid otherwise use saved cords
     if(!pos){
         pos = {
             x:World.pointer.worldX - (World.pointer.worldX % World.activeMap.core.tileWidth), 
@@ -10,16 +11,17 @@ const placeObject = (cords, data, map) => {
         }
     }
     
+//--- Fetches Data -------------------------------------------------------------------------------------
     let obj = data
     //Pulls Data from Project Data if not given directly
     if(!obj)
-    obj = Object.assign({}, Setup.project.objects[ObjectList.state.selected])
-    //obj = Setup.project.objects[ObjectList.state.selected]
+    obj = JSON.parse(JSON.stringify(Setup.project.objects[ObjectList.state.selected]))
+    
 
     let targetMap = map
     if(!targetMap) targetMap = World.activeMap
 
-    //Creates Elements$
+//---Creates Elements -------------------------------------------------------------------------------------
     let sprite = World.add.image(0,0,`${obj.editorData.img}-Sprite`).setOrigin(0)
     let text = World.add.text(obj.editorData.width/2 ,0,obj.editorData.text).setOrigin(0.5,1)
 
@@ -31,22 +33,12 @@ const placeObject = (cords, data, map) => {
 
     targetMap.objects.push(container)
 
-    //Setup Container
-    container.data = obj
-    container.data.id = {
-        num: assignId(),
-        map: targetMap.name
-    }
-    container.data.customData = {}
-    container.dragActive = false
-    container.previousCords = {x:container.x, y:container.y}
-    sprite.setInteractive()
-
     //Setup Menu 
     edit.setInteractive()
     del.setInteractive()
+    sprite.setInteractive()
 
-    //Container Events and functions
+//--- Container Events and functions -------------------------------------------------------------------------------------
     sprite.on('pointerdown', () => {
         if(World.pointer.rightButtonDown()){
             if(menu.visible)menu.setVisible(false)
@@ -58,7 +50,6 @@ const placeObject = (cords, data, map) => {
     })
 
     edit.on('pointerdown', ()=> {
-        if(World.activeTool != 'object') return
         if(World.pointer.leftButtonDown()){
             container.edit()
             menu.setVisible(false)
@@ -66,7 +57,6 @@ const placeObject = (cords, data, map) => {
     })
 
     del.on('pointerdown', ()=> {
-        if(World.activeTool != 'object') return
         if(World.pointer.leftButtonDown())
         container.delete()
     })
@@ -108,8 +98,7 @@ const placeObject = (cords, data, map) => {
             if(Setup.project.objects[i].name == this.data.name){
                 value = Setup.project.objects[i].data
                 break;
-            }
-            
+            } 
         }
         return value
     }
@@ -117,13 +106,33 @@ const placeObject = (cords, data, map) => {
     container.delete = function(){
         this.setVisible(false)
         World.activeMap.objects.forEach((obj, index) => {
-            if(obj.id == this.id){
+            if(obj.data.id.num == this.data.id.num){
                 World.activeMap.objects.splice(index,1)
+                console.log('splice')
             }
         });
     }
 
+//--- Setup Data -------------------------------------------------------------------------------------
+    
+    container.data = obj
+    container.data.id = {
+        num: assignId(),
+        map: targetMap.name
+    }
 
+    if(!container.data.customData)
+    container.data.customData = {}
+
+    //When The object is loaded from mapfile the data from the object source gets inserted and then overwritten with any custom data if avaiable
+    if(data){
+        container.data.data = JSON.parse(JSON.stringify(container.getSource()))
+        if(container.data.customData != {})
+        Object.assign(container.data.data, JSON.parse(JSON.stringify(container.data.customData)))
+    }
+    
+    container.dragActive = false
+    container.previousCords = {x:container.x, y:container.y}
 }
 
 export default placeObject

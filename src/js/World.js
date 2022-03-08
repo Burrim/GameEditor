@@ -117,8 +117,9 @@ this.keyListener = addEventListener("keydown", (event) => {
         break;
         case 'd': if(tileset.props) tileset.keySelect(1,0); break;
         case 'b': changeTool('brush'); break;
-        case 'e': changeTool('eraser'); break;s
+        case 'e': changeTool('eraser'); break;
         case 'o': changeTool('object'); break;
+        case 'F5': location.reload(); break;
         case 'Control': window.ctrl = true; break;
     }
 })

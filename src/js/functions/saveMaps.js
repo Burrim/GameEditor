@@ -68,14 +68,12 @@ const saveMaps = () => {
                 editorData: obj.data.editorData,
                 data: {}
             }
-            //Inserts Custom Data indirectly so it gets not linked per reference with the datasource
-            Object.keys(entry.customData).forEach(key => {
-                entry.data[key] = entry.customData[key]
-            })
-
+            //Inserts Custom Data indirectly so it gets not linked per reference with the datasource   
+            entry.data = JSON.parse(JSON.stringify(entry.customData));
+        
             //Gets the original Data and fills all values that are not already taken by custom ones.
             //Important so that you can change default values of objects even after already a lot of pieces are placed on the map
-            let sourceData = obj.getSource()
+            let sourceData = JSON.parse(JSON.stringify(obj.getSource()))
             Object.keys(sourceData).forEach(key => {
                 if(!entry.data[key])
                 entry.data[key] = sourceData[key] 

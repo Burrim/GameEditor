@@ -84,17 +84,20 @@ document.addEventListener('TilesetListSelect', () => {
     renderTileset(files.tilesets[reactData.tilesetList[TilesetList.state.selected]])
   })
 
-//Changes Preview Tile to selected Tile in current tileset
+//Tile in Tileset selected
 document.addEventListener('tileSelected', () => {
     console.log(tileset.selected)
     this.previewTile.setTexture(`${reactData.tilesetList[TilesetList.state.selected]}-Ghost`, tileset.selected)
     ObjectList.select()
+    if(this.activeTool != 'brush' && this.activeTool != 'grandBrush')
+    changeTool('brush')
 })
 
 //Object in list selected
 document.addEventListener('ObjectListSelect', () => {
     this.previewTile.setTexture(`${reactData.objects[ObjectList.state.selected].editorData.img}-Sprite`)
     if(tileset.event)tileset.select()
+    changeTool('brush')
   })
 
 document.addEventListener("mouseup", (event) => {
@@ -119,7 +122,10 @@ this.keyListener = addEventListener("keydown", (event) => {
         case 'b': changeTool('brush'); break;
         case 'e': changeTool('eraser'); break;
         case 'o': changeTool('object'); break;
+        case 'g': changeTool('grandBrush'); break
         case 'F5': location.reload(); break;
+        case 'z': if(window.ctrl) this.activeMap.history.undo(); break;
+        case 'y': if(window.ctrl) this.activeMap.history.redo(); break;
         case 'Control': window.ctrl = true; break;
     }
 })
@@ -277,7 +283,8 @@ loadMap(key) {
 
             //Loads Objects
             files.maps[key].objects.forEach(obj => {
-                placeObject(obj.position,obj,this.maps[key])
+                let object = placeObject(obj.position,obj,this.maps[key])
+                object.setVisible(false)
             })
 
             //Sets Area to interact with
@@ -312,6 +319,15 @@ loadMap(key) {
                                 if(tileset.selected != undefined) placeTile(); 
                                 if(ObjectList.state.selected != undefined) placeObject();
                                 break;
+                                case 'grandBrush':
+                                    if(tileset.selected != undefined){
+                                        placeTile(this.pointer.worldX, this.pointer.worldY);
+                                        placeTile(this.pointer.worldX + 32, this.pointer.worldY);
+                                        placeTile(this.pointer.worldX, this.pointer.worldY + 32 );
+                                        placeTile(this.pointer.worldX -32, this.pointer.worldY);
+                                        placeTile(this.pointer.worldX, this.pointer.worldY -32);    
+                                    }
+                                break; 
                                 case 'eraser': removeTile(); break;
                             }
                         }
@@ -354,11 +370,18 @@ openMap(key)
     {
         this.activeMap.core.layers.forEach( layer =>{layer.tilemapLayer.setVisible(false)})
         this.activeMap.border.setVisible(false);
+        this.activeMap.objects.forEach(obj => {
+            obj.setVisible(false)
+        })
     }
     this.activeMap = this.maps[key]
     this.activeMap.core.layers.forEach( layer =>{layer.tilemapLayer.setVisible(true)})
     this.activeMap.border.setVisible(true);
+    this.activeMap.objects.forEach(obj => {
+        obj.setVisible(true)
+    })
     this.cameraCursor.setPosition(this.activeMap.core.widthInPixels/2,this.activeMap.core.heightInPixels/2) //Zentriert Kamera auf neue Map
+
 }
 
 update(){
@@ -379,7 +402,7 @@ update(){
     //Pointer is on the Map
     else {
         this.activeMap.objects.forEach(obj => {obj.move()})
-        if(this.activeTool == 'brush' || this.activeTool == 'eraser') this.previewTile.setVisible(true)
+        if(this.activeTool == 'brush' || this.activeTool == 'eraser' || this.activeTool == 'grandBrush') this.previewTile.setVisible(true)
         else this.previewTile.setVisible(false)
     }
     //Rounds coordinates so the preview aligns with he tilemap

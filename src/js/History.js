@@ -11,24 +11,22 @@ export default class HistoryObject
 
 //***************************************************************************************************************************************************************************** */
 
-addTileAction(obj, val)
+addEntry(obj, prevVal, newVal)
 {
     let historyEntry =
     {
         tile: obj,
-        layer: obj.tilemapLayer,
-        oldValue: obj.index,
-        newValue: val,
+        prevVal : prevVal, 
+        newVal : newVal,
         undo()
         {
-            World.activeMap.core.putTileAt(this.oldValue, this.tile.x, this.tile.y, null, this.layer) //Es ist wichtig dies so zu machen und nicht nur den Index zu verändern, da sosnt etwaige tile eigenschaften falsch übernommen werden
+            this.tile.index = prevVal
         },
         redo()
         {
-            World.activeMap.core.putTileAt(this.newValue, this.tile.x, this.tile.y, null, this.layer)
+            this.tile.index = newVal
         }
     }
-
     if(this.list.length-1 > this.cursor) //Wenn man sich mit Undo weiter hinten ins Array bewegt und danach wieder eine neue Aktion vollführt werden alle gespeicherten Werte, die danach kommen würden gelöscht.
     this.list.splice(this.cursor+1, this.list.length)
 

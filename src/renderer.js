@@ -15,7 +15,7 @@ import './stylesheet.css'
 
 
 
-localStorage.setItem('GameEditorProject','D:/Programming_Stuff/Ongoing_Projects/Project Mars V2');
+localStorage.setItem('GameEditorProject','D:/Programming_Stuff/Ongoing_Projects/Project_Mars_V2');
 window.path = localStorage.getItem('GameEditorProject')
 
 // *** Asset Loader *************************************************************************************************

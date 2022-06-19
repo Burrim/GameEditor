@@ -19,6 +19,7 @@ const tileloop = (tileType, single,flag) =>{
         if(selectedTile){
             console.log(tileType)
             //Sets Index to an empty tile and clears properties
+            World.activeMap.history.addEntry(selectedTile, selectedTile.index, 0)
             selectedTile.index = -1
             selectedTile.properties = {}
             //World.activeMap.core.removeTileAtWorldXY(World.pointer.worldX, World.pointer.worldY, true, false,World.cameras.main, World.activeMap.layers[tileType][i])

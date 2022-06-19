@@ -133,6 +133,8 @@ const placeObject = (cords, data, map) => {
     
     container.dragActive = false
     container.previousCords = {x:container.x, y:container.y}
+
+    return container
 }
 
 export default placeObject

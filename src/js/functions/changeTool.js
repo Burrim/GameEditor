@@ -5,6 +5,7 @@ const changeTool = (tool) => {
     World.activeTool = tool
     switch(tool){
         case 'brush':
+        case 'grandBrush':
             document.getElementById('Tools').src = files.editorGraphics.brush
             if(tileset.select)
             World.previewTile.setTexture(`${reactData.tilesetList[TilesetList.state.selected]}-Ghost`, tileset.selected)

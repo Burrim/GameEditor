@@ -26,6 +26,8 @@ const createWindow = () => {
   //load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
+  mainWindow.setMenuBarVisibility(false)
+
 //The Almighty holy best codelines ever in all existence. Fixes some annoying problems with the webpack testserver
 const { session } = require('electron')
 session.defaultSession.webRequest.onHeadersReceived((details, callback) => {

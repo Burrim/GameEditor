@@ -10,12 +10,14 @@ import Setup from './js/Setup.js'
 
 import SelectionColumn from './js/components/SelectionColumn.js'
 import Tileset from './js/components/TilesetCover.js'
+import Topbar from './js/components/Topbar.js'
 
 import './stylesheet.css'
+import reactDom from 'react-dom'
 
 
 
-localStorage.setItem('GameEditorProject','D:/Programming_Stuff/Ongoing_Projects/Project_Mars_V2');
+//localStorage.setItem('GameEditorProject','D:/Programming_Stuff/Ongoing_Projects/Project_Mars_V2');
 window.path = localStorage.getItem('GameEditorProject')
 
 // *** Asset Loader *************************************************************************************************
@@ -185,5 +187,11 @@ window.Game = new Game();
         <SelectionColumn id='TilesetList' title='Tilesets' dataReader='tilesetList'/>
       </div> 
       ,document.getElementById("tilesetSelector"));
+
+    ReactDOM.render(
+      <div>
+        <Topbar elements={['test']}/>
+      </div>
+    ,document.getElementById("header"))
 
       

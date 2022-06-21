@@ -1,0 +1,6 @@
+#Topbar-Body{
+    display: flex;
+    height: 20px;
+    width: 100vw;
+    background-color: rgb(41, 41, 41);
+}

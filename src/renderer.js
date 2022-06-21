@@ -1,5 +1,5 @@
 
-
+// *** Imports ***************************************************************************************************
 
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -14,8 +14,6 @@ import Topbar from './js/components/Topbar.js'
 
 import './stylesheet.css'
 import reactDom from 'react-dom'
-
-
 
 //localStorage.setItem('GameEditorProject','D:/Programming_Stuff/Ongoing_Projects/Project_Mars_V2');
 window.path = localStorage.getItem('GameEditorProject')
@@ -48,8 +46,6 @@ window.reactData = {
 }
 
 window.tileset = {} //Placeholder to prevent crashes until tileset is booted up
-
-//For Now the Editor can't Actually Load new tilesets or images in general and has to be compiled again if this is needed. Only map data work for the time being
 
 // *** Tilesets ***
 //Reads every Entry in the target directory. Since Tilesets are stored in pairs of images and jsons a single key without file ending is generated for every pair
@@ -190,7 +186,7 @@ window.Game = new Game();
 
     ReactDOM.render(
       <div>
-        <Topbar elements={['test']}/>
+        <Topbar elements={[{texture:'map',key:'test'}]}/>
       </div>
     ,document.getElementById("header"))
 

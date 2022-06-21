@@ -266,9 +266,7 @@ loadMap(key) {
 
             //Creates Tileset Objects
             this.maps[key].tilesetKeys.forEach(setKey =>{
-                console.log('is this error')
                 this.maps[key].tilesets.push(this.maps[key].core.addTilesetImage(setKey, setKey))
-                console.log('is this after error')
             })
 
             //Creates Layers

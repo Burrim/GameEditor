@@ -14,10 +14,12 @@ body
 
 #header{
     display: flex;
-    height: 20px;
+    height: 32px;
     width: 100vw;
     background-color: rgb(41, 41, 41);
 }
+
+
 
 #mainContent{
     display: flex;
@@ -44,16 +46,19 @@ canvas
 }
 
 #mapSelector{
+    display: none;
     width: 150px;
     border-right: 1px solid rgba(0, 0, 0, 0.863);
 }
 
 #tilesetSelector{
+    display: none;
     width: 201px;
 
 }
 
 #objectSelector{
+    display: none;
     width: 201px;
     border-right: 10px solid rgba(0, 0, 0, 0.24);
     border-left: 1px solid rgba(0, 0, 0, 0.863);
@@ -64,7 +69,13 @@ canvas
     display: flex;
     flex-direction: row;
 }
+#leftUI{
+    display: flex;
+    flex-direction: row;
+}
+
 #tilesetWindow{
+    display: none;
     position: absolute;
     bottom: 0px;
     right: 0px;

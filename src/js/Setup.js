@@ -4,7 +4,7 @@ import redParticle from '../assets/ui/redParticle.png'
 import whiteParticle from '../assets/ui/whiteParticle.png'
 
 import TilesetManager from './TilesetManager.js'
-import DataManager from './DataManager.js'
+import menuControl from './functions/menuControl'
 
 
 export default class Setup extends Phaser.Scene{
@@ -57,6 +57,8 @@ create()
 
                 this.scene.launch('World')
 
+
+
             }
             else this.project = undefined
     }
@@ -66,6 +68,8 @@ create()
     //Initialisiert Inputs
     this.loadProject(this.config.lastProject)
     
+    menuControl('tilesetSelector')
+    menuControl('mapSelector')
 
 }
 

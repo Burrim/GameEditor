@@ -27,6 +27,7 @@ const createWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   mainWindow.setMenuBarVisibility(false)
+  mainWindow.setIcon(path.join(__dirname, '/assets/logo/logo.png'));
 
 //The Almighty holy best codelines ever in all existence. Fixes some annoying problems with the webpack testserver
 const { session } = require('electron')

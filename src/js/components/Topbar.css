@@ -1,6 +1,20 @@
 #Topbar-Body{
     display: flex;
-    height: 20px;
-    width: 100vw;
+    height: 32px;
     background-color: rgb(41, 41, 41);
+}
+.Topbar-Icon{
+
+}
+.Topbar-Border{
+    
+}
+
+.Topbar-Container{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
 }

@@ -136,14 +136,8 @@ this.keyListener = addEventListener("keyup", (event) => {
     }
 })
 
-//gets initial coordinates of object selector
-window.objectListY = document.getElementsByClassName('entryContainer')[0].getClientRects()[0].height
-//Checks for mouse wheel inputs and then when the mouse is hovering over the element scrolls it
-this.wheelListener = addEventListener('wheel', function(event) {
-    if(document.querySelectorAll( ":hover" )[3].id != 'objectSelector') return
-    objectListY -= event.deltaY/5
-    document.getElementsByClassName('entryContainer')[0].style.transform = `translate(0,${objectListY}px)`
-  });
+
+
 
 
 // ***** Special Sprites ****************************************************************************************************************************************

@@ -164,13 +164,20 @@ window.Game = new Game();
 
   window.renderObjectList = function(){
     ReactDOM.render(
-      <div>
+      <div >
         <SelectionColumn id='ObjectList' title='Objects' dataReader='objects'/>
       </div> 
       ,document.getElementById("objectSelector"));
   }
 
   //Startup  
+  ReactDOM.render(
+    <div className='Topbar-Container'>
+      <Topbar elements={[{texture:'map',key:"mapSelector"}]}/>
+      <Topbar elements={[{texture:'object',key:'objectSelector'},{texture:'tilesetEditor',key:"tilesetSelector"}]}/>
+    </div>
+  ,document.getElementById("header"))
+
   ReactDOM.render(
     <div>
       <SelectionColumn id='MapList' title='Maps' dataReader='mapList'/>
@@ -184,10 +191,5 @@ window.Game = new Game();
       </div> 
       ,document.getElementById("tilesetSelector"));
 
-    ReactDOM.render(
-      <div>
-        <Topbar elements={[{texture:'map',key:'test'}]}/>
-      </div>
-    ,document.getElementById("header"))
 
       

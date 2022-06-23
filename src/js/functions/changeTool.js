@@ -8,6 +8,7 @@ const changeTool = (tool) => {
     document.getElementById('Topbar-brush').parentNode.style.backgroundColor = 'transparent'
     document.getElementById('Topbar-eraser').parentNode.style.backgroundColor = 'transparent'
     document.getElementById('Topbar-object').parentNode.style.backgroundColor = 'transparent'
+    document.getElementById('Topbar-particelBrush').parentNode.style.backgroundColor = 'transparent'
 
     document.getElementById('Topbar-'+tool).parentNode.style.backgroundColor = 'red'
 

@@ -13,7 +13,8 @@ import Tileset from './js/components/TilesetCover.js'
 import Topbar from './js/components/Topbar.js'
 
 import './stylesheet.css'
-import reactDom from 'react-dom'
+
+import loadData from './js/functions/loadData.js'
 
 //localStorage.setItem('GameEditorProject','D:/Programming_Stuff/Ongoing_Projects/Project_Mars_V2');
 window.path = localStorage.getItem('GameEditorProject')
@@ -34,15 +35,16 @@ window.files = {
   tilesets: {},
   sprites:{},
   maps:{}, 
-  particles : {},
-  graphics : {},
+  particles: {},
+  graphics: {},
   editorGraphics: {}
 }
 
 window.reactData = {
   mapList:[],
   tilesetList:[],
-  objects:[]
+  objects:[],
+  particles:[]
 }
 
 window.tileset = {} //Placeholder to prevent crashes until tileset is booted up
@@ -56,6 +58,7 @@ tilesets.forEach(key => {
   let cleanedKey = key.replace(/.(png|json)/,'')
   if(!tilesetKeys.includes(cleanedKey)) tilesetKeys.push(cleanedKey)
 })
+
 //Itterates over every key and prepares the necessary data
 tilesetKeys.forEach(key => {
   files.tilesets[key] = {
@@ -92,6 +95,10 @@ let editorGraphics = importAll(require.context(`./assets/ui`, false, /.(png|jpe?
 Object.keys(editorGraphics).forEach(key =>{
   files.editorGraphics[key.replace(/.(png|json)/,'')] = editorGraphics[key]
 })
+
+//Loads Particles
+loadData({target:'particles',dir:'assets/particles'})
+reactData.particles = Object.keys(files.particles)
 
 
 //*** Global Functions *********************************************************************************************************************************************************** */
@@ -152,7 +159,37 @@ window.Game = new Game();
 
 //*** Rendering React Menu Elements *********************************************************************************************************************************************************************** */
 
-//Renderfunctions
+//--- Renderfunctions ------------
+//Dynamic Renderfunctions that can be called to render elements after data is loaded or refreshed
+
+  //Topbar
+  window.renderTopbar = function(){
+    ReactDOM.render(
+    
+      <div className='Topbar-Container'>
+  
+        <Topbar type={'menu'} elements = {[
+          {texture:'map',key:"mapSelector"}
+        ]}/>
+        
+        <Topbar type={'tools'} elements = {[
+          {texture:'brush',key:"brush"},
+          {texture:'eraser',key:"eraser"},
+          {texture:'settings',key:"object"},
+          {texture:'particelBrush',key:'particelBrush'}
+        ]}/>
+
+        <Topbar type={'menu'} elements = {[
+          {texture:'particles',key:'particleSelector'},
+          {texture:'object',key:'objectSelector'},
+          {texture:'tilesetEditor',key:"tilesetSelector"}
+        ]}/>
+          
+      </div>
+    ,document.getElementById("header"))
+  }
+
+  //Tilesetwindow
   window.renderTileset = function(tileset){
     window.currentTileset = tileset
     ReactDOM.render(
@@ -162,6 +199,7 @@ window.Game = new Game();
       ,document.getElementById("tilesetWindow"));
   }
 
+  //ObjectList
   window.renderObjectList = function(){
     ReactDOM.render(
       <div >
@@ -170,31 +208,43 @@ window.Game = new Game();
       ,document.getElementById("objectSelector"));
   }
 
-  //Startup  
-  ReactDOM.render(
-    <div className='Topbar-Container'>
-      <Topbar type={'menu'} elements={[{texture:'map',key:"mapSelector"}]}/>
-      <Topbar type={'tools'} elements={[
-        {texture:'brush',key:"brush"},
-        {texture:'eraser',key:"eraser"},
-        {texture:'settings',key:"object"}
-        ]}/>
-      <Topbar type={'menu'} elements={[{texture:'object',key:'objectSelector'},{texture:'tilesetEditor',key:"tilesetSelector"}]}/>
-    </div>
-  ,document.getElementById("header"))
+  //Maplist
+  window.renderMapList = function(){
+    ReactDOM.render(
+      <div>
+        <SelectionColumn id='MapList' title='Maps' dataReader='mapList'/>
+      </div> 
+      ,document.getElementById("mapSelector"));
+  }
 
-  ReactDOM.render(
-    <div>
-      <SelectionColumn id='MapList' title='Maps' dataReader='mapList'/>
-      <img id='Tools' src={files.editorGraphics.brush}/>
-    </div> 
-    ,document.getElementById("mapSelector"));
-  
+  //Particleslist
+  window.renderParticlesList = function(){
+    ReactDOM.render(
+      <div>
+        <SelectionColumn id='ParticlesList' title='Particles' dataReader='particles'/>
+      </div> 
+      ,document.getElementById("particleSelector"));
+  }
+
+  //Tilesetlist
+  window.renderTilesetList = function(){
     ReactDOM.render(
       <div>
         <SelectionColumn id='TilesetList' title='Tilesets' dataReader='tilesetList'/>
       </div> 
       ,document.getElementById("tilesetSelector"));
+  }
+
+//--- Startup ---------------- 
+  renderTopbar()
+  renderMapList()
+  renderParticlesList()
+  renderTilesetList()
+  
+
+    
+  
+    
 
 
       

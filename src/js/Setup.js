@@ -5,6 +5,7 @@ import whiteParticle from '../assets/ui/whiteParticle.png'
 
 import TilesetManager from './TilesetManager.js'
 import menuControl from './functions/menuControl'
+import changeTool from './functions/changeTool'
 
 
 export default class Setup extends Phaser.Scene{
@@ -68,8 +69,10 @@ create()
     //Initialisiert Inputs
     this.loadProject(this.config.lastProject)
     
+    
     menuControl('tilesetSelector')
     menuControl('mapSelector')
+    
 }
 
 }

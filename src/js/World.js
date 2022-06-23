@@ -67,7 +67,7 @@ create()
 
 //General Data
 this.pointer = this.input.activePointer; //Pointer Object
-this.activeTool = 'brush'
+this.activeTool = 'none'
 
 this.saveMaps = saveMaps
 
@@ -111,7 +111,6 @@ document.addEventListener("mouseup", (event) => {
 
 
 this.keyListener = addEventListener("keydown", (event) => {
-    console.log(window.shift)
     switch(event.key){
         case 'w': if(tileset.props) tileset.keySelect(0,-1); break;
         case 'a': if(tileset.props) tileset.keySelect(-1,0); break;
@@ -130,6 +129,9 @@ this.keyListener = addEventListener("keydown", (event) => {
         case 'g': changeTool('grandBrush'); break
         case 'm': case 'M':
          if(window.shift) menuControl('mapSelector');
+        break
+        case 'p': case 'P':
+            if(window.shift) menuControl('particleSelector'); 
         break
         case 't': case 'T':
             if(window.shift) menuControl('tilesetSelector'); 
@@ -235,6 +237,9 @@ this.input.on('wheel', function (pointer, gameObjects, deltaX, deltaY, deltaZ) {
     if((this.cameras.main.zoom > 0.3 && deltaY > 0) || (this.cameras.main.zoom < 3 && deltaY < 0))
     this.cameras.main.zoom -= deltaY/1000
 });
+
+    //Set Tool on startup
+    changeTool('brush')
 }
 
 // Functions --------------------------------------------------------------

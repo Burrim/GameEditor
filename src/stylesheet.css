@@ -65,6 +65,14 @@ canvas
     overflow: hidden;
 }
 
+#particleSelector{
+    display: none;
+    width: 201px;
+    border-right: 10px solid rgba(0, 0, 0, 0.24);
+    border-left: 1px solid rgba(0, 0, 0, 0.863);
+    overflow: hidden;
+}
+
 #rightUI{
     display: flex;
     flex-direction: row;

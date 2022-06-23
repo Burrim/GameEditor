@@ -1,6 +1,6 @@
 const removeTile = (single) =>{
     //Run Checks
-    if( document.querySelectorAll( ":hover" )[2].id != 'parent') return //Checks if there is no element above the phaser canvas
+    if( document.querySelectorAll( ":hover" )[3].id != 'parent') return //Checks if there is no element above the phaser canvas
  
     let flag = {tileSet:false}  //Flag for when the tile was succesfully placed
 

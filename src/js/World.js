@@ -5,6 +5,7 @@ import placeObject from './functions/placeObject.js';
 import removeTile from './functions/removeTile.js';
 import changeTool from './functions/changeTool.js';
 import saveMaps from './functions/saveMaps.js'
+import menuControl from './functions/menuControl.js';
 
 import eraserTile from '../assets/ui/eraserTile.png'
 import emptyTile from '../assets/ui/emptyTile.png'
@@ -110,7 +111,7 @@ document.addEventListener("mouseup", (event) => {
 
 
 this.keyListener = addEventListener("keydown", (event) => {
-    //console.log(event.key)
+    console.log(window.shift)
     switch(event.key){
         case 'w': if(tileset.props) tileset.keySelect(0,-1); break;
         case 'a': if(tileset.props) tileset.keySelect(-1,0); break;
@@ -121,18 +122,30 @@ this.keyListener = addEventListener("keydown", (event) => {
         case 'd': if(tileset.props) tileset.keySelect(1,0); break;
         case 'b': changeTool('brush'); break;
         case 'e': changeTool('eraser'); break;
-        case 'o': changeTool('object'); break;
+        case 'o': case 'O':
+            if(window.shift) menuControl('objectSelector')
+            else changeTool('object');
+
+        break;
         case 'g': changeTool('grandBrush'); break
+        case 'm': case 'M':
+         if(window.shift) menuControl('mapSelector');
+        break
+        case 't': case 'T':
+            if(window.shift) menuControl('tilesetSelector'); 
+        break
         case 'F5': location.reload(); break;
         case 'z': if(window.ctrl) this.activeMap.history.undo(); break;
         case 'y': if(window.ctrl) this.activeMap.history.redo(); break;
         case 'Control': window.ctrl = true; break;
+        case 'Shift': window.shift = true; break;
     }
 })
 
 this.keyListener = addEventListener("keyup", (event) => {
     switch(event.key){
         case 'Control': global.ctrl = false; break;
+        case 'Shift': global.shift = false; break;
     }
 })
 

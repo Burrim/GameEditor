@@ -173,8 +173,13 @@ window.Game = new Game();
   //Startup  
   ReactDOM.render(
     <div className='Topbar-Container'>
-      <Topbar elements={[{texture:'map',key:"mapSelector"}]}/>
-      <Topbar elements={[{texture:'object',key:'objectSelector'},{texture:'tilesetEditor',key:"tilesetSelector"}]}/>
+      <Topbar type={'menu'} elements={[{texture:'map',key:"mapSelector"}]}/>
+      <Topbar type={'tools'} elements={[
+        {texture:'brush',key:"brush"},
+        {texture:'eraser',key:"eraser"},
+        {texture:'settings',key:"object"}
+        ]}/>
+      <Topbar type={'menu'} elements={[{texture:'object',key:'objectSelector'},{texture:'tilesetEditor',key:"tilesetSelector"}]}/>
     </div>
   ,document.getElementById("header"))
 

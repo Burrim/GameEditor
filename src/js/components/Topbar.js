@@ -1,6 +1,7 @@
 import React from 'react'
 import './Topbar.css'
 import menuControl from '../functions/menuControl'
+import changeTool from '../functions/changeTool'
 
 export default class Topbar extends React.Component {
     constructor(props){
@@ -8,9 +9,15 @@ export default class Topbar extends React.Component {
         window.topbar = this
     }
 
-    trigger(e){
-       console.log(e.target.id.slice(7))
-       menuControl(e.target.id.slice(7))
+    trigger = (e) => {
+        switch(this.props.type){
+            case 'menu':
+                menuControl(e.target.id.slice(7))
+            break;
+            case 'tools':
+                changeTool(e.target.id.slice(7))
+            break;
+        }
     }
     
     render(){

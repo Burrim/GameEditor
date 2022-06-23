@@ -70,7 +70,6 @@ create()
     
     menuControl('tilesetSelector')
     menuControl('mapSelector')
-
 }
 
 }

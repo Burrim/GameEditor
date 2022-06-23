@@ -6,7 +6,7 @@ const placeTile = (X,Y) =>{
     //Run Checks
     //if(World.activeMap == undefined)return; //Cancels if there is no active Map
     if(!tileset.selected) return //Returns if no tile is selected
-    if( document.querySelectorAll( ":hover" )[2].id != 'parent') return //Checks if there is no element above the phaser canvas
+    if( document.querySelectorAll( ":hover" )[3].id != 'parent') return //Checks if there is no element above the phaser canvas
 
     //Sets target coordonate
     let x = World.pointer.worldX

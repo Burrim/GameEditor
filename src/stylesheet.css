@@ -84,6 +84,9 @@ canvas
 div{
     user-select: none; /* Standard */
 }
+img{
+    user-select: none;
+}
 
 #saveCover{
     width: 100%;

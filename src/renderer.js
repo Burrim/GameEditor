@@ -33,9 +33,7 @@ window.files = {
   tilesetGraphics:{},
   tilesetData: {},
   tilesets: {},
-  sprites:{},
   maps:{}, 
-  particles: {},
   graphics: {},
   editorGraphics: {}
 }
@@ -81,13 +79,11 @@ maps.forEach(key => {
 })
 
 // *** Sprites ***
-//Loads all sprites
-let sprites = fs.readdirSync(path + "/src/assets/editorSprites")
-sprites.forEach(key => {
-  let sprite = fs.readFileSync(path + "/src/assets/editorSprites/" + key, 'base64')
-  sprite = "data:image/png;base64, " + sprite 
-  files.sprites[key.replace(/.(png|jpg|jpeg)/,'')] = sprite
+loadData({target:"editorSprites",dir:'assets/editorSprites'}) //EditorSprites
+fs.readdirSync(path+"/src/assets/sprites").forEach(key => { //GameSprites
+  loadData({target:"sprites",dir:'assets/sprites/'+ key,nested:key}) //EditorSprites
 })
+
 
 // *** Editor Graphics ***
 //Loads all graphics from the internal editor assets
@@ -99,6 +95,8 @@ Object.keys(editorGraphics).forEach(key =>{
 //Loads Particles
 loadData({target:'particles',dir:'assets/particles'})
 reactData.particles = Object.keys(files.particles)
+
+//
 
 
 //*** Global Functions *********************************************************************************************************************************************************** */

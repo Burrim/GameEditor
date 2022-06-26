@@ -6,6 +6,7 @@ import removeTile from './functions/removeTile.js';
 import changeTool from './functions/changeTool.js';
 import saveMaps from './functions/saveMaps.js'
 import menuControl from './functions/menuControl.js';
+import createParticle from './functions/createParticle.js';
 
 import eraserTile from '../assets/ui/eraserTile.png'
 import emptyTile from '../assets/ui/emptyTile.png'
@@ -40,8 +41,8 @@ create()
     let loadedDataGoal = Object.keys(files.tilesets).length
 
     //Loads all editor sprites
-    Object.keys(files.sprites).forEach(key => {
-        this.textures.addBase64(`${key}-Sprite`, files.sprites[key]);
+    Object.keys(files.editorSprites).forEach(key => {
+        this.textures.addBase64(`${key}-Sprite`, files.editorSprites[key]);
     })
 
     //Loads Tileset graphics as well as sprites for tilepreview
@@ -62,6 +63,8 @@ create()
         };
         sprite.src = files.tilesets[key].graphic;
     })
+
+    createParticle()
 
     
 

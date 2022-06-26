@@ -37,6 +37,33 @@ preload()
     //Lädt Grafiken, die von Phaser benutzt werden. 
     this.load.image('redParticle', redParticle )
     this.load.image('whiteParticle', whiteParticle)
+
+    //Loads Sprites in to Phaser
+    Object.keys(files.sprites).forEach(dir=>{
+        Object.keys(files.sprites[dir]).forEach(key =>{
+            if(key == 'config') return;
+
+            if(files.sprites[dir].config[key] == undefined){ //Checks if a config for this file is present in which case it is processed as a spritesheet
+                //Add Image
+                this.textures.addBase64(`${dir}-${key}`, files.sprites[dir][key]);
+            }
+            
+            else {
+                //Add Sprite
+                this.textures.addBase64(`${dir}-${key}-base`, files.sprites[dir][key]) 
+                let sprite  = new Image(); //Creates an empty image that then gets the spritesheet assigned as source. This is apparently necessary ¯\_(ツ)_/¯
+                sprite.onload = () => {
+                this.textures.addSpriteSheet(`${dir}-${key}`, sprite, {
+                    frameWidth: files.sprites[dir].config[key].load.frameWidth,
+                    frameHeight: files.sprites[dir].config[key].load.frameHeight,
+                })};
+                sprite.src = files.sprites[dir][key];
+           
+            }
+        })
+      })
+
+    
 }
 
 //***** Functins********************************************************************************************************************************************************* */
@@ -57,9 +84,6 @@ create()
                 renderObjectList()
 
                 this.scene.launch('World')
-
-
-
             }
             else this.project = undefined
     }

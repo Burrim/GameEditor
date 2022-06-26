@@ -72,7 +72,7 @@ class SelectionColumn extends React.Component {
                             this.elements[this.props.dataReader].map((element, index) => (
                                 <ObjectEntry
                                 name = {element.name}
-                                img = {files.sprites[element.editorData.img]} 
+                                img = {files.editorSprites[element.editorData.img]} 
                                 key = {index} 
                                 id = {index} 
                                 parentId = {this.props.id}

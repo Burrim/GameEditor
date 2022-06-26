@@ -1,0 +1,54 @@
+export default function createParticle(config){
+    global.particles = {}
+
+    //Goes trough every file in the particles Folder
+    Object.keys(files.particles).forEach(key => {
+
+      let file = files.particles[key]
+
+      let particle = {
+          props: file.props,
+          emitter:[],
+          particleSrc:{},
+          animations: [],
+          emit: function(){
+            console.log(this)
+          }
+      }
+      
+      //Goes trough every component inside the file 
+      file.list.forEach(data => {
+
+        //Creates Particles
+        if(data.type == 'particle'){
+          
+        let config = Object.assign(data) //Copy Data to usable object
+
+        //Seting up default Values
+        config.on = false
+
+        //translate Emit zone from json to usable config
+        if(config.emitZone != undefined){
+          config.emitZone = {
+            source: new Phaser.Geom.Rectacle(config.emitZone.source[0],config.emitZone.source[1],config.emitZone.source[2], config.emitZone.source[3]),
+            type : config.emitZone.type
+        }}
+
+        //this is really dumb but I have no way to effectively pass on usable hex values from json to phaser so I have to predefine values and use a switch
+        if(config.tint){
+          switch(config.tint){
+            case "0xf21351": config.tint = 0xf21351; break
+          }
+        }
+
+        //Adding the phaser particle objects to the main container
+        particle.particleSrc[config.id] = World.add.particles(config.texture)
+        particle.emitter.push(particle.particleSrc[config.id].createEmitter(config))
+      
+      }
+        })
+        global.particles[key] = particle
+
+    })
+    
+}

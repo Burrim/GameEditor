@@ -1,14 +1,21 @@
 
 
 const changeTool = (tool) => {
-    if(World.activeTool == tool) return
+    if(World.activeTool == tool) return 
+
+    //Executes changes depending on the previous tool
+    switch(World.activeTool){
+        case 'particleBrush':
+            document.body.style.cursor = 'auto'
+        break;
+    }
     World.activeTool = tool
 
     //Clears highlight on all tools and highlights selected one
     document.getElementById('Topbar-brush').parentNode.style.backgroundColor = 'transparent'
     document.getElementById('Topbar-eraser').parentNode.style.backgroundColor = 'transparent'
     document.getElementById('Topbar-object').parentNode.style.backgroundColor = 'transparent'
-    document.getElementById('Topbar-particelBrush').parentNode.style.backgroundColor = 'transparent'
+    document.getElementById('Topbar-particleBrush').parentNode.style.backgroundColor = 'transparent'
 
     document.getElementById('Topbar-'+tool).parentNode.style.backgroundColor = 'red'
 
@@ -29,6 +36,10 @@ const changeTool = (tool) => {
         break;
         case 'object':
         break;
+        case 'particleBrush':
+            document.body.style.cursor = 'crosshair'
+        break;
+
     }
 }   
 

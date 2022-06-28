@@ -174,7 +174,7 @@ window.Game = new Game();
           {texture:'brush',key:"brush"},
           {texture:'eraser',key:"eraser"},
           {texture:'settings',key:"object"},
-          {texture:'particelBrush',key:'particelBrush'}
+          {texture:'particleBrush',key:'particleBrush'}
         ]}/>
 
         <Topbar type={'menu'} elements = {[

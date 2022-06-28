@@ -10,9 +10,12 @@ export default function createParticle(config){
           props: file.props,
           emitter:[],
           particleSrc:{},
+          particles:[],
           animations: [],
-          emit: function(){
-            console.log(this)
+          emit: function(x,y){
+            this.particles.forEach(element =>{
+              element.emitParticleAt(x,y)
+            })
           }
       }
       
@@ -43,6 +46,7 @@ export default function createParticle(config){
 
         //Adding the phaser particle objects to the main container
         particle.particleSrc[config.id] = World.add.particles(config.texture)
+        particle.particles.push(particle.particleSrc[config.id])
         particle.emitter.push(particle.particleSrc[config.id].createEmitter(config))
       
       }

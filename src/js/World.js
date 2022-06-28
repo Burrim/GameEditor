@@ -7,6 +7,7 @@ import changeTool from './functions/changeTool.js';
 import saveMaps from './functions/saveMaps.js'
 import menuControl from './functions/menuControl.js';
 import createParticle from './functions/createParticle.js';
+import loadData from './functions/loadData.js';
 
 import eraserTile from '../assets/ui/eraserTile.png'
 import emptyTile from '../assets/ui/emptyTile.png'
@@ -112,7 +113,15 @@ document.addEventListener("mouseup", (event) => {
     }   
 });
 
+this.input.on('pointerdown', () =>{
+    if(this.input.activePointer.leftButtonDown()){
+        if(this.activeTool == 'particleBrush' && ParticlesList.state.selected != null)
+        particles[reactData.particles[ParticlesList.state.selected]].emit(this.pointer.worldX, this.pointer.worldY)
+    }
+})
 
+
+//--- Key Listener
 this.keyListener = addEventListener("keydown", (event) => {
     switch(event.key){
         case 'w': if(tileset.props) tileset.keySelect(0,-1); break;
@@ -134,11 +143,20 @@ this.keyListener = addEventListener("keydown", (event) => {
          if(window.shift) menuControl('mapSelector');
         break
         case 'p': case 'P':
-            if(window.shift) menuControl('particleSelector'); 
+            if(window.shift) menuControl('particleSelector');
+            else changeTool('particleBrush') 
         break
         case 't': case 'T':
             if(window.shift) menuControl('tilesetSelector'); 
         break
+        case 'r': case 'R':
+            //Reloads Particle Config
+            if(this.activeTool == 'particleBrush'){
+                loadData({target:'particles',dir:'assets/particles'})
+                reactData.particles = Object.keys(files.particles)
+                createParticle()
+            }
+        break;
         case 'F5': location.reload(); break;
         case 'z': if(window.ctrl) this.activeMap.history.undo(); break;
         case 'y': if(window.ctrl) this.activeMap.history.redo(); break;
@@ -153,10 +171,6 @@ this.keyListener = addEventListener("keyup", (event) => {
         case 'Shift': global.shift = false; break;
     }
 })
-
-
-
-
 
 // ***** Special Sprites ****************************************************************************************************************************************
 //Tile Preview
@@ -210,8 +224,7 @@ this.input.on('pointerdown', () =>{
         this.isDragging = true
         this.input.activePointer.updateWorldPoint(this.cameras.main)
         this.positionX = this.input.activePointer.x
-        this.positionY = this.input.activePointer.y
-        
+        this.positionY = this.input.activePointer.y   
     }
 })
 
@@ -402,6 +415,11 @@ update(){
     if(!document.querySelectorAll( ":hover" )[2]) return
 
     this.pointer.updateWorldPoint(this.cameras.main)
+
+    if(this.activeTool == 'particleBrush' && this.pointer.leftButtonDown() &&ParticlesList.state.selected != null &&  particles[reactData.particles[ParticlesList.state.selected]].props.continuos){
+        particles[reactData.particles[ParticlesList.state.selected]].emit(this.pointer.worldX, this.pointer.worldY)
+    }
+                                
 
     //Pointer is not on the map anymore
     if( this.pointer.worldX < 0 || this.pointer.worldX > this.activeMap.core.widthInPixels ||

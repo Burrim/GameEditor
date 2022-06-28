@@ -37,12 +37,11 @@ export default function createParticle(config){
             type : config.emitZone.type
         }}
 
-        //this is really dumb but I have no way to effectively pass on usable hex values from json to phaser so I have to predefine values and use a switch
+        
         if(config.tint){
-          switch(config.tint){
-            case "0xf21351": config.tint = 0xf21351; break
-          }
+          eval(`config.tint =` + config.tint)
         }
+
 
         //Adding the phaser particle objects to the main container
         particle.particleSrc[config.id] = World.add.particles(config.texture)

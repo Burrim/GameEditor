@@ -52,6 +52,7 @@ export default function createParticle(){
         if(config.tint) eval(`config.tint = ${config.tint}`)
         
 
+
         //Adding the phaser particle objects to the main container
         particle.particleSrc[config.id] = World.add.particles(config.texture)
         particle.particles.push(particle.particleSrc[config.id])

@@ -424,7 +424,7 @@ update(){
     //Pointer is not on the map anymore
     if( this.pointer.worldX < 0 || this.pointer.worldX > this.activeMap.core.widthInPixels ||
         this.pointer.worldY < 0 || this.pointer.worldY > this.activeMap.core.heightInPixels ||
-        document.querySelectorAll( ":hover" )[2].id != 'parent'
+        document.querySelectorAll( ":hover" )[3].id != 'parent'
     ){
         this.previewTile.setVisible(false)
         this.activeMap.objects.forEach(obj => {obj.return()})

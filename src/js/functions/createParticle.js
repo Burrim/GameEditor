@@ -1,5 +1,10 @@
-export default function createParticle(config){
+import playParticleAnimation from "./playParticleAnimation"
+
+export default function createParticle(){
     global.particles = {}
+
+    //Deletes all peviously generated animations if this function was called because of a file refresh
+    if(global.player == undefined) Object.keys(World.anims.anims.entries).forEach(key => World.anims.remove(key))
 
     //Goes trough every file in the particles Folder
     Object.keys(files.particles).forEach(key => {
@@ -8,25 +13,31 @@ export default function createParticle(config){
 
       let particle = {
           props: file.props,
-          emitter:[],
+          emitter:{},
           particleSrc:{},
           particles:[],
           animations: [],
+          animationSrc: {},
           emit: function(x,y){
+            //Trigger all particle emitter
             this.particles.forEach(element =>{
               element.emitParticleAt(x,y)
+            })
+
+            //Trigger all animations
+            this.animations.forEach(element =>{
+              playParticleAnimation(x,y,element.key,element.duration,element.tint)
             })
           }
       }
       
       //Goes trough every component inside the file 
       file.list.forEach(data => {
+      let config = Object.assign(data) //Copy Data to usable object
 
-        //Creates Particles
+// ----- Creates Particle Emitter ----------------------------------------------------------------------------------------------------------------------
         if(data.type == 'particle'){
           
-        let config = Object.assign(data) //Copy Data to usable object
-
         //Seting up default Values
         config.on = false
 
@@ -37,21 +48,44 @@ export default function createParticle(config){
             type : config.emitZone.type
         }}
 
-        //this is really dumb but I have no way to effectively pass on usable hex values from json to phaser so I have to predefine values and use a switch
-        if(config.tint){
-          switch(config.tint){
-            case "0xf21351": config.tint = 0xf21351; break
-          }
-        }
+        //Translates tint to a usable format
+        if(config.tint) eval(`config.tint = ${config.tint}`)
+        
 
         //Adding the phaser particle objects to the main container
         particle.particleSrc[config.id] = World.add.particles(config.texture)
         particle.particles.push(particle.particleSrc[config.id])
-        particle.emitter.push(particle.particleSrc[config.id].createEmitter(config))
+        particle.emitter[config.id] = particle.particleSrc[config.id].createEmitter(config)
       
       }
-        })
-        global.particles[key] = particle
+
+// ----- Creates Animation ----------------------------------------------------------------------------------------------------------------------
+
+      else if(data.type == 'animation'){
+
+        config.key = config.id
+        if(config.frames == undefined) config.frames = config.src
+        config.duration = config.duration * frame
+
+        //Sets up full Duration which can be specified if the animation should play more than just once
+        if(!config.fullDuration) config.fullDuration = config.duration
+        else config.fullDuration *= frame
+
+        if(config.tint) eval(`config.tint = ${config.tint}`)
+      
+        particle.animationSrc[config.id] = {
+          key: config.key,
+          duration: config.fullDuration,
+          tint: config.tint,
+          anim: Setup.anims.create(config)
+        }
+        particle.animations.push(particle.animationSrc[config.id])
+      }
+  })
+
+// ----- End of Loop -----------------------------------------------------------------------------------------------------------------------------
+
+        global.particles[key] = particle //Links the full Particle Object with all emitters and animations to the global object
 
     })
     

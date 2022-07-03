@@ -100,6 +100,8 @@ reactData.particles = Object.keys(files.particles)
 
 
 //*** Global Functions *********************************************************************************************************************************************************** */
+global.frame = 1000/60 
+
 global.id = 0 
 global.assignId = function(){
   global.id++;

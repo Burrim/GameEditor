@@ -59,8 +59,7 @@ create()
         });
         //Loads Maps if the last Tileset has been loaded
         loadedData++
-        if(loadedData >= loadedDataGoal)
-        this.loadMaps()
+        if(loadedData >= loadedDataGoal) this.loadMaps() //Temporarily disabled until new maploader is ready
         };
         sprite.src = files.tilesets[key].graphic;
     })

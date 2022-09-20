@@ -1,19 +1,19 @@
 import React from 'react'
-import MapEntry from './MapEntry'
 import ObjectEntry from './ObjectEntry'
 
 import './SelectionColumn.css'
 
 //--------------
 
-class SelectionColumn extends React.Component {
-    constructor(){
-        super()
+export default class ObjectList extends React.Component {
+    constructor(props){
+        super(props)
         this.state = {
             selected:null, //Index of currently selected child
         }
         this.update = this.update.bind(this)
-        this.elements = window.reactData
+        console.log(props)
+        this.elements = props.elements
     }
 
     /*Construction ----------------------------------------------------------------------
@@ -37,7 +37,7 @@ class SelectionColumn extends React.Component {
         this.setState({ selected : id}, 
         //Followup Function : adjusts the styling of the component to reflect the selection
         () =>{
-            for(let i = 0; i < this.elements[this.props.dataReader].length; i++){
+            for(let i = 0; i < this.elements.length; i++){
                 if(this.state.selected == i){
                 document.getElementById(`${this.props.id + i}`).style.borderLeft = '20px solid rgb(192, 70, 70)'
                 document.getElementById(`${this.props.id + i}`).style.backgroundColor = 'rgb(66, 66, 66)'
@@ -62,18 +62,14 @@ class SelectionColumn extends React.Component {
 
         if(this.event == undefined) //creates event for selection
         this.event = new Event(`${this.props.id}Select`)
-        
-        console.log(this.elements)
-        if(this.props.id == 'ObjectList'){
             return(
                 <div className='mainContainer' id={this.props.id}>
                     <div className='header'> {this.props.title} </div>
                     <div className='entryContainer'>
                         <div>{
-                            this.elements[this.props.dataReader].map((element, index) => (
+                            this.elements.map((element, index) => (
                                 <ObjectEntry
-                                name = {element.name}
-                                img = {files.editorSprites[element.editorData.img]} 
+                                data = {element}
                                 key = {index} 
                                 id = {index} 
                                 parentId = {this.props.id}
@@ -83,23 +79,6 @@ class SelectionColumn extends React.Component {
                     </div>
                 </div>
             )
-        }
-        else {
-            return (
-                <div className='mainContainer' id={this.props.id}>
-                    <div className='header'> {this.props.title} </div>{
-                    this.elements[this.props.dataReader].map((element, index) => (
-                    <MapEntry 
-                        name = {element} 
-                        key = {index} 
-                        id = {index} 
-                        parentId = {this.props.id}
-                        select = {this.select}
-                    />))}
-                </div>
-            )
-        }
+        
     }
 }
-
-export default SelectionColumn

@@ -1,34 +1,26 @@
-const removeTile = (single) =>{
+export default function removeTile(X,Y){
     //Run Checks
-    if( document.querySelectorAll( ":hover" )[3].id != 'parent') return //Checks if there is no element above the phaser canvas
+
+    if(World.map == undefined) return; //Cancels if there is no active Map
+
+    World.input.activePointer.updateWorldPoint(World.cameras.main)
+
+    //Sets target coordinates. Takes Pointer coordinates if no specifics are given
+    let x; let y
+    if(X) x = X
+    else x = Math.floor(World.pointer.worldX / World.map.config.tilewidth)
+    if(Y) y = Y
+    else y = Math.floor(World.pointer.worldY / World.map.config.tileheight)
+
+    let chunk = World.map.getChunkByTileCord(x,y) //Gets Chunk below cursor or creates new one if necessary
+    if(!chunk) return
+    //changes coordinates to be relative to the chunk
+    x = x-(chunk.x-1)*chunk.chunkSize
+    y = y-(chunk.y-1)*chunk.chunkSize
  
-    let flag = {tileSet:false}  //Flag for when the tile was succesfully placed
+    for(let i = chunk.layers.length; i >= 0; i--){
+        World.map.core.putTileAt(0, x, y,false, chunk.layers[i] )
+    }
 
-    tileloop('above',single,flag)
-    tileloop('below',single,flag)
-    tileloop('ground',single,flag)
 }
 
-
-const tileloop = (tileType, single,flag) =>{
-    if(flag.tileSet) return
-    let i = World.activeMap.layers[tileType].length-1
-    while(i > -1) {
-        //Check if tile is empty. make it empty if this is not the case
-        let selectedTile = World.activeMap.core.getTileAtWorldXY(World.pointer.worldX, World.pointer.worldY,false, World.cameras.main, World.activeMap.layers[tileType][i])
-        if(selectedTile){
-            console.log(tileType)
-            //Sets Index to an empty tile and clears properties
-            World.activeMap.history.addEntry(selectedTile, selectedTile.index, 0)
-            selectedTile.index = -1
-            selectedTile.properties = {}
-            //World.activeMap.core.removeTileAtWorldXY(World.pointer.worldX, World.pointer.worldY, true, false,World.cameras.main, World.activeMap.layers[tileType][i])
-            //When single mode is active stop execution after first tile is removed
-            if(single) flag.tileSet = true 
-        }
-        i--
-        if(i<0) break
-    } 
-}
-
-export default removeTile

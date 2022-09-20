@@ -8,7 +8,10 @@ import Phaser from 'phaser'
 import World from './js/World.js'
 import Setup from './js/Setup.js'
 
+import utilsInit from './js/utils/utils-init.js'
+
 import SelectionColumn from './js/components/SelectionColumn.js'
+import ObjectList from './js/components/ObjectList.js'
 import Tileset from './js/components/TilesetCover.js'
 import Topbar from './js/components/Topbar.js'
 
@@ -16,6 +19,7 @@ import './stylesheet.css'
 
 import loadData from './js/functions/loadData.js'
 
+utilsInit()
 localStorage.setItem('GameEditorProject','D:/Programming_Stuff/Ongoing_Projects/Primal Complex');
 window.path = localStorage.getItem('GameEditorProject')
 
@@ -48,9 +52,8 @@ window.reactData = {
 window.tileset = {} //Placeholder to prevent crashes until tileset is booted up
 
 // *** Tilesets ***
-//Reads every Entry in the target directory. Since Tilesets are stored in pairs of images and jsons a single key without file ending is generated for every pair
-//to itterate over
-let tilesets = fs.readdirSync(path + '/src/mapData/tilesets')
+//Reads every Entry in the target directory. Since Tilesets are stored in pairs of images and jsons a single key without file ending is generated for every pair to itterate over
+let tilesets = fs.readdirSync(path + '/mapData/tilesets')
 let tilesetKeys = []
 tilesets.forEach(key => {
   let cleanedKey = key.replace(/.(png|json)/,'')
@@ -60,8 +63,8 @@ tilesets.forEach(key => {
 //Itterates over every key and prepares the necessary data
 tilesetKeys.forEach(key => {
   files.tilesets[key] = {
-    data : JSON.parse( fs.readFileSync(path+"/src/mapData/tilesets/"+ key + '.json')),
-    graphic : "data:image/png;base64, " + fs.readFileSync(path + "/src/mapData/tilesets/" + key + '.png', 'base64'),
+    data : JSON.parse( fs.readFileSync(path+"/mapData/tilesets/"+ key + '.json')),
+    graphic : "data:image/png;base64, " + fs.readFileSync(path + "/mapData/tilesets/" + key + '.png', 'base64'),
     proxy: new Image()
   }
   reactData.tilesetList.push(key)
@@ -69,6 +72,8 @@ tilesetKeys.forEach(key => {
 });
 
 // *** Maps ***
+/*Old Maploader for one File Maps
+
 //Checks Directory for Files
 let maps = fs.readdirSync(path+"/src/mapData/maps")
 maps.forEach(key => {
@@ -77,6 +82,54 @@ maps.forEach(key => {
   files.maps[key.replace(/.(json)/,'')] = map
   reactData.mapList.push(key.replace(/.(json)/,''))
 })
+*/
+
+// *** Chunk Maps ***
+//Checks Directory for Files
+
+let maps = fs.readdirSync(path+"/mapData/maps")
+maps.forEach(key =>{
+  let map = {
+    core: JSON.parse(fs.readFileSync(path+"/mapData/maps/"+key+"/core.json")),
+    chunks: []
+  }
+  fs.readdirSync(path+"/mapData/maps")
+  let chunks = fs.readdirSync(path+"/mapData/maps/"+key+"/chunks")
+  chunks.forEach(chunkKey => {
+    map.chunks.push( JSON.parse(fs.readFileSync(path+"/mapData/maps/"+key+"/chunks/"+chunkKey)))
+  })
+  files.maps[key] = map
+  reactData.mapList.push(key)
+})
+
+//Object Templates
+files.objects = {all:[]}
+//Reads all subdirectories of the objects.
+let objectDirs = fs.readdirSync(path+"/mapData/objects") 
+objectDirs.forEach(dir =>{
+  files.objects[dir] = {}
+  //Reads all Objects in a subdirectory
+  let objectFiles = fs.readdirSync(path+"/mapData/objects/"+dir)
+  objectFiles.forEach(fileKey =>{
+    //Loops aver all Object in a single Object file and assigns parent/child relation
+    let objects = JSON.parse(fs.readFileSync(path+"/mapData/objects/"+dir+"/"+fileKey))
+    for(let i = 0; i < objects.length; i++ ){
+      if(i == 0 && objects.length > 1 ) {
+        objects[0].editorData.children = [] //Inits Child property if there are any
+        objects[0].expanded = false
+      }
+      files.objects[dir][objects[i].name] = objects[i]
+      files.objects.all.push(objects[i])
+      if(i > 0){ 
+        objects[i].editorData.invisible = true //Sets Flag for objectList
+        objects[i].editorData.parent = objects[0] //Sets Parent and child dynamic
+        objects[0].editorData.children.push(objects[i])
+
+      } 
+    }
+  })
+})
+
 
 // *** Sprites ***
 loadData({target:"editorSprites",dir:'assets/editorSprites'}) //EditorSprites
@@ -203,7 +256,7 @@ window.Game = new Game();
   window.renderObjectList = function(){
     ReactDOM.render(
       <div >
-        <SelectionColumn id='ObjectList' title='Objects' dataReader='objects'/>
+        <ObjectList id='ObjectList' title='Objects' elements={Object.values(files.objects.all)}/>
       </div> 
       ,document.getElementById("objectSelector"));
   }

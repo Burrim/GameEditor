@@ -8,6 +8,7 @@ import saveMaps from './functions/saveMaps.js'
 import menuControl from './functions/menuControl.js';
 import createParticle from './functions/createParticle.js';
 import loadData from './functions/loadData.js';
+import loadChunkMap from './functions/loadChunkMap.js';
 
 import eraserTile from '../assets/ui/eraserTile.png'
 import emptyTile from '../assets/ui/emptyTile.png'
@@ -59,7 +60,9 @@ create()
         });
         //Loads Maps if the last Tileset has been loaded
         loadedData++
-        if(loadedData >= loadedDataGoal) this.loadMaps() //Temporarily disabled until new maploader is ready
+        if(loadedData >= loadedDataGoal){
+            this.openMap('testmap')
+        } 
         };
         sprite.src = files.tilesets[key].graphic;
     })
@@ -90,7 +93,6 @@ document.addEventListener('TilesetListSelect', () => {
 
 //Tile in Tileset selected
 document.addEventListener('tileSelected', () => {
-    console.log(tileset.selected)
     this.previewTile.setTexture(`${reactData.tilesetList[TilesetList.state.selected]}-Ghost`, tileset.selected)
     ObjectList.select()
     if(this.activeTool != 'brush' && this.activeTool != 'grandBrush')
@@ -99,19 +101,35 @@ document.addEventListener('tileSelected', () => {
 
 //Object in list selected
 document.addEventListener('ObjectListSelect', () => {
-    this.previewTile.setTexture(`${reactData.objects[ObjectList.state.selected].editorData.img}-Sprite`)
+    this.previewTile.setTexture(`${files.objects.all[ObjectList.state.selected].editorData.img}-Sprite`)
     if(tileset.event)tileset.select()
     changeTool('brush')
   })
 
-document.addEventListener("mouseup", (event) => {
-//Leftclick
+  document.addEventListener("mousedown", (event) => {
+      if(event.path[0].tagName == 'CANVAS' && event.button === 0)
+      this.activeAction()
+    });
+    //Leftclick
+    document.addEventListener("mouseup", (event) => {
     if (event.button === 0){
-        if(this.activeMap)
-        this.activeMap.objects.forEach(obj=>{ obj.place()})
-    }   
-});
-
+        if(this.placing){
+            this.placing = false
+            if(debug.tileCreation) console.log('placing stopped')
+        }
+        if(this.erasing){
+            this.erasing = false
+            if(debug.tileCreation) console.log('Erasing stopped')
+        } 
+        //if(this.activeMap)
+        //this.activeMap.objects.forEach(obj=>{ obj.place()})
+      }   
+  });
+  addEventListener('mousemove', (event) => {
+    if(this.placing) placeTile(null,null,currentTileset.data.tiles[tileset.selected].id + currentTileset.data.firstgid)
+    else if(this.erasing) removeTile()
+  });
+    
 this.input.on('pointerdown', () =>{
     if(this.input.activePointer.leftButtonDown()){
         if(this.activeTool == 'particleBrush' && ParticlesList.state.selected != null)
@@ -255,118 +273,26 @@ this.input.on('wheel', function (pointer, gameObjects, deltaX, deltaY, deltaZ) {
 
     //Set Tool on startup
     changeTool('brush')
+
+    
 }
 
 // Functions --------------------------------------------------------------
 
-loadMaps()
-{
-    window.reactData.mapList.forEach(key =>
-    {
-        this.loadMap(key);
-    })
-}
+activeAction(){
+    switch(this.activeTool){
+        case 'brush':
+        this.placing = true
+        if(debug.tileCreation) console.log('Placement started')
+        placeTile(null,null,currentTileset.data.tiles[tileset.selected].id + currentTileset.data.firstgid)
+        break;
 
-loadMap(key) {
-    if(this.maps[key] == undefined) //Falls Die Map nicht bereits geladen wurde wird sie jetzt geladen.
-    {
-    
-        this.load.tilemapTiledJSON(key, files.maps[key]); //Bereitet das laden der mapdaten vor
-        this.load.once('complete', () => //Setzt eine Callback Funktion auf für sobald die Mapdaten geladen wurden
-        {
-            //Creates Tilemap and other related objects
-            this.maps[key] = {
-                name : key,
-                core : this.make.tilemap({key: key}), //Tilemap Object
-                tilesetKeys: files.maps[key].tilesetKeys,
-                tilesets : [],
-                wip: true, //Flag that shows when the map had changes made to it. For debugreasons always true
-                history : new HistoryObject(),
-                objects: [],
-                layers: {
-                    ground: [],
-                    below: [],
-                    above: []
-                },
-                shortMemory: []
-            }
-
-            //Creates Tileset Objects
-            this.maps[key].tilesetKeys.forEach(setKey =>{
-                this.maps[key].tilesets.push(this.maps[key].core.addTilesetImage(setKey, setKey))
-            })
-
-            //Creates Layers
-            files.maps[key].layers.forEach(layerData =>{
-                let layer = this.maps[key].core.createLayer(layerData.name, this.maps[key].tilesets, 0, 0).setVisible(false)
-                switch(layerData.name[0]){ //Reads first letter of layername to determine the layertype
-                    case 'g': this.maps[key].layers.ground[0] = layer; break;
-                    case 'b': this.maps[key].layers.below.push(layer); break;
-                    case 'a': this.maps[key].layers.above.push(layer); break;
-                }
-            })
-
-            //Loads Objects
-            files.maps[key].objects.forEach(obj => {
-                let object = placeObject(obj.position,obj,this.maps[key])
-                object.setVisible(false)
-            })
-
-            //Sets Area to interact with
-            this.maps[key].border = this.add.rectangle(0, 0, this.maps[key].core.widthInPixels, this.maps[key].core.heightInPixels).setOrigin(0).setFillStyle(0x323232, 1).setVisible(false).setDepth(-1);
-            
-            //Event for Placing or removing Tiles. Fires every ms
-            this.maps[key].border.setInteractive().on('pointerdown', ()=>{
-                this.tilePlacement = this.time.addEvent({
-                    delay: 1,  
-                    repeat: -1,             
-                    callback: ()=> {
-                        //The Event gets triggered with every mouse button but only left MB can proceed past here
-                        if(this.pointer.leftButtonDown()){ 
-                            
-                            //Updates Mousepointer for following interactions
-                            this.pointer.updateWorldPoint(this.cameras.main)
-
-                            //Checks if the targeted tile was already manipulated in this cycle
-                            let allow = true
-                            for(let i = 0; i < this.activeMap.shortMemory.length; i++){
-                                if(this.pointer.worldX == this.activeMap.shortMemory[i].x && this.pointer.worldY == this.activeMap.shortMemory[i].y){
-                                    allow = false; break; 
-                            }} 
-                            if(!allow) {return}
-
-                            //Ads Tile to list of tiles that should not be interacted with until the end of that cycle
-                            this.activeMap.shortMemory.push({x:this.pointer.worldX, y:this.pointer.worldY})
-
-                            //Executes Function according to currently selected tool
-                            switch(this.activeTool){
-                                case 'brush': 
-                                if(tileset.selected != undefined) placeTile(); 
-                                if(ObjectList.state.selected != undefined) placeObject();
-                                break;
-                                case 'grandBrush':
-                                    if(tileset.selected != undefined){
-                                        placeTile(this.pointer.worldX, this.pointer.worldY);
-                                        placeTile(this.pointer.worldX + 32, this.pointer.worldY);
-                                        placeTile(this.pointer.worldX, this.pointer.worldY + 32 );
-                                        placeTile(this.pointer.worldX -32, this.pointer.worldY);
-                                        placeTile(this.pointer.worldX, this.pointer.worldY -32);    
-                                    }
-                                break; 
-                                case 'eraser': removeTile(); break;
-                            }
-                        }
-                        else {
-                            //Removes Event and resets some values
-                            this.tilePlacement.remove()
-                            this.time.removeEvent( this.tilePlacement)
-                            this.maps[key].shortMemory = []
-                        }  
-                    },
-    })})})} // Fun with brackets \o/ I hope this never needs to be entangled
-
-    this.load.start(); //Startet den ladevorgang
-    window.MapList.update()
+        case 'eraser':
+        if(debug.tileCreation) console.log('Erasing started')
+        this.erasing = true
+        removeTile()
+        break;
+    }
 }
 
 addTimer(config){
@@ -388,62 +314,23 @@ addTimer(config){
 
 openMap(key)
 {
-    let mapKey = key  
-    if(mapKey == this.activeMap) return;
+    if(this.maps[key] == undefined) loadChunkMap(key)
+    else this.maps.open()
 
-    if(this.activeMap != undefined)
-    {
-        this.activeMap.core.layers.forEach( layer =>{layer.tilemapLayer.setVisible(false)})
-        this.activeMap.border.setVisible(false);
-        this.activeMap.objects.forEach(obj => {
-            obj.setVisible(false)
-        })
-    }
-    this.activeMap = this.maps[key]
-    this.activeMap.core.layers.forEach( layer =>{layer.tilemapLayer.setVisible(true)})
-    this.activeMap.border.setVisible(true);
-    this.activeMap.objects.forEach(obj => {
-        obj.setVisible(true)
-    })
-    this.cameraCursor.setPosition(this.activeMap.core.widthInPixels/2,this.activeMap.core.heightInPixels/2) //Zentriert Kamera auf neue Map
-
+    this.cameraCursor.setPosition(this.map.core.widthInPixels/2,this.map.core.heightInPixels/2) //Centers Camera on new map 
 }
 
 update(){
-    if(!this.activeMap) return
-    if(!document.querySelectorAll( ":hover" )[2]) return
+    if(!this.map) return
 
     this.pointer.updateWorldPoint(this.cameras.main)
-
-    if(this.activeTool == 'particleBrush' && this.pointer.leftButtonDown() &&ParticlesList.state.selected != null &&  particles[reactData.particles[ParticlesList.state.selected]].props.continuos){
-        particles[reactData.particles[ParticlesList.state.selected]].emit(this.pointer.worldX, this.pointer.worldY)
-    }
-                                
-
-    //Pointer is not on the map anymore
-    if( this.pointer.worldX < 0 || this.pointer.worldX > this.activeMap.core.widthInPixels ||
-        this.pointer.worldY < 0 || this.pointer.worldY > this.activeMap.core.heightInPixels ||
-        document.querySelectorAll( ":hover" )[3].id != 'parent'
-    ){
-        this.previewTile.setVisible(false)
-        this.activeMap.objects.forEach(obj => {obj.return()})
-        return;
-    }
-    //Pointer is on the Map
-    else {
-        this.activeMap.objects.forEach(obj => {obj.move()})
-        if(this.activeTool == 'brush' || this.activeTool == 'eraser' || this.activeTool == 'grandBrush') this.previewTile.setVisible(true)
-        else this.previewTile.setVisible(false)
-    }
-    //Rounds coordinates so the preview aligns with he tilemap
     let pos = {
-        x:this.pointer.worldX - (this.pointer.worldX % this.activeMap.core.tileWidth), 
-        y:this.pointer.worldY - (this.pointer.worldY % this.activeMap.core.tileHeight)
+        x:this.pointer.worldX - (this.pointer.worldX % this.map.core.tileWidth), 
+        y:this.pointer.worldY - (this.pointer.worldY % this.map.core.tileHeight)
     }
-    
+
     this.previewTile.setPosition(pos.x,pos.y)
-
-
+    return
 }
 
 } //End of Class

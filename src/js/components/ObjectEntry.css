@@ -26,3 +26,16 @@
     background: linear-gradient( to right,rgb(44, 44, 44), rgb(77, 77, 77));
     border-left: 25px solid rgb(44, 44, 44) ;
 }
+
+
+.entryNoExpander{
+    display: none;
+}
+
+.entryInactiveExpander{
+    border: 3px solid whitesmoke;
+}
+
+.entryActiveExpander{
+    border: 3px solid rgb(77, 77, 77);
+}

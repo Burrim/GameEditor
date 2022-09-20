@@ -50,7 +50,6 @@ class TilesetBase extends React.Component {
     if(!this.selected) return
     let cords = this.selectedCords
     cords.x += x; cords.y += y
-    console.log(this.props.input)
     if(cords.x < 0 || cords.y < 0 || cords.x > this.props.input.data.tilesX-1 || cords.y > this.props.input.data.tilesY-1) return
     this.select(cords)
   }

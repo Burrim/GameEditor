@@ -1,111 +1,77 @@
 
-const saveMaps = () => {
-    document.getElementById('saveCover').style.display = 'block'
+export default function saveMaps(){
+    //document.getElementById('saveCover').style.display = 'block'
     //Itterates trough maps and saves those which were changed since the last save
-    Object.keys(World.maps).forEach(key => {
-        if(!World.maps[key].wip) return
+    Object.values(World.maps).forEach(map =>{
         
-        let map = files.maps[key]
-        map.layers = []
-
-        //Creates Meta Layer. Additional layer that stores every tile attribute of the other layers
-        let meta = new LayerTemplate({
-            map: World.maps[key],
-            id: map.layers.length,
-            name: `meta`,
-            tileData : []
-        })
-        //Fills meta layer with empty tiles
-        for(let i = 0; i< meta.width * meta.height; i++){
-            meta.data.push(0)
-        }
-        map.layers.push(meta)
-
-        //Cycles trough the types of layers
-        Object.keys(World.maps[key].layers).forEach(layerKey => {
-
-            console.log(layerKey, World.maps[key].layers[layerKey].length)
-
-            //Cycles trough The layers of the same type
-            for(let i = 0; i < World.maps[key].layers[layerKey].length; i++){ 
-
-                //Creates Layerobject
-                let layer = new LayerTemplate({
-                    map: World.maps[key],
-                    id: map.layers.length,
-                    name: `${layerKey}${i}`,
-                })
-
-                //Cycles trough every Tile of a selected layer
-                World.maps[key].core.getTilesWithin(
-                0,0,  World.maps[key].layers[layerKey][i].width,  World.maps[key].layers[layerKey][i].height, null, World.maps[key].layers[layerKey][i]).forEach( (tile, index) =>{
-                    
-                    //Creates empty object for meta layer if it does not already exist
-                    if(!meta.tileData[index]) meta.tileData[index] = {}
-
-                    //Pushes Tile Properties to meta layer
-                    if(tile.index == -1) layer.data.push(0) //Edge case to prevent crash
-                    else layer.data.push(tile.index)
-                    
-                    Object.keys(tile.properties).forEach(propKey => {
-                        if(propKey == 'type') return
-                        meta.tileData[index][propKey] = tile.properties[propKey]
-                    }) 
-                })
-                //Adds layer to map
-                map.layers.push(layer)
+        //Itterates over every chunk in a given map and writes it to files
+        map.chunks.forEach(chunk =>{
+            console.log('chunk Loop')
+            if(!chunk.changed) return //Skips chunks that have not been changed
+            //Prepares Object to write in to json
+            let chunkData = {
+                id:`${chunk.x}-${chunk.y}`,
+                x: chunk.x,
+                y: chunk.y,
+                meta:[],
+                layers:[],
+                objects:[]
             }
+
+            //Itterates over every object, collects all necessary data and pushes it to the chunk Data
+            chunk.objects.forEach(obj =>{
+                let x = Math.floor(obj.x/map.config.tilewidth/map.config.chunkSize)+1
+                let y = Math.floor(obj.y/map.config.tileheight/map.config.chunkSize)+1
+                let objData = {
+                    name:obj.name,
+                    data: obj.data, //Merges custom data inside the object with the parent data from the objectlist
+                    editorData:obj.editorData,
+                    position: {x:obj.x,y:obj.y}
+            }
+            chunkData.objects.push(objData)
+        })
+
+            for(let i = 0; i < map.config.chunkSize*map.config.chunkSize; i++){ chunkData.meta.push({})} //Fills meta with empty objects
+            console.log('Empties Meta')
+            //Itterates trough every Layer and collects data to write to add to the chunk
+            chunk.layers.forEach((layer,index) =>{
+                let layerData = {
+                    name:`layer${index}`,
+                    config: {}, //can be used for special layer
+                    data: []
+                }
+                console.log('Layer Loop')
+
+                //Itterates trough every tile in the layer and extracts the index
+                let height = map.config.chunkSize //Value is separated so it can be overwritten in the future trough a custom config or similiar
+                for(let i = 0; i < height; i++){
+                    console.log('Tile Loop')
+                    let arr = []
+                    map.core.getTilesWithin(0,i,map.config.chunkSize,1,null,layer).forEach((tile,index) =>{
+                        arr.push(tile.index)
+                        //Copies every prop to the meta array
+                        console.log(tile.index, map.getPropsFromTileset(tile.index))
+                        if(tile.index != -1)
+                        Object.entries(map.getPropsFromTileset(tile.index)).forEach(prop =>{
+                            console.log(`write Meta at id ${index + i*height}`,prop)
+                            chunkData.meta[index + i*height][prop[0]] = prop[1]
+                        })
+        
+                    })
+                    layerData.data.push(arr)
+                }
+                chunkData.layers.push(layerData)
+            })
+            //After the whole chunk is prepared
+            console.log(chunkData.objects.length)
+            fs.writeFileSync(`${window.path}/mapData/maps/${map.id}/chunks/${chunkData.id}.json`, JSON.stringify(chunkData, null, 3))
+            chunk.changed = false
             
         })
-        //Prepares Map Objects
-        map.objects = []
-        World.maps[key].objects.forEach(obj => {
-            //Creates new Object for data storage
-            let entry = {
-                name: obj.data.name,
-                position: {x:obj.x,y:obj.y},
-                customData: obj.data.customData,
-                editorData: obj.data.editorData,
-                data: {}
-            }
-            //Inserts Custom Data indirectly so it gets not linked per reference with the datasource   
-            entry.data = JSON.parse(JSON.stringify(entry.customData));
-        
-            //Gets the original Data and fills all values that are not already taken by custom ones.
-            //Important so that you can change default values of objects even after already a lot of pieces are placed on the map
-            let sourceData = JSON.parse(JSON.stringify(obj.getSource()))
-            Object.keys(sourceData).forEach(key => {
-                if(!entry.data[key])
-                entry.data[key] = sourceData[key] 
-            })
-            map.objects.push(entry)
-        })
-
-        //Saves Map
-        fs.writeFileSync(`${window.path}/src/mapData/maps/${key}.json`, JSON.stringify(map, null, 5))
-        document.getElementById('saveCover').style.display = 'none'
-        //World.maps[key].wip = false For debug reasons deactivated
-        console.log(map)
-    });
+    })
     ctrl = false
     alert('Project Saved')
-    
 }
 
-class LayerTemplate {
-    constructor(config){
-        this.data = []
-        this.tileData = config.tileData
-        this.id = config.id;
-        this.name = config.name;
-        this.opacity = 1;
-        this.visible = true;
-        this.x = 0;
-        this.y = 0;
-        this.width = config.map.core.width;
-        this.height = config.map.core.height;
-        this.type = 'tilelayer'
-    }
-}
 
-export default saveMaps
+   

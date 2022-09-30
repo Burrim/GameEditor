@@ -45,41 +45,26 @@ canvas
     margin: 0px;
 }
 
-#mapSelector{
-    display: none;
-    width: 150px;
-    border-right: 1px solid rgba(0, 0, 0, 0.863);
+#rightUIContainer{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
-
-#tilesetSelector{
-    display: none;
-    width: 201px;
-
-}
-
-#objectSelector{
-    display: none;
-    width: 251px;
-    border-right: 10px solid rgba(0, 0, 0, 0.24);
-    border-left: 1px solid rgba(0, 0, 0, 0.863);
-    overflow: hidden;
-}
-
-#particleSelector{
-    display: none;
-    width: 201px;
-    border-right: 10px solid rgba(0, 0, 0, 0.24);
-    border-left: 1px solid rgba(0, 0, 0, 0.863);
-    overflow: hidden;
-}
-
-#rightUI{
+#rightTop{
     display: flex;
     flex-direction: row;
+    overflow: hidden;
+    height: auto;
 }
+#rightBottom{
+    height: fit-content;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
 #leftUI{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 #tilesetWindow{
@@ -91,8 +76,13 @@ canvas
 
 div{
     user-select: none; /* Standard */
+    color: whitesmoke;
 }
 img{
+    user-select: none;
+}
+label{
+    color: whitesmoke;
     user-select: none;
 }
 

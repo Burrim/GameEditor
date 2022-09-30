@@ -23,7 +23,6 @@ const placeTile = (X,Y,id,config) =>{
 
     //let tileType = getTileProps(currentTileset.data.tiles[tileset.selected].properties, "type")
 
-    let tileSet = false //Flag for when the tile wa succesfully placed
     let selectedTile;
     let placedTile; //For Debug reasons
     
@@ -33,17 +32,21 @@ const placeTile = (X,Y,id,config) =>{
         if(!chunk.layers[i]){
             if(debug.tileCreation) console.log(`Layer ${i} in Chunk not yet generated`)
             chunk.createLayer() 
-            World.map.core.putTileAt(id, x, y,false, chunk.layers[i] )
+            placedTile = World.map.core.putTileAt(id, x, y,false, chunk.layers[i] )
+            World.map.history.addEntry(placedTile, 0, id,'tileChange')
+            chunk.changed = true
             if(debug.tileCreation)console.log(`tile with id ${id} placed on layer ${i}`)
             break
         }
         //Check if tile is empty and places tile if this is the case
         selectedTile = World.map.core.getTileAt(x, y,false, chunk.layers[i] )
         if(!selectedTile){
+
             //Places Tile and sets properties according to tileset Data (Props aren't updatet automatically)
             placedTile = World.map.core.putTileAt(id, x, y ,false, chunk.layers[i] )
+            chunk.changed = true
             if(debug.tileCreation)console.log(`tile with id ${id} placed on layer ${i}`)
-            //World.activeMap.history.addEntry(placedTile, 0, id)
+            World.map.history.addEntry(placedTile, 0, id,'tileChange')
             currentTileset.data.tiles[tileset.selected].properties.forEach(prop => {
                 placedTile.properties[prop.name] = prop.value
             });

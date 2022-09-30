@@ -7,58 +7,79 @@ export default class DataEditor extends React.Component {
     }
 
     returnData(){
-        let value = {
-            name: name,
-            data: {}
-        }
-        //Repacks the choosen values back to a usable object
+
+
+        //Itterates trough every Object and writes the data back in to a useable object format
+        let collectedValues = {}
         elements.forEach(element=>{
+            //Reads simple var type elements
             if(element.type == 'var')
-            value.data[element.name] = element.value
+            collectedValues[element.name] = parseString(element.value)
+            //reads nested object type elements
             else if(element.type == 'object'){
-                value.data[element.name] = {}
+                collectedValues[element.name] = {}
                 element.entries.forEach(entry=>{
-                    value.data[element.name][entry.name] = entry.value
+                    collectedValues[element.name][entry.name] = parseString(entry.value)
                 })
             }
         })
 
-        
         let returnObj = {
-            customData : {},
+            values : {},
             id : data.id
-        } 
-        Object.keys(value.data).forEach(key => {
-            if(value.data[key] != data.data[key] )
-            returnObj.customData[key] = value.data[key]
+        }
+        //Checks every value for change and writes all changed values in to an object that can be returned 
+        Object.keys(collectedValues).forEach(key => {
+            if(!advancedCompare(collectedValues[key],data.values[key])){ //Checks if there are any differences
+                //Just writes the Data if it is a simple value
+                if(typeof collectedValues[key] != 'object'){
+                    returnObj.values[key] = collectedValues[key]
+                }
+                //Writes data in case of array (for now don't make special treatments for arrays)
+                else if(Array.isArray()){
+                    returnObj.values[key] = collectedValues[key]
+                }
+                //only write the necessary attributes in case of an object 
+                else{
+                    returnObj.values[key] = {}
+                    Object.keys(collectedValues[key]).forEach(att =>{
+                        if(collectedValues[key][att] != data.values[key][att])
+                        returnObj.values[key][att] = collectedValues[key][att]
+                    })
+                }
+                
+            }
         })
+        console.log(returnObj)
         ipcRenderer.send('returnData', returnObj)
     }
 
     render(){
         //Filters all Data in either simple var or nested data in the form of objects and makes it readabable for the next component to render
-        console.log(this.props.input.data)
-        Object.keys(this.props.input.data).forEach(key => {
-            if(typeof this.props.input.data[key] == 'object'){
+        console.log(this.props.input.values)
+        Object.keys(this.props.input.values).forEach(key => {
+            //If data is a nested Object
+            if(typeof this.props.input.values[key] == 'object'){
                 let obj = {
                     name: key,
                     entries : [],
                     type : 'object'
                 }
-                Object.keys(this.props.input.data[key]).forEach(objKey =>{
+                Object.keys(this.props.input.values[key]).forEach(objKey =>{
                     obj.entries.push({
                         name: objKey,
-                        value: this.props.input.data[key][objKey],
-                        valueType: typeof this.props.input.data[key][objKey]
+                        value: this.props.input.values[key][objKey],
+                        valueType: typeof this.props.input.values[key][objKey]
                     })
                 })
                 elements.push(obj)
 
             } else {
+                //if data is a single value
                 elements.push({
                     name: key,
-                    value: this.props.input.data[key],
-                    valueType: typeof this.props.input.data[key],
+                    value: this.props.input.values[key],
+                    valueType: typeof this.props.input.values[key],
                     type: 'var'
                     
                 }) 
@@ -66,7 +87,7 @@ export default class DataEditor extends React.Component {
         });
         return(
             <div className='DataEditor-Body'>
-            <input className='DataEditor-Title' defaultValue={this.props.input.name}/>
+            <input className='DataEditor-Title' defaultValue={this.props.input.values.name}/>
             {
                 elements.map((element,index) => (
                     <DataEntry key={index} index={index} data={element}/>
@@ -85,7 +106,7 @@ class DataEntry extends React.Component {
     }
 
     changeValue = () => {
-        //Data Readings vor var type components
+        //Data Readings for var type components
         if(this.props.data.type == 'var'){
              
             elements[this.props.index].name = document.getElementsByClassName(`${this.props.index}`)[0].value,

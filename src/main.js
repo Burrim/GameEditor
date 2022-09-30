@@ -60,6 +60,7 @@ const createSettingsWindow = (data) => {
   });
   settingsWindow.loadURL(SETTINGS_WINDOW_WEBPACK_ENTRY);
   settingsWindow.removeMenu()
+  settingsWindow.webContents.openDevTools();
   settingsWindow.webContents.send('openWindow-init', data);
 }
 
@@ -67,13 +68,13 @@ const createSettingsWindow = (data) => {
 // *** IPC ************************************************************************************************************************
 //Opens Additional Window for manipulating data
 ipcMain.on('openWindow', (event, arg) => {
-  console.log(arg)
+  console.log("sent Data",arg)
   createSettingsWindow(arg) 
 })
 
 //Forwards data from external window to main Window
 ipcMain.on('returnData', (event, arg) => {
-  console.log(arg)
+  console.log("returned Data",arg)
   settingsWindow.close()
   mainWindow.webContents.send('returnData', arg); 
 })

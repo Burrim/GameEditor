@@ -4,7 +4,23 @@ import './ObjectEntry.css'
 class ObjectEntry extends React.Component {
     constructor(props){
         super(props)
-        console.log(props)
+    }
+
+    expand = () => {
+        //De Expands children list
+        if(this.props.data.editorData.expanded){
+            this.props.data.editorData.expanded = false
+            this.props.data.relation.children.forEach(child => {
+                child.editorData.invisible = true
+            });
+        } else{
+            //Expands children list
+            this.props.data.editorData.expanded = true
+            this.props.data.relation.children.forEach(child => {
+                child.editorData.invisible = false
+            });
+        }
+        ObjectList.update()
     }
     
     render(){
@@ -18,7 +34,7 @@ class ObjectEntry extends React.Component {
             <div className='entryBody' id={this.props.parentId + JSON.stringify(this.props.id)}  onClick={this.props.select}>
                 <img className='entryImg' src={files.editorSprites[this.props.data.editorData.img]} id={this.props.parentId + JSON.stringify(this.props.id)}  onClick={this.props.select}/>
                 <label className='entryLabel' id={this.props.parentId + JSON.stringify(this.props.id)}  onClick={this.props.select}> {this.props.data.name} </label>
-                <img className={expanderClass} src={files.editorSprites}/>
+                <img className={[expanderClass]} src={files.editorSprites.expander}  onClick={this.expand}/>
             </div>
         )
     }

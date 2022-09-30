@@ -3,6 +3,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client';
 import Phaser from 'phaser'
 
 import World from './js/World.js'
@@ -14,6 +15,7 @@ import SelectionColumn from './js/components/SelectionColumn.js'
 import ObjectList from './js/components/ObjectList.js'
 import Tileset from './js/components/TilesetCover.js'
 import Topbar from './js/components/Topbar.js'
+import HitboxTesterInterface from './js/components/HitboxTesterInterface.js'
 
 import './stylesheet.css'
 
@@ -42,6 +44,7 @@ window.files = {
   editorGraphics: {}
 }
 
+//Global storage for data that can be used in react components. Old but for now still used in some components.
 window.reactData = {
   mapList:[],
   tilesetList:[],
@@ -51,7 +54,8 @@ window.reactData = {
 
 window.tileset = {} //Placeholder to prevent crashes until tileset is booted up
 
-// *** Tilesets ***
+// *** Tilesets **********************************************************************************************************
+
 //Reads every Entry in the target directory. Since Tilesets are stored in pairs of images and jsons a single key without file ending is generated for every pair to itterate over
 let tilesets = fs.readdirSync(path + '/mapData/tilesets')
 let tilesetKeys = []
@@ -71,22 +75,9 @@ tilesetKeys.forEach(key => {
   files.tilesets[key].proxy.src = files.tilesets[key].graphic
 });
 
-// *** Maps ***
-/*Old Maploader for one File Maps
+// *** Maps ***************************************************************************************************************
 
 //Checks Directory for Files
-let maps = fs.readdirSync(path+"/src/mapData/maps")
-maps.forEach(key => {
-  //Load individual Files
-  let map = JSON.parse( fs.readFileSync(path+"/src/mapData/maps/"+key)) 
-  files.maps[key.replace(/.(json)/,'')] = map
-  reactData.mapList.push(key.replace(/.(json)/,''))
-})
-*/
-
-// *** Chunk Maps ***
-//Checks Directory for Files
-
 let maps = fs.readdirSync(path+"/mapData/maps")
 maps.forEach(key =>{
   let map = {
@@ -102,8 +93,9 @@ maps.forEach(key =>{
   reactData.mapList.push(key)
 })
 
-//Object Templates
-files.objects = {all:[]}
+//*** Object Templates ****************************************************************************************************
+
+files.objects = {all:{}}
 //Reads all subdirectories of the objects.
 let objectDirs = fs.readdirSync(path+"/mapData/objects") 
 objectDirs.forEach(dir =>{
@@ -115,30 +107,54 @@ objectDirs.forEach(dir =>{
     let objects = JSON.parse(fs.readFileSync(path+"/mapData/objects/"+dir+"/"+fileKey))
     for(let i = 0; i < objects.length; i++ ){
       if(i == 0 && objects.length > 1 ) {
-        objects[0].editorData.children = [] //Inits Child property if there are any
-        objects[0].expanded = false
+        if(objects[0].relation == undefined) objects[0].relation = {}
+        objects[0].relation.children = [] //Inits Child property if there are any
+        objects[0].editorData.expanded = false
       }
       files.objects[dir][objects[i].name] = objects[i]
-      files.objects.all.push(objects[i])
-      if(i > 0){ 
+      files.objects.all[objects[i].name] = objects[i]
+      if(i > 0){
         objects[i].editorData.invisible = true //Sets Flag for objectList
-        objects[i].editorData.parent = objects[0] //Sets Parent and child dynamic
-        objects[0].editorData.children.push(objects[i])
-
+        //objects[i].relation.parent = objects[0] Can't be used right now as it would cause an endless loop in the merging process later
+        objects[0].relation.children.push(objects[i].name) //Sets Parent and child dynamic in stringform (connection would get severed if it is already referenced )
       } 
     }
   })
 })
+//Completes incomplete objects that take referenced data from their source
+Object.keys(files.objects.all).forEach(key => {
+  if(files.objects.all[key].src){
+    //Creates a clone of the object to reference and then removes the attributes that should not be cloned
+    let src = cloneDeep(files.objects.all[files.objects.all[key].src])
+    //Deletes properties that we don't want from the cloned object
+    delete src.editorData.expanded
+    delete src.relation
 
-
-// *** Sprites ***
-loadData({target:"editorSprites",dir:'assets/editorSprites'}) //EditorSprites
-fs.readdirSync(path+"/src/assets/sprites").forEach(key => { //GameSprites
-  loadData({target:"sprites",dir:'assets/sprites/'+ key,nested:key}) //EditorSprites
+    files.objects.all[key] = mergeDeep(src,files.objects.all[key])
+  }
 })
 
 
-// *** Editor Graphics ***
+//Establishes relationship between objects (Related to lists, not src data)
+Object.keys(files.objects.all).forEach(key => {
+  if(files.objects.all[key].relation){
+    if(files.objects.all[key].relation.children)
+    for(let i = 0; i < files.objects.all[key].relation.children.length; i++){
+      files.objects.all[key].relation.children[i] = files.objects.all[files.objects.all[key].relation.children[i]]
+    }
+  }
+})
+
+// *** Sprites ******************************************************************************************************
+
+loadData({target:"editorSprites",dir:'assets/editorSprites'}) //EditorSprites
+fs.readdirSync(path+"/src/assets/sprites").forEach(key => { //GameSprites
+  loadData({target:"sprites",dir:'assets/sprites/'+ key,nested:key}) 
+})
+
+
+// *** Editor internal Graphics *******************************************************************************************************
+
 //Loads all graphics from the internal editor assets
 let editorGraphics = importAll(require.context(`./assets/ui`, false, /.(png|jpe?g|svg)$/));
 Object.keys(editorGraphics).forEach(key =>{
@@ -149,7 +165,8 @@ Object.keys(editorGraphics).forEach(key =>{
 loadData({target:'particles',dir:'assets/particles'})
 reactData.particles = Object.keys(files.particles)
 
-//
+//Loads Hitboxes
+loadData({target:'hitboxes', dir:'assets/hitboxInstructions'})
 
 
 //*** Global Functions *********************************************************************************************************************************************************** */
@@ -194,10 +211,13 @@ const config = {
     scene: [Setup, World],
     pixelArt: true,
     physics: {
-      default: 'arcade',
+      default: 'matter',
       arcade: {
         gravity: { y: 0 }, 
         debug: false
+      },
+      matter:{
+        debug: true
       }
     }
   };
@@ -212,90 +232,61 @@ window.Game = new Game();
 
 //*** Rendering React Menu Elements *********************************************************************************************************************************************************************** */
 
-//--- Renderfunctions ------------
-//Dynamic Renderfunctions that can be called to render elements after data is loaded or refreshed
+const leftUI = createRoot(document.getElementById('leftUI'));
+const rightUI = createRoot(document.getElementById('rightUI'));
+const topbar = createRoot(document.getElementById('header'));
 
-  //Topbar
-  window.renderTopbar = function(){
-    ReactDOM.render(
-    
-      <div className='Topbar-Container'>
+
+
+leftUI.render(
+  <div style={{display: "flex", flexDirection: "column"}}>
+    <SelectionColumn id='MapList' title='Maps' dataReader='mapList' active={true}/>
+    <SelectionColumn id='TilesetList' title='Tilesets' dataReader='tilesetList' active={true}/>
+  </div>
+)
+rightUI.render(
+  <div id='rightUIContainer'>
+    <div id='rightTop'>
+      <HitboxTesterInterface/>
+      <SelectionColumn id='ParticlesList' title='Particles' dataReader='particles' active={false}/>
+      <ObjectList id='ObjectList' title='Objects' elements={Object.values(files.objects.all)} active={false}/>
+      
+    </div>
+    <div id='rightBottom'>
+      <Tileset input={tileset}/>
+    </div>
+  </div>
+
+)
+
+topbar.render(
+  <div className='Topbar-Container'>
   
         <Topbar type={'menu'} elements = {[
-          {texture:'map',key:"mapSelector"}
+          {texture:'map',key:"MapList"},
+          {texture:'tilesetEditor',key:"TilesetList"}
         ]}/>
         
         <Topbar type={'tools'} elements = {[
           {texture:'brush',key:"brush"},
           {texture:'eraser',key:"eraser"},
           {texture:'settings',key:"object"},
-          {texture:'particleBrush',key:'particleBrush'}
+          {texture:'particleBrush',key:'particleBrush'},
+          {texture:'tilesetSelector',key:'selection'}
         ]}/>
 
         <Topbar type={'menu'} elements = {[
-          {texture:'particles',key:'particleSelector'},
-          {texture:'object',key:'objectSelector'},
-          {texture:'tilesetEditor',key:"tilesetSelector"}
+          {texture:'particles',key:'ParticlesList'},
+          {texture:'object',key:'ObjectList'},
+          {texture:'tilesetSelector',key:'HitboxTester'}
         ]}/>
-          
       </div>
-    ,document.getElementById("header"))
-  }
+)
 
-  //Tilesetwindow
-  window.renderTileset = function(tileset){
-    window.currentTileset = tileset
-    ReactDOM.render(
-      <div>
-        <Tileset input={tileset}/>
-      </div> 
-      ,document.getElementById("tilesetWindow"));
-  }
 
-  //ObjectList
-  window.renderObjectList = function(){
-    ReactDOM.render(
-      <div >
-        <ObjectList id='ObjectList' title='Objects' elements={Object.values(files.objects.all)}/>
-      </div> 
-      ,document.getElementById("objectSelector"));
-  }
-
-  //Maplist
-  window.renderMapList = function(){
-    ReactDOM.render(
-      <div>
-        <SelectionColumn id='MapList' title='Maps' dataReader='mapList'/>
-      </div> 
-      ,document.getElementById("mapSelector"));
-  }
-
-  //Particleslist
-  window.renderParticlesList = function(){
-    ReactDOM.render(
-      <div>
-        <SelectionColumn id='ParticlesList' title='Particles' dataReader='particles'/>
-      </div> 
-      ,document.getElementById("particleSelector"));
-  }
-
-  //Tilesetlist
-  window.renderTilesetList = function(){
-    ReactDOM.render(
-      <div>
-        <SelectionColumn id='TilesetList' title='Tilesets' dataReader='tilesetList'/>
-      </div> 
-      ,document.getElementById("tilesetSelector"));
-  }
-
-//--- Startup ---------------- 
-  renderTopbar()
-  renderMapList()
-  renderParticlesList()
-  renderTilesetList()
   
 
-    
+
   
     
 

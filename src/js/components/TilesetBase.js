@@ -19,13 +19,19 @@ class TilesetBase extends React.Component {
   }
  
   //Selecting Tile
-  select = (cords) => {
+  select = (cords,extId) => {
+    console.log("cords",cords,"extId",extId)
     let id
     if(cords){
       id = cords.x + (cords.y) * this.props.input.data.tilesX
       this.selectedCords = cords
     } 
     else id = -69 //id gets filles with abitrary data if no tile should be selected
+
+    //When id is given directly trough external function
+    if(extId != undefined) id = extId
+
+    console.log(extId, id)
 
     //Searches for tile with the generated id and marks it. Also removes marks of tiles not selected anymore
     this.props.input.data.tiles.forEach(tile => {
@@ -44,6 +50,16 @@ class TilesetBase extends React.Component {
     //Fires Event only if there is usable data
     if(id != -69) document.dispatchEvent(this.event)
     else this.selected = undefined
+  }
+
+  componentDidUpdate(){
+    console.log("tileset Updated")
+    document.dispatchEvent(new Event('TilesetUpdated'))
+  }
+
+  componentDidMount(){
+    console.log("tileset Updated")
+    document.dispatchEvent(new Event('TilesetUpdated'))
   }
 
   keySelect = (x,y) => {

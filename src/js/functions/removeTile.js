@@ -19,8 +19,16 @@ export default function removeTile(X,Y){
     y = y-(chunk.y-1)*chunk.chunkSize
  
     for(let i = chunk.layers.length; i >= 0; i--){
-        World.map.core.putTileAt(0, x, y,false, chunk.layers[i] )
+        let target = World.map.core.getTileAt(x, y,false, chunk.layers[i])
+        if(target != null && target.index != -1){
+            World.map.history.addEntry(target, target.index, -1,'tileChange')
+            World.map.core.putTileAt(-1, x, y,false, chunk.layers[i] )
+
+        }
+
     }
+
+    chunk.changed = true
 
 }
 

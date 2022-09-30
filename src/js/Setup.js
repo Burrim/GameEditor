@@ -1,13 +1,4 @@
 import Phaser from 'phaser'
-
-import redParticle from '../assets/ui/redParticle.png'
-import whiteParticle from '../assets/ui/whiteParticle.png'
-
-import TilesetManager from './TilesetManager.js'
-import menuControl from './functions/menuControl'
-import changeTool from './functions/changeTool'
-
-
 export default class Setup extends Phaser.Scene{
 
     constructor() {
@@ -30,10 +21,6 @@ init()
 
 preload()
 {
-    //Lädt Grafiken, die von Phaser benutzt werden. 
-    this.load.image('redParticle', redParticle )
-    this.load.image('whiteParticle', whiteParticle)
-
     //Loads Sprites in to Phaser
     Object.keys(files.sprites).forEach(dir=>{
         Object.keys(files.sprites[dir]).forEach(key =>{
@@ -74,25 +61,27 @@ create()
             if(this.project.isSofits) //Frägt eine Variable ab, die sich in legitimen Projektfiles befindet. startet zusätzliche Szenen, wenn das Projekt legitim ist.
             {
                 this.path = this.config.lastProject.slice(0,this.config.lastProject.length - (this.project.name.length+5))
-                TM.loadTileset()
+                //TM.loadTileset()
 
-                reactData.objects = this.project.objects
-                renderObjectList()
+                //Loads Sprites in to Phaser
+                Object.keys(files.sprites).forEach(dir=>{
+                Object.keys(files.sprites[dir]).forEach(key =>{
+                if(key == 'config') return;
+                if(files.sprites[dir].config[key] == undefined)
+                this.load.image(`${dir}-${key}`, files.sprites[dir][key])
+                else {
+                this.load.spritesheet(`${dir}-${key}`, files.sprites[dir][key], files.sprites[dir].config[key].load)
+                }
+            })
+          })
 
                 this.scene.launch('World')
             }
             else this.project = undefined
     }
 //***** Startup ********************************************************************************************************************************************************* */
-    //Startet System Funktionen
-    window.TM = new TilesetManager()
     //Initialisiert Inputs
     this.loadProject(this.config.lastProject)
-    
-    
-    menuControl('tilesetSelector')
-    menuControl('mapSelector')
-    
 }
 
 }

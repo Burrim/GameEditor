@@ -39,7 +39,7 @@ class Container_Object extends Phaser.GameObjects.Container{
         this.previousCords = {x:this.x, y:this.y}
 
         this.chunk = chunk
-        if(this.chunk == undefined) this.chunk = World.map.getChunkByPyxelCord(x,y)
+        if(this.chunk == undefined) this.chunk = World.map.getChunkByPixelCord(x,y)
         this.chunk.objects.push(this)
         //this.setDepth(10)
 
@@ -126,7 +126,7 @@ class Container_Object extends Phaser.GameObjects.Container{
 
         //Removes Object from previous Chunk and inserts it into new
         this.chunk.removeObject(this.id)
-        this.chunk = World.map.getChunkByPyxelCord(this.x,this.y)
+        this.chunk = World.map.getChunkByPixelCord(this.x,this.y)
         this.chunk.objects.push(this)
         this.chunk.changed = true //Flags new Chunk for Change
 

@@ -1,3 +1,3 @@
 export default {
-    tileCreation : false
+    tileCreation : true
 }

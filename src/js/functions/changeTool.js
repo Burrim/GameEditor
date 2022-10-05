@@ -1,12 +1,24 @@
 
 
 const changeTool = (tool) => {
-    if(World.activeTool == tool) return 
+    if(World.activeTool == tool) return
+    console.log(tool) 
 
     //Executes changes depending on the previous tool
     switch(World.activeTool){
         case 'particleBrush':
             document.body.style.cursor = 'auto'
+        break;
+        case 'brush':
+            World.previewTile.setVisible(false)
+        break;
+        case 'paste':
+            World.previewTile
+            .setVisible(false)
+            .setScale(1)
+        break;
+        case 'selection':
+            World.selectingRec.setVisible(false)
         break;
     }
     World.activeTool = tool
@@ -34,6 +46,7 @@ const changeTool = (tool) => {
             else  World.previewTile.setTexture('emptyTile')
         break;
         case 'eraser':
+            World.previewTile.setVisible(true)
             World.previewTile.setTexture('eraserTile')
             ObjectList.select()
         break;
@@ -43,7 +56,15 @@ const changeTool = (tool) => {
         case 'particleBrush':
             document.body.style.cursor = 'crosshair'
         break;
-
+        case 'paste':
+            World.previewTile.setVisible(true)
+            World.previewTile.setTexture('eraserTile')
+            World.previewTile.setScale(World.customCache.width,World.customCache.height)
+        break;
+        case 'selection':{
+            if(!World.selectingRec) World.selectingRec = World.add.rectangle(0,0,0,0,0xAA0000,0.5).setOrigin(0).setDepth(10)
+            World.selectingRec.setVisible(true)
+        }
     }
 }   
 

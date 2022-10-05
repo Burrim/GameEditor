@@ -9,6 +9,9 @@ import menuControl from './functions/menuControl.js';
 import createParticle from './functions/createParticle.js';
 import loadData from './functions/loadData.js';
 import loadChunkMap from './functions/loadChunkMap.js';
+import selectTiles from './functions/selectTiles.js';
+import multiplace from './functions/multiplace.js';
+import deleteArea from './functions/deleteArea.js';
 
 import HitboxController from './classes/HitboxController.js';
 
@@ -205,6 +208,18 @@ this.keyListener = addEventListener("keydown", (event) => {
             else if(tileset.props) tileset.keySelect(0,1); 
         break;
         case 'd': if(tileset.props) tileset.keySelect(1,0); break;
+        case 'c': 
+            if(ctrl){
+                this.customCache = selectTiles()
+            } 
+        break
+        case 'v': if(ctrl) changeTool('paste'); break;
+        case 'x': 
+            if(ctrl){
+                this.customCache = selectTiles()
+                deleteArea(this.selectingRec.x,this.selectingRec.y,this.selectingRec.width,this.selectingRec.height)
+            } 
+        break;
         case 'b': changeTool('brush'); break;
         case 'e': changeTool('eraser'); break;
         case 'o': case 'O':
@@ -236,7 +251,10 @@ this.keyListener = addEventListener("keydown", (event) => {
         case 'y': if(window.ctrl) this.map.history.redo(); break;
         case 'Control': window.ctrl = true; break;
         case 'Shift': window.shift = true; break;
-        case 'Delete': if(this.selected) this.selected.delete(); break;
+        case 'Delete': 
+            if(this.selected) this.selected.delete();
+            if(this.activeTool == "selection") deleteArea(this.selectingRec.x,this.selectingRec.y,this.selectingRec.width,this.selectingRec.height)
+        break;
     }
 })
 
@@ -352,12 +370,15 @@ activeAction(){
         break;
 
         case 'selection':
-            if(!this.selectingRec) this.selectingRec = this.add.rectangle(0,0,0,0,0xAA0000,0.5).setOrigin(0)
             let x = Math.floor(this.pointer.worldX/this.map.config.tilewidth)*this.map.config.tilewidth
             let y = Math.floor(this.pointer.worldY/this.map.config.tileheight)*this.map.config.tileheight
             this.selectingRec.setPosition(x,y)
             this.selectingRec.setSize(0,0)
             this.selecting = true
+        break;
+
+        case 'paste':
+            if(this.customCache != undefined) multiplace(this.customCache)
         break;
     }
 }
@@ -366,7 +387,7 @@ secondaryAction(){
     this.input.activePointer.updateWorldPoint(this.cameras.main)
     switch(this.activeTool){
         case 'brush':
-            let chunk = this.map.getChunkByPyxelCord(this.pointer.worldX, this.pointer.worldY)
+            let chunk = this.map.getChunkByPixelCord(this.pointer.worldX, this.pointer.worldY)
             let id
             //Determines the highest layer with a tile placed on it
             for(let i = chunk.layers.length-1; i >= 0; i--){

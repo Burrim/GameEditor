@@ -36,7 +36,35 @@ export default class Map{
             this.loadChunk(data.x,data.y)
         })
     }
-    getChunkByPyxelCord(x,y,create){return this.getChunkByTileCord( Math.floor(x/this.config.tilewidth)+1, Math.floor(y/this.config.tileheight)+1, create) }
+    getChunksByPixelCord(x,y,width,height){
+        let arr = []
+        let tempWidth
+        while(height > 0){
+            tempWidth = width
+            while( tempWidth > 0){
+                let chunk = this.getChunkByPixelCord(x,y)
+                tempWidth -= (chunk.layers[0].x+100000) + chunk.layers[0].width - (x +100000) //The + 100000 nakes it so the numbers are never negative which would fuck up the formula
+                x = chunk.layers[0].x + chunk.layers[0].width
+                arr.push(chunk)
+            }
+            height -= (arr[arr.length-1].layers[0].y+100000) + arr[arr.length-1].layers[0].height - (y+100000)  
+        }
+        console.log(arr)
+        return arr
+    }
+    getChunksByTileCord(x,y,width,height){ return this.getChunks(Math.floor(x/this.config.chunkSize)+1, Math.floor(y/this.config.chunkSize)+1, Math.floor(width/this.config.chunkSize)+1, Math.floor(height/this.config.chunkSize)+1)}
+    getChunks(x,y,width,height){
+        //console.log(x,y,width,height)
+        let arr = []
+        for(let i = 0; i < height; i++){
+            for(let j = 0; j < width; j++){
+                arr.push(this.getChunk(x+j,y+i))
+            }
+        }
+        return arr
+
+    }
+    getChunkByPixelCord(x,y,create){return this.getChunkByTileCord( Math.floor(x/this.config.tilewidth), Math.floor(y/this.config.tileheight)+1, create) }
     getChunkByTileCord(x,y,create){ return this.getChunk( Math.floor(x/this.config.chunkSize)+1, Math.floor(y/this.config.chunkSize)+1, create)}
     getChunk(x,y,create){
         let target
@@ -82,8 +110,7 @@ export default class Map{
             }}
             
             if(layer == undefined){
-                layer = this.core.createBlankLayer(this.layers.length,this.tilesets);
-                layer.background =
+                layer = this.core.createBlankLayer(this.layers.length,this.tilesets,0,0,32);
                 this.layers.push(layer)
             }
             return layer   

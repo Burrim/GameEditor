@@ -34,7 +34,6 @@ export default function selectTiles(){
         //--- Collects small arrays from every layer in every chunk on this line ---
         let chunkData = [] //Array for the collections of all layers from every chunk
         chunks.forEach(chunk =>{
-            console.log(chunk.id)
             let chunkLayers = [] //Collection of all layers from this chunk
             chunk.layers.forEach((layer,index) =>{
                 //calculates start and ending point of tile collection

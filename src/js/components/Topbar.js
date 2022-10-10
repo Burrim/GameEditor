@@ -6,8 +6,16 @@ import changeTool from '../functions/changeTool'
 export default class Topbar extends React.Component {
     constructor(props){
         super(props)
-        window.topbar = this
+        window[`topbar${props.type}`] = this
     }
+
+    resetSelection(){
+        this.props.elements.forEach(element =>{
+            document.getElementById(`Topbar-${element.key}`).parentNode.style.backgroundColor = 'transparent'
+
+        })
+    }
+
 
     trigger = (e) => {
         switch(this.props.type){
@@ -21,7 +29,6 @@ export default class Topbar extends React.Component {
     }
     
     render(){
-        console.log(this.props)
         return(
             <div id='Topbar-Body'>
                 {this.props.elements.map(element => {

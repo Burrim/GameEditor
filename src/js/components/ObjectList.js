@@ -15,7 +15,6 @@ export default class ObjectList extends React.Component {
             selected:null, //Index of currently selected child
         }
         this.update = this.update.bind(this)
-        console.log(props)
         this.elements = props.elements
     }
 
@@ -30,7 +29,6 @@ export default class ObjectList extends React.Component {
 
     //Highlights the selected child and sends an Event with the key "{this.props.id}Select"
     select = (e) => {
-        console.log(e)
         if(e == undefined) return{}
         
         //Reads selected ID. If function is used without arguments (without an event) selection is reset
@@ -42,7 +40,6 @@ export default class ObjectList extends React.Component {
         this.y = 0
         World.wheelListener = addEventListener('wheel', (event)=> {
             if(checkHover('ObjectList')){
-                console.log(this)
                 this.y -= event.deltaY/5
                 document.getElementsByClassName('entryContainer')[0].style.transform = `translate(0,${this.y}px)`
             }

@@ -13,8 +13,7 @@ class SelectionColumn extends React.Component {
         this.state = {
             selected:null, //Index of currently selected child
         }
-        this.update = this.update.bind(this)
-        this.elements = window.reactData
+        this.elements = props.elements
 
         window[props.id] = this //creates global available reference
     }
@@ -29,10 +28,7 @@ class SelectionColumn extends React.Component {
     ------------------------------------------------------------------------------------*/
 
     //Highlights the selected child and sends an Event with the key "{this.props.id}Select"
-    select = (e) => {
-
-        console.log(e.target.id)
-        
+    select = (e) => {   
         //Reads selected ID. IF function is used without arguments selection is reset
         let id;
         if(e) id = parseInt(e.target.id.slice(this.props.id.length))
@@ -42,7 +38,7 @@ class SelectionColumn extends React.Component {
         this.setState({ selected : id}, 
         //Followup Function : adjusts the styling of the component to reflect the selection
         () =>{
-            for(let i = 0; i < this.elements[this.props.dataReader].length; i++){
+            for(let i = 0; i < this.elements.length; i++){
                 if(this.state.selected == i){
                 document.getElementById(`${this.props.id + i}`).style.borderLeft = '20px solid rgb(192, 70, 70)'
                 document.getElementById(`${this.props.id + i}`).style.backgroundColor = 'rgb(66, 66, 66)'
@@ -57,7 +53,7 @@ class SelectionColumn extends React.Component {
         })
     }
 
-    update(){
+    update = () => {
         this.forceUpdate()
     }
 
@@ -77,7 +73,7 @@ class SelectionColumn extends React.Component {
             return (
                 <div className='mainContainer' id={this.props.id}>
                     <div className='header'> {this.props.title} </div>{
-                    this.elements[this.props.dataReader].map((element, index) => (
+                    this.elements.map((element, index) => (
                     <MapEntry 
                         name = {element} 
                         key = {index} 

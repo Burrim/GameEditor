@@ -26,7 +26,6 @@ export default class DropdownMenu extends React.Component{
         this.y = 0
         addEventListener('wheel', (event)=> {
             if(checkHover(`container${this.id}`)){
-                console.log('dis do hover')
                 this.y -= event.deltaY/5
                 document.getElementById(`contents${this.id}`).style.transform = `translate(0,${this.y}px)`
             }

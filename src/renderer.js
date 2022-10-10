@@ -8,6 +8,7 @@ import Phaser from 'phaser'
 
 import World from './js/World.js'
 import Setup from './js/Setup.js'
+import Structures from './js/Structures.js';
 
 import utilsInit from './js/utils/utils-init.js'
 
@@ -44,7 +45,8 @@ window.files = {
   editorGraphics: {}
 }
 
-//Global storage for data that can be used in react components. Old but for now still used in some components.
+//Global storage for data that can be used in react components. Old but for now still used in some components. 
+//nbot sure if it is still used now
 window.reactData = {
   mapList:[],
   tilesetList:[],
@@ -82,16 +84,41 @@ let maps = fs.readdirSync(path+"/mapData/maps")
 maps.forEach(key =>{
   let map = {
     core: JSON.parse(fs.readFileSync(path+"/mapData/maps/"+key+"/core.json")),
-    chunks: []
+    chunks: [],
+    paralax: []
   }
-  fs.readdirSync(path+"/mapData/maps")
+
+  //Chunks
   let chunks = fs.readdirSync(path+"/mapData/maps/"+key+"/chunks")
   chunks.forEach(chunkKey => {
     map.chunks.push( JSON.parse(fs.readFileSync(path+"/mapData/maps/"+key+"/chunks/"+chunkKey)))
   })
+
+
+  //Paralaxes
+  let paralaxes = fs.readdirSync(path+"/mapData/maps/"+key+"/paralax")
+  paralaxes.forEach(paralaxKey =>{
+    let paralax = {
+      core: JSON.parse(fs.readFileSync(path+"/mapData/maps/"+key+"/paralax/"+paralaxKey + "/core.json")),
+      chunks: []
+    }
+
+    let paralaxChunks = fs.readdirSync(path+"/mapData/maps/"+key+"/paralax/"+paralaxKey+"/chunks")
+    paralaxChunks.forEach(paralaxChunkKey =>{
+      paralax.chunks.push( JSON.parse(fs.readFileSync(path+"/mapData/maps/"+key+"/paralax/"+paralaxKey+"/chunks/"+paralaxChunkKey)))
+    })
+
+    map.paralax.push(paralax)
+  })
+  
   files.maps[key] = map
   reactData.mapList.push(key)
+
+
+
 })
+
+
 
 //*** Object Templates ****************************************************************************************************
 
@@ -147,9 +174,9 @@ Object.keys(files.objects.all).forEach(key => {
 
 // *** Sprites ******************************************************************************************************
 
-loadData({target:"editorSprites",dir:'assets/editorSprites'}) //EditorSprites
+loadData({target:"editorSprites",dir:'src/assets/editorSprites'}) //EditorSprites
 fs.readdirSync(path+"/src/assets/sprites").forEach(key => { //GameSprites
-  loadData({target:"sprites",dir:'assets/sprites/'+ key,nested:key}) 
+  loadData({target:"sprites",dir:'src/assets/sprites/'+ key,nested:key}) 
 })
 
 
@@ -162,11 +189,11 @@ Object.keys(editorGraphics).forEach(key =>{
 })
 
 //Loads Particles
-loadData({target:'particles',dir:'assets/particles'})
+loadData({target:'particles',dir:'src/assets/particles'})
 reactData.particles = Object.keys(files.particles)
 
 //Loads Hitboxes
-loadData({target:'hitboxes', dir:'assets/hitboxInstructions'})
+loadData({target:'hitboxes', dir:'src/assets/hitboxInstructions'})
 
 
 //*** Global Functions *********************************************************************************************************************************************************** */
@@ -208,7 +235,7 @@ const config = {
     dom: {
       createContainer: true
   },
-    scene: [Setup, World],
+    scene: [Setup, World, Structures],
     pixelArt: true,
     physics: {
       default: 'matter',
@@ -240,15 +267,16 @@ const topbar = createRoot(document.getElementById('header'));
 
 leftUI.render(
   <div style={{display: "flex", flexDirection: "column"}}>
-    <SelectionColumn id='MapList' title='Maps' dataReader='mapList' active={true}/>
-    <SelectionColumn id='TilesetList' title='Tilesets' dataReader='tilesetList' active={true}/>
+    <SelectionColumn id='MapList' title='Maps' elements={Object.keys(files.maps)} active={true}/>
+    <SelectionColumn id='MapPartList' title='Map-Parts' elements={[]} active={false}/>
+    <SelectionColumn id='TilesetList' title='Tilesets' elements={Object.keys(files.tilesets)} active={true}/>
   </div>
 )
 rightUI.render(
   <div id='rightUIContainer'>
     <div id='rightTop'>
       <HitboxTesterInterface/>
-      <SelectionColumn id='ParticlesList' title='Particles' dataReader='particles' active={false}/>
+      <SelectionColumn id='ParticlesList' title='Particles' elements={Object.keys(files.particles)} active={false}/>
       <ObjectList id='ObjectList' title='Objects' elements={Object.values(files.objects.all)} active={false}/>
       
     </div>
@@ -270,6 +298,7 @@ topbar.render(
         <Topbar type={'tools'} elements = {[
           {texture:'brush',key:"brush"},
           {texture:'eraser',key:"eraser"},
+          {texture:'bucket',key:"bucket"},
           {texture:'settings',key:"object"},
           {texture:'particleBrush',key:'particleBrush'},
           {texture:'tilesetSelector',key:'selection'}

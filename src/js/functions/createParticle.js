@@ -21,7 +21,6 @@ export default function createParticle(){
           emit: function(x,y){
             //Trigger all particle emitter
             this.particles.forEach(element =>{
-              console.log(element.emitters.list[0])
               element.emitParticleAt(x+element.emitters.list[0].posOffset.x,y+element.emitters.list[0].posOffset.y)
             })
 

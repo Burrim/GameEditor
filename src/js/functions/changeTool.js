@@ -2,7 +2,6 @@
 
 const changeTool = (tool) => {
     if(World.activeTool == tool) return
-    console.log(tool) 
 
     //Executes changes depending on the previous tool
     switch(World.activeTool){
@@ -24,10 +23,7 @@ const changeTool = (tool) => {
     World.activeTool = tool
 
     //Clears highlight on all tools and highlights selected one
-    document.getElementById('Topbar-brush').parentNode.style.backgroundColor = 'transparent'
-    document.getElementById('Topbar-eraser').parentNode.style.backgroundColor = 'transparent'
-    document.getElementById('Topbar-object').parentNode.style.backgroundColor = 'transparent'
-    document.getElementById('Topbar-particleBrush').parentNode.style.backgroundColor = 'transparent'
+    topbartools.resetSelection()
 
     if(document.getElementById('Topbar-'+tool))
     document.getElementById('Topbar-'+tool).parentNode.style.backgroundColor = 'red'

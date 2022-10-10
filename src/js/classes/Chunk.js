@@ -39,6 +39,12 @@ export default class Chunk{
             layer.setVisible(true)
         })
     }
+    close(){
+        this.background.setVisible(false)
+        this.layers.forEach(layer =>{
+            layer.setVisible(false)
+        })
+    }
     createLayer(){
         let layer = this.parent.getEmptyLayer()
         layer.x = (this.x-1)*this.parent.config.chunkSize*this.parent.config.tilewidth

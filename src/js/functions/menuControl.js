@@ -3,8 +3,6 @@
 //Calling the function with the key of the desired menu toggles its visibility and sets the corresponding button
 
 export default function menuControl(key){
-    console.log(key)
-    console.log(window[key])
     //Close
     if(window[key].active){
         window[key].setActive(false)

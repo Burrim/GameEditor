@@ -50,13 +50,11 @@ export default class DataEditor extends React.Component {
                 
             }
         })
-        console.log(returnObj)
         ipcRenderer.send('returnData', returnObj)
     }
 
     render(){
         //Filters all Data in either simple var or nested data in the form of objects and makes it readabable for the next component to render
-        console.log(this.props.input.values)
         Object.keys(this.props.input.values).forEach(key => {
             //If data is a nested Object
             if(typeof this.props.input.values[key] == 'object'){
@@ -130,7 +128,7 @@ class DataEntry extends React.Component {
 
             }
         }
-        console.log(elements)
+
     }
 
     render(){

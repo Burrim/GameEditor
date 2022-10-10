@@ -11,8 +11,7 @@ export default function playParticleAnimation(x,y,animation,duration,tint){
         container = World.add.sprite(x,y,'props-placeholder')
         container.type = 'animParticle'
         container.disable = function(){
-            this.setActive(false).setVisible(false)
-            console.log('the disable') 
+            this.setActive(false).setVisible(false) 
         }
     }
 

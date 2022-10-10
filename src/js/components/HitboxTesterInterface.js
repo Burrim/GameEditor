@@ -23,7 +23,6 @@ export default class HitboxTesterInterface extends React.Component {
         }
 
         this.update = this.update.bind(this)
-        console.log(props)
     }
 
     /*Construction ----------------------------------------------------------------------
@@ -118,7 +117,7 @@ export default class HitboxTesterInterface extends React.Component {
                 </div>
 
                 <img src={files.editorGraphics.object} style={{height:"64px",margin:'30px'}} onClick={this.selectDummy}></img>
-                <img onClick={function(){loadData({target:'hitboxes', dir:'assets/hitboxInstructions'})}} src={files.editorGraphics.redo}></img>
+                <img onClick={function(){loadData({target:'hitboxes', dir:'src/assets/hitboxInstructions'})}} src={files.editorGraphics.redo}></img>
 
                
                 

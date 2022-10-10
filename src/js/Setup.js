@@ -76,6 +76,7 @@ create()
           })
 
                 this.scene.launch('World')
+                
             }
             else this.project = undefined
     }

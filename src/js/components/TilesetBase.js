@@ -20,7 +20,6 @@ class TilesetBase extends React.Component {
  
   //Selecting Tile
   select = (cords,extId) => {
-    console.log("cords",cords,"extId",extId)
     let id
     if(cords){
       id = cords.x + (cords.y) * this.props.input.data.tilesX
@@ -30,8 +29,6 @@ class TilesetBase extends React.Component {
 
     //When id is given directly trough external function
     if(extId != undefined) id = extId
-
-    console.log(extId, id)
 
     //Searches for tile with the generated id and marks it. Also removes marks of tiles not selected anymore
     this.props.input.data.tiles.forEach(tile => {
@@ -53,12 +50,10 @@ class TilesetBase extends React.Component {
   }
 
   componentDidUpdate(){
-    console.log("tileset Updated")
     document.dispatchEvent(new Event('TilesetUpdated'))
   }
 
   componentDidMount(){
-    console.log("tileset Updated")
     document.dispatchEvent(new Event('TilesetUpdated'))
   }
 

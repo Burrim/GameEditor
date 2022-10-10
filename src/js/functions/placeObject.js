@@ -39,7 +39,7 @@ class Container_Object extends Phaser.GameObjects.Container{
         this.previousCords = {x:this.x, y:this.y}
 
         this.chunk = chunk
-        if(this.chunk == undefined) this.chunk = World.map.getChunkByPixelCord(x,y)
+        if(this.chunk == undefined) this.chunk = World.map.getChunkByPixelCord(x,y,true)
         this.chunk.objects.push(this)
         //this.setDepth(10)
 
@@ -108,7 +108,6 @@ class Container_Object extends Phaser.GameObjects.Container{
         this.chunk.removeObject(this.id)
 
         if(this.chunk) this.chunk.changed = true
-        console.log(this.chunk)
     }
     edit = () => {
         let data = mergeDeep(cloneDeep(this.src).data,this.data)
@@ -126,7 +125,7 @@ class Container_Object extends Phaser.GameObjects.Container{
 
         //Removes Object from previous Chunk and inserts it into new
         this.chunk.removeObject(this.id)
-        this.chunk = World.map.getChunkByPixelCord(this.x,this.y)
+        this.chunk = World.map.getChunkByPixelCord(this.x,this.y,true)
         this.chunk.objects.push(this)
         this.chunk.changed = true //Flags new Chunk for Change
 

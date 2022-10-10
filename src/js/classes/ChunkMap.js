@@ -5,21 +5,29 @@ import Chunk from "./Chunk";
 
 export default class Map{
     constructor(data){
-        this.core = World.make.tilemap({ tileWidth: data.tileWidth, tileHeight: data.tileHeight, width:data.width,height:data.height})
-        this.config = data
-        this.chunkData = files.maps[data.id].chunks
-        this.id = data.id
+        this.core = World.make.tilemap({ tileWidth: data.core.tileWidth, tileHeight: data.core.tileHeight, width:data.core.width, height:data.core.height})
+        this.config = data.core
+        this.chunkData = data.chunks
+        this.paralaxData = data.paralax
+        this.id = data.core.id
         this.history = new HistoryObject()
 
         this.chunks = []
+        this.paralaxMaps = {}
         this.objects = []
+
+        //Creates Paralax Maps
+        if(this.paralaxData)
+        this.paralaxData.forEach(paraData =>{
+            this.paralaxMaps[paraData.core.id] = new Map(paraData,true)
+        })
         
         //Loads Tilesets
         this.tilesets = []
         this.tilesetTilecount = 0
-        data.tilesets.forEach(key => {
+        data.core.tilesets.forEach(key => {
             let tilesetData = files.tilesets[key].data
-            let tileset = new Phaser.Tilemaps.Tileset(key,this.tilesetTilecount,tilesetData.tileWidth,tilesetData.tileHeight,tilesetData.tileMargin,tilesetData.tileSpacing,null,tilesetData.tiles);
+            let tileset = new Phaser.Tilemaps.Tileset(key,this.tilesetTilecount, tilesetData.tileWidth,tilesetData.tileHeight,tilesetData.tileMargin,tilesetData.tileSpacing,null,tilesetData.tiles);
             this.tilesetTilecount += tileset.tileData.length //Increases Starting Index for the next Tileset
             tileset.setImage(World.textures.get(tilesetData.image))
             this.tilesets.push(tileset)
@@ -49,12 +57,10 @@ export default class Map{
             }
             height -= (arr[arr.length-1].layers[0].y+100000) + arr[arr.length-1].layers[0].height - (y+100000)  
         }
-        console.log(arr)
         return arr
     }
     getChunksByTileCord(x,y,width,height){ return this.getChunks(Math.floor(x/this.config.chunkSize)+1, Math.floor(y/this.config.chunkSize)+1, Math.floor(width/this.config.chunkSize)+1, Math.floor(height/this.config.chunkSize)+1)}
     getChunks(x,y,width,height){
-        //console.log(x,y,width,height)
         let arr = []
         for(let i = 0; i < height; i++){
             for(let j = 0; j < width; j++){
@@ -128,8 +134,14 @@ export default class Map{
         }
     }
     open(){
+        World.map = this
         this.chunks.forEach(chunk =>{
             chunk.open()
+        })
+    }
+    setAlpha(value){
+        this.layers.forEach(layer =>{
+            layer.setAlpha(value)
         })
     }
     close(){}

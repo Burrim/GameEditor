@@ -17,7 +17,6 @@ export default class AnimDoll extends Phaser.GameObjects.Container{
             this.finished = true
             this.allowPlaying = 0
             HitboxTester.loop()
-            console.log("finished")
 
         })
 

@@ -16,8 +16,6 @@ const placeTile = (X,Y,id,config) =>{
     if(Y) y = Y
     else y = Math.floor(World.pointer.worldY / World.map.config.tileheight)
 
-    console.log(x,y,id)
-
     let chunk = World.map.getChunkByTileCord(x,y,true) //Gets Chunk below cursor or creates new one if necessary
     //changes coordinates to be relative to the chunk
     x = x-(chunk.x-1)*chunk.chunkSize
@@ -44,7 +42,7 @@ const placeTile = (X,Y,id,config) =>{
         selectedTile = World.map.core.getTileAt(x, y,false, chunk.layers[i] )
         if(!selectedTile){
 
-            //Places Tile and sets properties according to tileset Data (Props aren't updatet automatically)
+            //Places Tile 
             placedTile = World.map.core.putTileAt(id, x, y ,false, chunk.layers[i] )
             chunk.changed = true
             if(debug.tileCreation)console.log(`tile with id ${id} placed on layer ${i}`)

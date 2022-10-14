@@ -78,7 +78,7 @@ create()
         if(loadedData >= loadedDataGoal){
             this.time.delayedCall(1000,()=>{ 
                 this.openMap('testmap')
-                this.scene.launch('Structures') 
+                this.scene.launch('Structures')
             })
             
         } 

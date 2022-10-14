@@ -1,4 +1,5 @@
 import playParticleAnimation from "./playParticleAnimation"
+import Phaser from "phaser"
 
 export default function createParticle(){
     global.particles = {}
@@ -44,7 +45,7 @@ export default function createParticle(){
         //translate Emit zone from json to usable config
         if(config.emitZone != undefined){
           config.emitZone = {
-            source: new Phaser.Geom.Rectacle(config.emitZone.source[0],config.emitZone.source[1],config.emitZone.source[2], config.emitZone.source[3]),
+            source: new Phaser.Geom.Rectangle(config.emitZone.source[0],config.emitZone.source[1],config.emitZone.source[2], config.emitZone.source[3]),
             type : config.emitZone.type
         }}
 

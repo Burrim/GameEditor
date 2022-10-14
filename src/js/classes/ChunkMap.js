@@ -119,6 +119,11 @@ export default class Map{
                 layer = this.core.createBlankLayer(this.layers.length,this.tilesets,0,0,32);
                 this.layers.push(layer)
             }
+
+            //Lowers depth for Paralax maps
+            if(Object.keys(this.paralaxMaps).length == 0)
+            layer.setDepth(-1)
+
             return layer   
     }
     getPropsFromTileset(id){

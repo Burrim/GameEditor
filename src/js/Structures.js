@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import randomString from './utils/randomString';
 import loadData from './functions/loadData';
-import Structure from './classes/structure';
+import Structure_Container from './classes/Structure_Container';
 
 export default class Structures extends Phaser.Scene{
 
@@ -27,12 +27,30 @@ init()
 create(){
     loadData({target:"structures",dir:'mapData/structures'})
     this.map = this.make.tilemap(this.mapConfig)
+
+
+    //---------------------------------------------------------------------
+    //Somehow tiles aren't displayed, not sure if the tilesets are the problem. this codeblock is just pasted from chunkmaps
+    //----------------------------------------------------------------------
+     //Loads Tilesets
+     this.tilesets = []
+     this.tilesetTilecount = 0
+     files.maps[World.selectedMap].core.tilesets.forEach(key => {
+         let tilesetData = files.tilesets[key].data
+         let tileset = new Phaser.Tilemaps.Tileset(key,this.tilesetTilecount, tilesetData.tileWidth,tilesetData.tileHeight,tilesetData.tileMargin,tilesetData.tileSpacing,null,tilesetData.tiles);
+         this.tilesetTilecount += tileset.tileData.length //Increases Starting Index for the next Tileset
+         tileset.setImage(World.textures.get(tilesetData.image))
+         this.tilesets.push(tileset)
+     });
     
     Object.values(files.structures).forEach((data,index) =>{
         let x = ( (index+1) % (this.config.totalWidth / this.config.entryWidth) )-1
         let y = Math.floor(this.config.entryWidth/ this.config.totalWidth * index )
-        this.elements.push( new Structure(x,y,data) )
+        let structure = new Structure_Container(x,y,data)
+        this.elements.push( structure )
+        structure.data.id = Object.keys(files.structures)[index]
     })
+    this.scene.sleep() 
 }
   
 //***** Functions********************************************************************************************************************************************************* */
@@ -43,6 +61,7 @@ save(){
     }while(this.keys.includes(key+".json"))
     fs.writeFileSync(`${window.path}/mapData/structures/${key}.json`, JSON.stringify(World.customCache, null, 3))
     alert("Structure Saved")
+    this.scene.restart("Structures")
 }
 
 }

@@ -25,6 +25,20 @@ export default class Topbar extends React.Component {
             case 'tools':
                 changeTool(e.target.id.slice(7))
             break;
+            case 'special':
+                switch(e.target.id.slice(7)){
+                    case 'structure':
+                        if(Structures.scene.isSleeping()){
+                            Structures.scene.wake()
+                            document.getElementById('Topbar-structure').parentNode.style.backgroundColor = 'red'
+                        }
+                        else{
+                            Structures.scene.sleep()
+                            document.getElementById('Topbar-structure').parentNode.style.backgroundColor = 'transparent'
+                        }
+                    break;
+                }
+            break;
         }
     }
     

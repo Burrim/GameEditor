@@ -294,6 +294,10 @@ topbar.render(
           {texture:'map',key:"MapList"},
           {texture:'tilesetEditor',key:"TilesetList"}
         ]}/>
+
+        <Topbar type={'special'} elements = {[
+          {texture:'structure',key:"structure"}
+        ]}/>
         
         <Topbar type={'tools'} elements = {[
           {texture:'brush',key:"brush"},

@@ -114,6 +114,7 @@ export default function initListener(){
             case 'b':
                 if(ctrl && this.customCache)
                 Structures.save()
+                else changeTool('brush')
             
             break;
             case 'c': 
@@ -128,7 +129,6 @@ export default function initListener(){
                     deleteArea(this.selectingRec.x,this.selectingRec.y,this.selectingRec.width,this.selectingRec.height)
                 } 
             break;
-            case 'b': changeTool('brush'); break;
             case 'e': changeTool('eraser'); break;
             case 'o': case 'O':
                 if(window.shift) menuControl('objectSelector')

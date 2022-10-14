@@ -19,6 +19,7 @@ export default class Chunk{
                 break;
         }}
 
+        //Creates Layers
         this.data.layers.forEach(layerData =>{
             let layer = this.parent.getEmptyLayer()
             parent.core.putTilesAt(layerData.data,0,0,true,layer)

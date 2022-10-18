@@ -27,12 +27,16 @@ export default class Chunk{
             layer.y = (y-1)*parent.config.chunkSize*parent.config.tileheight
             this.layers.push(layer)
         })
+
         
         this.x = x
         this.y = y
         this.id = `${x}-${y}`
-
+        
         this.loadObjects()
+
+
+       
     }
     open(){
         this.background.setVisible(true)
@@ -63,5 +67,19 @@ export default class Chunk{
                 return this.objects.splice(index,1)
             }
         })
+    }
+    setAlpha(value){
+        if(value == 1){
+            this.layers.forEach(layer =>{
+                layer.setDepth(3)
+            })
+            this.background.setDepth(1).setAlpha(1)
+        }
+        else{
+            this.layers.forEach(layer =>{
+                layer.setDepth(1)
+            })
+            this.background.setDepth(2).setAlpha(1-value)
+        }
     }
 }

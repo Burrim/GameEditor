@@ -112,7 +112,7 @@ export default function initListener(){
             break;
             case 'd': if(tileset.props) tileset.keySelect(1,0); break;
             case 'b':
-                if(ctrl && this.customCache)
+                if(window.ctrl && this.customCache)
                 Structures.save()
                 else changeTool('brush')
             

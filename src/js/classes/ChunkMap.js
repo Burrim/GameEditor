@@ -34,10 +34,9 @@ export default class Map{
         });
         this.layers = []
     }
-    loadChunk(x,y){
+    loadChunk = (x,y) => {
         let chunk = new Chunk(this,x,y)
         this.chunks.push(chunk)
-
     }
     loadAllChunks(){
         this.chunkData.forEach(data =>{
@@ -104,6 +103,7 @@ export default class Map{
         let chunk = new Chunk(this,x,y)
         chunk.changed = true
         this.chunks.push(chunk)
+        chunk.setAlpha(this.alpha)
         return chunk
     }
     getEmptyLayer(){
@@ -122,7 +122,9 @@ export default class Map{
 
             //Lowers depth for Paralax maps
             if(Object.keys(this.paralaxMaps).length == 0)
-            layer.setDepth(-1)
+            layer.setDepth(1)
+            else 
+            layer.setDepth(3)
 
             return layer   
     }
@@ -145,9 +147,10 @@ export default class Map{
         })
     }
     setAlpha(value){
-        this.layers.forEach(layer =>{
-            layer.setAlpha(value)
+        this.chunks.forEach(chunk =>{
+            chunk.setAlpha(value)
         })
+        this.alpha = value
     }
     close(){}
     }

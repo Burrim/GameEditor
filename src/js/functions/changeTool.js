@@ -1,7 +1,9 @@
 
 
 const changeTool = (tool) => {
+    console.log(tool)
     if(World.activeTool == tool) return
+
 
     //Executes changes depending on the previous tool
     switch(World.activeTool){

@@ -25,13 +25,10 @@ init()
     this.mapConfig = { tileWidth: 32, tileHeight: 32, width:0, height:0}
 }
 create(){
+    files.structures = {}
     loadData({target:"structures",dir:'mapData/structures'})
     this.map = this.make.tilemap(this.mapConfig)
 
-
-    //---------------------------------------------------------------------
-    //Somehow tiles aren't displayed, not sure if the tilesets are the problem. this codeblock is just pasted from chunkmaps
-    //----------------------------------------------------------------------
      //Loads Tilesets
      this.tilesets = []
      this.tilesetTilecount = 0
@@ -50,6 +47,8 @@ create(){
         this.elements.push( structure )
         structure.data.id = Object.keys(files.structures)[index]
     })
+
+    document.getElementById('Topbar-structure').parentNode.style.backgroundColor = 'transparent'
     this.scene.sleep() 
 }
   
@@ -61,6 +60,7 @@ save(){
     }while(this.keys.includes(key+".json"))
     fs.writeFileSync(`${window.path}/mapData/structures/${key}.json`, JSON.stringify(World.customCache, null, 3))
     alert("Structure Saved")
+    World.ctrl = false
     this.scene.restart("Structures")
 }
 

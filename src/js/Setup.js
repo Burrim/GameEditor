@@ -46,6 +46,11 @@ preload()
         })
       })
 
+      //Loads Editor graphics in to phaser
+    Object.keys(files.editorGraphics).forEach(key =>{
+        this.load.image(`editor-${key}`, files.editorGraphics[key])
+    })
+
     
 }
 
@@ -83,6 +88,8 @@ create()
 //***** Startup ********************************************************************************************************************************************************* */
     //Initialisiert Inputs
     this.loadProject(this.config.lastProject)
+
+    
 }
 
 }

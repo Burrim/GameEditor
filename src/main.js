@@ -60,7 +60,7 @@ const createSettingsWindow = (data) => {
   });
   settingsWindow.loadURL(SETTINGS_WINDOW_WEBPACK_ENTRY);
   settingsWindow.removeMenu()
-  settingsWindow.webContents.openDevTools();
+  //settingsWindow.webContents.openDevTools();
   settingsWindow.webContents.send('openWindow-init', data);
 }
 

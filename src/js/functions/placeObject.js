@@ -32,6 +32,7 @@ class Container_Object extends Phaser.GameObjects.Container{
     constructor(x,y,src,data,chunk){
         super(World,x,y,)
         World.add.existing(this)
+        this.setDepth(10)
 
         this.id = assignId()
         this.name = src.name

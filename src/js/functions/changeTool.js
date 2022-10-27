@@ -1,5 +1,4 @@
 
-
 const changeTool = (tool) => {
     console.log(tool)
     if(World.activeTool == tool) return
@@ -20,6 +19,9 @@ const changeTool = (tool) => {
         break;
         case 'selection':
             World.selectingRec.setVisible(false)
+        break;
+        case 'measure':
+            World.measurement.setVisible(false)
         break;
     }
     World.activeTool = tool
@@ -63,6 +65,13 @@ const changeTool = (tool) => {
             if(!World.selectingRec) World.selectingRec = World.add.rectangle(0,0,0,0,0xAA0000,0.5).setOrigin(0).setDepth(10)
             World.selectingRec.setVisible(true)
         }
+        case 'measure':
+            if(World.measurement == undefined){
+                World.measurement = World.add.rectangle(0,0,0,0,0xffffff,0.5).setOrigin(0.5);
+                World.measurement.setDepth(20);
+            } 
+            World.measurement.setVisible(true)
+        break;
     }
 }   
 

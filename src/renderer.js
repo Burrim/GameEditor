@@ -195,6 +195,9 @@ reactData.particles = Object.keys(files.particles)
 //Loads Hitboxes
 loadData({target:'hitboxes', dir:'src/assets/hitboxInstructions'})
 
+//Loads config
+loadData({target:"config", dir: "/mapData/config"})
+
 
 //*** Global Functions *********************************************************************************************************************************************************** */
 global.frame = 1000/60 
@@ -277,6 +280,7 @@ rightUI.render(
     <div id='rightTop'>
       <HitboxTesterInterface/>
       <SelectionColumn id='ParticlesList' title='Particles' elements={Object.keys(files.particles)} active={false}/>
+      <SelectionColumn id='MeasurementsList' title='Measurements' elements={Object.keys(files.config.measurements)} active={false}/>
       <ObjectList id='ObjectList' title='Objects' elements={Object.values(files.objects.all)} active={false}/>
       
     </div>
@@ -306,12 +310,14 @@ topbar.render(
           {texture:'settings',key:"object"},
           {texture:'particleBrush',key:'particleBrush'},
           {texture:'tilesetSelector',key:'selection'}
+          
         ]}/>
 
         <Topbar type={'menu'} elements = {[
           {texture:'particles',key:'ParticlesList'},
           {texture:'object',key:'ObjectList'},
-          {texture:'tilesetSelector',key:'HitboxTester'}
+          {texture:'tilesetSelector',key:'HitboxTester'},
+          {texture:'ruler',key:'MeasurementsList'}
         ]}/>
       </div>
 )

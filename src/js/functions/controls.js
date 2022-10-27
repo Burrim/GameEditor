@@ -19,9 +19,6 @@ export default function initListener(){
     })
 
     document.addEventListener('MapPartListSelect', () => {
-        console.log(
-
-        )
         let key = MapPartList.elements[MapPartList.state.selected]
         if(key == 'Main Map') key = this.selectedMap
         this.openSubMap(key,true)
@@ -32,6 +29,14 @@ export default function initListener(){
         window.currentTileset = files.tilesets[reactData.tilesetList[TilesetList.state.selected]]
         Tileset.data = files.tilesets[reactData.tilesetList[TilesetList.state.selected]]
         Tileset.setActive(true)
+      })
+
+      document.addEventListener('MeasurementsListSelect', () => {
+       changeTool('measure')
+       let config = Object.values(files.config.measurements)[MeasurementsList.state.selected]
+            this.measurement.width = config.width
+            this.measurement.height = config.height
+            this.measurement.setOrigin(0.5) //For some reason this does not work when creating the shape and needs to be done here
       })
     
     //Tile in Tileset selected
@@ -193,7 +198,7 @@ this.input.on('pointerup', () =>{
 })
 
 window.addEventListener('blur', () => {
-    World.isDragging = false
+    this.isDragging = false
    });
 
 this.input.on('pointermove', ()=>{

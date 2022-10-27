@@ -206,6 +206,10 @@ activeAction(){
             if(this.customCache != undefined) multiplace(this.customCache)
         break;
 
+        case 'measure':
+            
+        break;
+
     }
 }
 
@@ -300,19 +304,23 @@ update(){
     this.updateEvents.forEach(event =>{
         event()
       })
+      
+      //Set Position of preview Tile
+      this.pointer.updateWorldPoint(this.cameras.main)
+      let pos = {
+          x:this.pointer.worldX - (this.pointer.worldX % this.map.core.tileWidth), 
+          y:this.pointer.worldY - (this.pointer.worldY % this.map.core.tileHeight)
+        }
+        //Offset for when the pointer oes over the 0 point. It's ugly but it works
+        if(this.pointer.worldX < 0) pos.x -= this.map.core.tileHeight
+        if(this.pointer.worldY < 0) pos.y -= this.map.core.tileWidth
+        
+        this.previewTile.setPosition(pos.x,pos.y)
+    
+        if(this.activeTool == 'measure'){
+            this.measurement.setPosition(this.pointer.worldX,this.pointer.worldY)
+        }
 
-
-    //Set Position of preview Tile
-    this.pointer.updateWorldPoint(this.cameras.main)
-    let pos = {
-        x:this.pointer.worldX - (this.pointer.worldX % this.map.core.tileWidth), 
-        y:this.pointer.worldY - (this.pointer.worldY % this.map.core.tileHeight)
-    }
-    //Offset for when the pointer oes over the 0 point. It's ugly but it works
-    if(this.pointer.worldX < 0) pos.x -= this.map.core.tileHeight
-    if(this.pointer.worldY < 0) pos.y -= this.map.core.tileWidth
-
-    this.previewTile.setPosition(pos.x,pos.y)
     return
 }
 

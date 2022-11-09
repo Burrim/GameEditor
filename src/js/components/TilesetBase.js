@@ -22,7 +22,8 @@ class TilesetBase extends React.Component {
   select = (cords,extId) => {
     let id
     if(cords){
-      id = cords.x + (cords.y) * this.props.input.data.tilesX
+      id = cords.x + (cords.y) *  (this.props.input.data.imagewidth/this.props.input.data.tilewidth)
+      console.log("select",id)
       this.selectedCords = cords
     } 
     else id = -69 //id gets filles with abitrary data if no tile should be selected
@@ -61,7 +62,7 @@ class TilesetBase extends React.Component {
     if(!this.selected) return
     let cords = this.selectedCords
     cords.x += x; cords.y += y
-    if(cords.x < 0 || cords.y < 0 || cords.x > this.props.input.data.tilesX-1 || cords.y > this.props.input.data.tilesY-1) return
+    if(cords.x < 0 || cords.y < 0 || cords.x >  (this.props.input.data.imagewidth/this.props.input.data.tilewidth)-1 || cords.y > (this.props.input.data.imageheight/this.props.input.data.tileheight)-1) return
     this.select(cords)
   }
 
@@ -75,9 +76,9 @@ class TilesetBase extends React.Component {
         <img id="TilesetBaseBG" src={this.props.input.graphic} /* Image of selected Tileset *//> 
       <div id="TilesetBase" //Container Element
         style={{
-          minWidth: this.props.input.data.tilesX * this.props.input.data.tilewidth,
-          maxWidth: this.props.input.data.tilesX * this.props.input.data.tilewidth,
-          maxHeight: this.props.input.data.tilesY * this.props.input.data.tileheight,
+          minWidth: this.props.input.data.imagewidth,
+          maxWidth: this.props.input.data.imagewidth,
+          maxHeight: this.props.input.data.imageheight,
           margin: this.props.input.data.margin
         }}
       >
@@ -106,11 +107,12 @@ class TilesetBase extends React.Component {
 
 function Tile(props) {
 
-    const x = props.input.data.margin + props.index % props.input.data.tilesX * (props.input.data.tilewidth + props.input.data.spacing)
-    const y = props.input.data.margin + Math.floor(props.index / props.input.data.tilesX) * (props.input.data.tilewidth + props.input.data.spacing )
+    const x = props.input.data.margin + props.index %  (props.input.data.imagewidth/props.input.data.tilewidth) * (props.input.data.tilewidth + props.input.data.spacing)
+    const y = props.input.data.margin + Math.floor(props.index /  (props.input.data.imagewidth/props.input.data.tilewidth)) * (props.input.data.tilewidth + props.input.data.spacing )
 
 
   const click = function () {
+    //console.log(x,y,(x - props.input.data.margin) / (props.input.data.tilewidth + props.input.data.spacing),(y - props.input.data.margin) / (props.input.data.tileheight + props.input.data.spacing))
     props.select({
       x: (x - props.input.data.margin) / (props.input.data.tilewidth + props.input.data.spacing) ,
       y: (y - props.input.data.margin) / (props.input.data.tileheight + props.input.data.spacing)

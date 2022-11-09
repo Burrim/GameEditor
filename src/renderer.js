@@ -67,7 +67,7 @@ tilesets.forEach(key => {
 })
 
 //Itterates over every key and prepares the necessary data
-tilesetKeys.forEach(key => {
+tilesetKeys.forEach((key,index) => {
   files.tilesets[key] = {
     data : JSON.parse( fs.readFileSync(path+"/mapData/tilesets/"+ key + '.json')),
     graphic : "data:image/png;base64, " + fs.readFileSync(path + "/mapData/tilesets/" + key + '.png', 'base64'),
@@ -75,6 +75,13 @@ tilesetKeys.forEach(key => {
   }
   reactData.tilesetList.push(key)
   files.tilesets[key].proxy.src = files.tilesets[key].graphic
+
+  //Adds firstgid to the tilesets manually
+  
+  if(index == 0) files.tilesets[key].data.firstgid = 0
+  else{
+    files.tilesets[key].data.firstgid = files.tilesets[tilesetKeys[index-1]].data.firstgid + files.tilesets[tilesetKeys[index-1]].data.tilecount
+  }
 });
 
 // *** Maps ***************************************************************************************************************

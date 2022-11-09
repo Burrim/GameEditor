@@ -68,6 +68,7 @@ function saveChunk(chunk,map){
                 //Copies every prop to the meta array
                 if(tile.index != -1)
                 Object.entries(map.getPropsFromTileset(tile.index)).forEach(prop =>{
+                    if(prop[1])
                     chunkData.meta[index + i*height][prop[0]] = prop[1]
                 })
 
@@ -77,8 +78,8 @@ function saveChunk(chunk,map){
         chunkData.layers.push(layerData)
     })
     //After the whole chunk is prepared
-    return chunkData
     chunk.changed = false
+    return chunkData
 }
 
 

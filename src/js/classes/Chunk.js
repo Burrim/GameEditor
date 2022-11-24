@@ -8,10 +8,12 @@ export default class Chunk{
         this.parent = parent
         this.chunkSize = this.parent.config.chunkSize
         this.totChunkSize = this.parent.config.chunkSize*this.parent.config.tilewidth
-        this.background =  World.add.rectangle((x-1)*this.totChunkSize, (y-1)*this.totChunkSize, this.totChunkSize, this.totChunkSize ,"0x777777").setDepth(-1).setOrigin(0)
+
         this.layers = []
         this.objects = []
-
+        
+        this.background =  World.add.rectangle((x-1)*this.totChunkSize, (y-1)*this.totChunkSize, this.totChunkSize, this.totChunkSize ,"0x777777").setDepth(-1).setOrigin(0)
+        
         //Seaches trough Chunkdata in parent Map and assigns it to this object
         for(let i = 0; i < parent.chunkData.length; i++){
             if(parent.chunkData[i].x == x && parent.chunkData[i].y == y ){
@@ -68,18 +70,23 @@ export default class Chunk{
             }
         })
     }
-    setAlpha(value){
-        if(value == 1){
+    setHighlighted(value){
+        if(value){
             this.layers.forEach(layer =>{
                 layer.setDepth(3)
             })
-            this.background.setDepth(1).setAlpha(1)
         }
         else{
             this.layers.forEach(layer =>{
                 layer.setDepth(1)
             })
-            this.background.setDepth(2).setAlpha(1-value)
         }
+    }
+    setPosition(x,y){
+        this.offsetX = x; this.offsetY = y
+        this.layers.forEach(layer =>{
+            layer.x = (this.x-1)*this.parent.config.chunkSize*this.parent.config.tilewidth + this.offsetX
+            layer.y = (this.y-1)*this.parent.config.chunkSize*this.parent.config.tileheight + this.offsetY 
+        })
     }
 }

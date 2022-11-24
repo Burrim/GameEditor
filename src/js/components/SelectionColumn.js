@@ -28,10 +28,11 @@ class SelectionColumn extends React.Component {
     ------------------------------------------------------------------------------------*/
 
     //Highlights the selected child and sends an Event with the key "{this.props.id}Select"
-    select = (e) => {   
+    select = (e,ext) => {   
         //Reads selected ID. IF function is used without arguments selection is reset
         let id;
         if(e) id = parseInt(e.target.id.slice(this.props.id.length))
+        else if(ext != undefined) id = ext
         else id = undefined
 
         //Sets selected ID
@@ -57,8 +58,26 @@ class SelectionColumn extends React.Component {
         this.forceUpdate()
     }
 
-    setActive(input){
+    setActive(input,select){
         this.active = input
+
+        //Highlights selection when an initial value is given
+        if(input && select != undefined){
+            this.state.selected = select
+            this.setState({ selected : select}, 
+                //Followup Function : adjusts the styling of the component to reflect the selection
+                () =>{
+                    for(let i = 0; i < this.elements.length; i++){
+                        if(this.state.selected == i){
+                        document.getElementById(`${this.props.id + i}`).style.borderLeft = '20px solid rgb(192, 70, 70)'
+                        document.getElementById(`${this.props.id + i}`).style.backgroundColor = 'rgb(66, 66, 66)'
+                    }
+                        else {
+                        document.getElementById(`${this.props.id + i}`).style.borderLeft = '25px solid rgb(77, 77, 77)'
+                        document.getElementById(`${this.props.id + i}`).style.backgroundColor = 'rgb(77, 77, 77)'
+                    }
+                }})
+        }
         this.forceUpdate()
     }
 

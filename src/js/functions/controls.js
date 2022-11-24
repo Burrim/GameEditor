@@ -14,7 +14,6 @@ import createParticle from './createParticle.js';
 export default function initListener(){
     console.log(this)
     document.addEventListener('MapListSelect', () => {
-        let list = 
         this.openMap(Object.keys(files.maps)[MapList.state.selected])
     })
 
@@ -55,7 +54,7 @@ export default function initListener(){
       })
     
     //Left mouse button down somewhere on canvas 
-    document.addEventListener("mousedown", (event) => {
+    document.addEventListener("pointerdown", (event) => {
         if(event.path[0].tagName == 'CANVAS' && event.button === 0)
         this.activeAction()
         if(event.path[0].tagName == 'CANVAS' && event.button === 2)
@@ -63,7 +62,7 @@ export default function initListener(){
     });
         
     //Left mouse up
-    document.addEventListener("mouseup", (event) => {
+    document.addEventListener("pointerup", (event) => {
         if (event.button === 0){
             if(this.placing){
                 this.placing = false
@@ -86,7 +85,8 @@ export default function initListener(){
     });
     
     //Move mouse
-    document.addEventListener('mousemove', (event) => {
+    document.addEventListener('pointermove', (event) => {
+        
         //Placing Tiles
         if(this.placing) placeTile(null,null,currentTileset.data.tiles[tileset.selected].id + currentTileset.data.firstgid)
         //Erasing Tiles
@@ -101,6 +101,17 @@ export default function initListener(){
             let x = Math.ceil(this.pointer.worldX/this.map.config.tilewidth)*this.map.config.tilewidth
             let y = Math.ceil(this.pointer.worldY/this.map.config.tileheight)*this.map.config.tileheight
             this.selectingRec.setSize(x-this.selectingRec.x,y- this.selectingRec.y)
+        }
+        //Paralax Preview
+        else if(this.activeTool == 'preview'){
+            this.input.activePointer.updateWorldPoint(this.cameras.main)
+            Object.values(this.map.paralaxMaps).forEach(map =>{
+                map.chunks.forEach(chunk => {
+                    let x = ((this.pointer.worldX - map.config.paralaxConfig.x)*map.config.paralaxConfig.offsetX)
+                    //console.log(x)
+                    chunk.setPosition(x,0)
+                })
+            })
         }
     });
         
@@ -168,6 +179,15 @@ export default function initListener(){
                 if(this.selected) this.selected.delete();
                 if(this.activeTool == "selection") deleteArea(this.selectingRec.x,this.selectingRec.y,this.selectingRec.width,this.selectingRec.height)
             break;
+            case ' ':
+                if(this.Space) return
+                console.log('space')
+                this.isDragging = true
+                this.Space = true
+                this.input.activePointer.updateWorldPoint(this.cameras.main)
+                this.positionX = this.input.activePointer.x
+                this.positionY = this.input.activePointer.y    
+            break;
         }
     })
     
@@ -175,6 +195,7 @@ export default function initListener(){
         switch(event.key){
             case 'Control': global.ctrl = false; break;
             case 'Shift': global.shift = false; break;
+            case ' ': this.isDragging = false; this.Space = false; break;
         }
     })
 
@@ -183,7 +204,7 @@ export default function initListener(){
 
 
 this.input.on('pointerdown', () =>{
-    if(this.input.activePointer.middleButtonDown()){
+    if(this.input.activePointer.middleButtonDown() || this.Space){
         this.isDragging = true
         this.input.activePointer.updateWorldPoint(this.cameras.main)
         this.positionX = this.input.activePointer.x

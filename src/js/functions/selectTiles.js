@@ -27,9 +27,10 @@ export default function selectTiles(){
 
         //Get all Chunks on this line
         let chunks = World.map.getChunksByPixelCord(
-            selectionBox.x, selectionBox.y,
-            selectionBox.width, selectionBox.height
+            selectionBox.x, selectionBox.y + (World.map.core.tileHeight*i),
+            selectionBox.width, 32
         )
+        console.log("chunk coords",chunks[0].x,chunks[0].y)
     
         //--- Collects small arrays from every layer in every chunk on this line ---
         let chunkData = [] //Array for the collections of all layers from every chunk

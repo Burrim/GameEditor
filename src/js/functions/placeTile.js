@@ -9,6 +9,8 @@ const placeTile = (X,Y,id,config) =>{
 
     World.input.activePointer.updateWorldPoint(World.cameras.main)
 
+    console.log('place')
+
     //Sets target coordinates. Takes Pointer coordinates if no specifics are given
     let x; let y
     if(X) x = X

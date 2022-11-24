@@ -4,7 +4,7 @@ import HistoryObject from "../History";
 import Chunk from "./Chunk";
 
 export default class Map{
-    constructor(data){
+    constructor(data,paralax){
         this.core = World.make.tilemap({ tileWidth: data.core.tileWidth, tileHeight: data.core.tileHeight, width:data.core.width, height:data.core.height})
         this.config = data.core
         this.chunkData = data.chunks
@@ -16,11 +16,22 @@ export default class Map{
         this.paralaxMaps = {}
         this.objects = []
 
-        //Creates Paralax Maps
-        if(this.paralaxData)
-        this.paralaxData.forEach(paraData =>{
-            this.paralaxMaps[paraData.core.id] = new Map(paraData,true)
-        })
+        //Adds Map Plan 
+        if(data.core.plan)
+        this.plan = World.add.image(data.core.plan.x,data.core.plan.y,"mapPlan-"+data.core.plan.key).setDepth(2).setScale(data.core.plan.scale).setVisible(false)
+
+        //Initializes Paralax specific things if this is a paralax map
+        if(paralax){
+            this.paralax = true
+            this.paralaxOrigin = World.add.image(this.config.paralaxConfig.x,this.config.paralaxConfig.y,'editor-crosshair').setTint("0xff0000").setScale(2).setDepth(10).setVisible(false)
+        } 
+
+        //Creates Paralax Maps attached to this map and highlighter
+        if(this.paralaxData){
+            this.paralaxData.forEach(paraData =>{
+                this.paralaxMaps[paraData.core.id] = new Map(paraData,true)
+            })
+        }
         
         //Loads Tilesets
         this.tilesets = []
@@ -44,6 +55,7 @@ export default class Map{
         })
     }
     getChunksByPixelCord(x,y,width,height){
+        console.log(x,y)
         let arr = []
         let tempWidth
         while(height > 0){
@@ -69,7 +81,7 @@ export default class Map{
         return arr
 
     }
-    getChunkByPixelCord(x,y,create){return this.getChunkByTileCord( Math.floor(x/this.config.tilewidth), Math.floor(y/this.config.tileheight)+1, create) }
+    getChunkByPixelCord(x,y,create){return this.getChunkByTileCord( Math.floor(x/this.config.tilewidth), Math.floor(y/this.config.tileheight), create) }
     getChunkByTileCord(x,y,create){ return this.getChunk( Math.floor(x/this.config.chunkSize)+1, Math.floor(y/this.config.chunkSize)+1, create)}
     getChunk(x,y,create){
         let target
@@ -103,7 +115,7 @@ export default class Map{
         let chunk = new Chunk(this,x,y)
         chunk.changed = true
         this.chunks.push(chunk)
-        chunk.setAlpha(this.alpha)
+        chunk.setHighlighted(true)
         return chunk
     }
     getEmptyLayer(){
@@ -146,11 +158,12 @@ export default class Map{
             chunk.open()
         })
     }
-    setAlpha(value){
+    setHighlighted(value){
         this.chunks.forEach(chunk =>{
-            chunk.setAlpha(value)
+            chunk.setHighlighted(value)
+            if(value && this.paralax) this.paralaxOrigin.setVisible(true)
+            else if(this.paralax) this.paralaxOrigin.setVisible(false)
         })
-        this.alpha = value
     }
     close(){}
     }

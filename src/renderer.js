@@ -120,9 +120,6 @@ maps.forEach(key =>{
   
   files.maps[key] = map
   reactData.mapList.push(key)
-
-
-
 })
 
 
@@ -204,6 +201,10 @@ loadData({target:'hitboxes', dir:'src/assets/hitboxInstructions'})
 
 //Loads config
 loadData({target:"config", dir: "/mapData/config"})
+
+//Loads mapplans
+loadData({target:"mapPlans", dir: "/mapData/plans"})
+
 
 
 //*** Global Functions *********************************************************************************************************************************************************** */
@@ -307,7 +308,10 @@ topbar.render(
         ]}/>
 
         <Topbar type={'special'} elements = {[
-          {texture:'structure',key:"structure"}
+          {texture:'structure',key:"structure"},
+          {texture:'plan',key:"plan"},
+          {texture:'paralax',key:'preview'},
+          {texture:'cords',key:'cords'}
         ]}/>
         
         <Topbar type={'tools'} elements = {[
@@ -316,7 +320,9 @@ topbar.render(
           {texture:'bucket',key:"bucket"},
           {texture:'settings',key:"object"},
           {texture:'particleBrush',key:'particleBrush'},
-          {texture:'tilesetSelector',key:'selection'}
+          {texture:'tilesetSelector',key:'selection'},
+          {texture:'crosshair',key:"crosshair"}
+         
           
         ]}/>
 

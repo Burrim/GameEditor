@@ -51,7 +51,9 @@ preload()
         this.load.image(`editor-${key}`, files.editorGraphics[key])
     })
 
-    
+    Object.keys(files.mapPlans).forEach(key =>{
+        this.textures.addBase64(`mapPlan-${key}`, files.mapPlans[key]) 
+    })    
 }
 
 //***** Functins********************************************************************************************************************************************************* */
@@ -90,6 +92,23 @@ create()
     this.loadProject(this.config.lastProject)
 
     
+}
+
+showLoading(value){
+
+    //does not work since the game stalls the render update until whatever caused the load to finish so the loading screen is never visible
+    return
+    console.log('loading')
+    if(!this.loadingScreen) this.loadingScreen = this.add.rectangle(0,0,4000,2000,0x000000).setOrigin(0).setAlpha(0.6)
+    if(!this.loadingText) this.loadingText = this.add.text(0,0,'Loading...',{fontSize:100})
+
+    this.loadingText.setPosition(window.innerWidth/2,window.innerHeight/3).setVisible(value)
+    this.loadingScreen.setVisible(value)
+
+    this.renderer()
+
+
+
 }
 
 }

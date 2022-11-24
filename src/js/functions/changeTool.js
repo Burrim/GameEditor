@@ -4,7 +4,7 @@ const changeTool = (tool) => {
     if(World.activeTool == tool) return
 
 
-    //Executes changes depending on the previous tool
+    //Executes changes depending on the previous tool 
     switch(World.activeTool){
         case 'particleBrush':
             document.body.style.cursor = 'auto'
@@ -22,6 +22,13 @@ const changeTool = (tool) => {
         break;
         case 'measure':
             World.measurement.setVisible(false)
+        break;
+        case 'preview':
+            Object.values(World.map.paralaxMaps).forEach(map =>{
+                map.chunks.forEach(chunk => {
+                    chunk.setPosition(0,0)
+                })
+            })
         break;
     }
     World.activeTool = tool
@@ -71,6 +78,9 @@ const changeTool = (tool) => {
                 World.measurement.setDepth(20);
             } 
             World.measurement.setVisible(true)
+        break;
+        case 'preview':
+            MapPartList.select(null,0)
         break;
     }
 }   

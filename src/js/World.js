@@ -9,6 +9,7 @@ import saveMaps from './functions/saveMaps.js'
 import createParticle from './functions/createParticle.js';
 
 import loadChunkMap from './functions/loadChunkMap.js';
+import createChunkCover from './functions/chunkCover.js';
 
 import multiplace from './functions/multiplace.js';
 
@@ -77,8 +78,9 @@ create()
         loadedData++
         if(loadedData >= loadedDataGoal){
             this.time.delayedCall(1000,()=>{ 
-                this.openMap('testmap')
+                MapList.select(null,0)
                 this.scene.launch('Structures')
+                Setup.scene.bringToTop();
             })
             
         } 
@@ -129,6 +131,8 @@ this.initListener()
 // ***** Special Sprites ****************************************************************************************************************************************
 //Tile Preview
 this.previewTile = this.add.sprite(-200,-200, `emptyTile`).setAlpha(0.5).setOrigin(0).setDepth(5)
+
+
     
 //***** Map *****************************************************************************************************************************/
 
@@ -151,7 +155,11 @@ this.cameras.main.startFollow(this.cameraCursor);
 // Functions --------------------------------------------------------------
 
 activeAction(){
+
     this.input.activePointer.updateWorldPoint(this.cameras.main)
+    let x 
+    let y 
+
     switch(this.activeTool){
         case 'brush':
             //Places Tiles with active Tileset
@@ -195,8 +203,8 @@ activeAction(){
         break;
 
         case 'selection':
-            let x = Math.floor(this.pointer.worldX/this.map.config.tilewidth)*this.map.config.tilewidth
-            let y = Math.floor(this.pointer.worldY/this.map.config.tileheight)*this.map.config.tileheight
+            x = Math.floor(this.pointer.worldX/this.map.config.tilewidth)*this.map.config.tilewidth
+            y = Math.floor(this.pointer.worldY/this.map.config.tileheight)*this.map.config.tileheight
             this.selectingRec.setPosition(x,y)
             this.selectingRec.setSize(0,0)
             this.selecting = true
@@ -206,9 +214,21 @@ activeAction(){
             if(this.customCache != undefined) multiplace(this.customCache)
         break;
 
-        case 'measure':
-            
+        case 'measure': break;
+
+        case 'crosshair':
+            //Logs all tiles on the targeted location
+            x = Math.floor(this.pointer.worldX/this.map.config.tilewidth)
+            y = Math.floor(this.pointer.worldY/this.map.config.tileheight)
+            let chunk = this.map.getChunkByTileCord(x,y,true)
+            console.log('%c Checking Tiles ', 'color: #ff1111');
+            x = x-(chunk.x-1)*chunk.chunkSize
+            y = y-(chunk.y-1)*chunk.chunkSize
+            chunk.layers.forEach((layer,index) => {
+                console.log(`Layer ${index}`,this.map.core.getTileAt(x, y,false, layer ))
+            })
         break;
+
 
     }
 }
@@ -274,15 +294,27 @@ openMap(key,noSwitch)
         })
     } else this.maps[key].open()
 
-    this.map.setAlpha(1)
-    Object.values(this.map.paralaxMaps).forEach(entry =>{console.log(entry); entry.setAlpha(0.5)})
-    this.selectedMap = key
+    //Creates Chunkcover on first mapload
+    if(!this.chunkCover){
+        this.chunkCover = createChunkCover(50,30)
+        document.getElementById('saveCover').style.display = 'none'
+    } 
 
+    //Resets Map Plan ui on switch
+    document.getElementById('Topbar-plan').parentNode.style.backgroundColor = 'transparent'
+
+    
+    this.map.setHighlighted(true)
+    Object.values(this.map.paralaxMaps).forEach(entry =>{console.log(entry); entry.setHighlighted(false)})
+    this.selectedMap = key
+    
     let list = Object.keys(this.maps[key].paralaxMaps)
     list.unshift("Main Map")
     MapPartList.elements = list
-    MapPartList.setActive(true)
+    MapPartList.setActive(true,0)
     
+    
+
     if(!noSwitch)
     this.cameraCursor.setPosition(this.map.core.widthInPixels/2,this.map.core.heightInPixels/2) //Centers Camera on new map 
 }
@@ -291,10 +323,10 @@ openSubMap(key){
         this.openMap(key,true)
         return;
     }
-    this.maps[this.selectedMap].setAlpha(0.5)
-    Object.values(this.maps[this.selectedMap].paralaxMaps).forEach(map =>{map.setAlpha(0.5)}) 
+    this.maps[this.selectedMap].setHighlighted(false)
+    Object.values(this.maps[this.selectedMap].paralaxMaps).forEach(map =>{map.setHighlighted(false)}) 
     this.maps[this.selectedMap].paralaxMaps[key].open()
-    this.map.setAlpha(1)
+    this.map.setHighlighted(true)
 
 }
 

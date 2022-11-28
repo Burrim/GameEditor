@@ -1,0 +1,23 @@
+ 
+[
+        {
+            "name": "White Light",
+            "data":{
+              "type": "light",
+              "props":{
+                "size": 1000,
+                "color": "0xe7c7b2",
+                "intensity":3,
+                "key": "tower",
+                "disabled": false
+              }
+            },
+            "editorData": {
+              "img": "light",
+              "width" : 32,
+              "height" :32,
+              "text": ""
+      
+            }
+          }
+    ]

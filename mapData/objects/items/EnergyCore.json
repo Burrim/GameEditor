@@ -1,0 +1,18 @@
+[
+    {
+        "name": "Energy Core",
+        "data":{
+          "type":"item",
+          "spriteKey": "props-energyCore",
+          "props": {
+            "type": "energyCore"
+          }
+        },
+        "editorData": {
+          "width" : 32,
+          "height" : 32,
+           "text": "Energy Core",
+           "img": "energyCore"
+        }
+      }
+]

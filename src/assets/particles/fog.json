@@ -1,0 +1,23 @@
+{
+    "props": {"continuos":true},
+    "list": [
+        {
+            "id": "Dust",
+            "type":"particle",
+            "texture": "particle-Smoke_Cloud_002",
+            "lifespan": {"min":2000,"max":8000},
+            "scale": { "min":0.4,"max": 2},
+            "alpha": 0,
+            "rotate": { "min": 0, "max": 360},
+            "speedX":{"min":-20,"max":20},
+            "speedY":{"min":-20,"max":-20},
+            "quantity": 8,
+            
+            "tint":"0x6cd2c1",
+
+            
+            
+            "emitZone":{"source":[0,0,1024,1024],"type":"random"}
+        }
+    ]
+}

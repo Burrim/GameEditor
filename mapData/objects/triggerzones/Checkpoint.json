@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Checkpoint",
+        "data":{
+          "key": "checkpoint",
+          "type": "structur",
+          "props":{"sprite" : "props-energyTank", "type":"checkpoint"}
+        },
+        "editorData": {
+          "img": "crate",
+          "width" : 32,
+          "height" :32,
+          "text": "Checkpoint"
+        }
+      }
+]

@@ -1,0 +1,4115 @@
+{
+   "id": "8-3",
+   "x": 8,
+   "y": 3,
+   "meta": [
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "noWalljump": true,
+         "stairs": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {},
+      {
+         "colission": true,
+         "noWalljump": true,
+         "stairs": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "noWalljump": true,
+         "passtrough": true
+      },
+      {
+         "colission": true,
+         "noWalljump": true,
+         "passtrough": true
+      },
+      {
+         "colission": true,
+         "noWalljump": true,
+         "passtrough": true
+      },
+      {
+         "colission": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "noWalljump": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true
+      },
+      {
+         "colission": true,
+         "noWalljump": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "noWalljump": true,
+         "passtrough": true
+      },
+      {
+         "colission": true,
+         "noWalljump": true,
+         "passtrough": true
+      },
+      {
+         "colission": true,
+         "noWalljump": true,
+         "passtrough": true
+      },
+      {
+         "type": "above",
+         "colission": true,
+         "noWalljump": true,
+         "passtrough": true
+      },
+      {
+         "colission": true,
+         "noWalljump": true,
+         "passtrough": true
+      },
+      {
+         "colission": true,
+         "noWalljump": true,
+         "passtrough": true
+      },
+      {
+         "colission": true,
+         "noWalljump": true,
+         "passtrough": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "type": "above"
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "colission": true,
+         "type": "above"
+      },
+      {
+         "colission": true
+      },
+      {
+         "colission": true
+      },
+      {
+         "colission": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "type": "above"
+      },
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "noWalljump": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "noWalljump": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "noWalljump": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "noWalljump": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "noWalljump": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "noWalljump": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "noWalljump": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "noWalljump": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "colission": true,
+         "noWalljump": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {
+         "colission": true,
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "solid": true
+      },
+      {
+         "colission": true,
+         "solid": true
+      },
+      {}
+   ],
+   "layers": [
+      {
+         "name": "layer0",
+         "config": {},
+         "data": [
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               513,
+               666,
+               -1,
+               384,
+               711,
+               714,
+               713,
+               713
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               459,
+               730,
+               731,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               459,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               459,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               966,
+               968,
+               968,
+               965,
+               713,
+               713,
+               714,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               128,
+               132,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               2329,
+               128,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               966,
+               968,
+               968,
+               3644,
+               968,
+               968,
+               970,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               523,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               3644,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               523,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               900,
+               902,
+               902,
+               902,
+               713,
+               713,
+               713,
+               713,
+               713,
+               713,
+               713,
+               713,
+               713,
+               713,
+               713,
+               713,
+               713,
+               713,
+               713,
+               389,
+               389,
+               389,
+               389,
+               389,
+               652,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               3389,
+               -1,
+               -1,
+               -1,
+               128,
+               132,
+               132,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               128,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               128,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               459,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               128,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               459,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               459,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               460
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               128,
+               132,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               518
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               128,
+               132,
+               132,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               518
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               128,
+               132,
+               132,
+               132,
+               132,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               518
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               128,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               2017
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               459,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               454,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               459,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               454,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               459,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               264,
+               454,
+               -1
+            ]
+         ]
+      },
+      {
+         "name": "layer1",
+         "config": {},
+         "data": [
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               453,
+               -1,
+               -1,
+               -1,
+               460
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               581,
+               452,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               775,
+               778,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               460,
+               779,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               778,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               968,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               3337,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               145
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ],
+            [
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1,
+               -1
+            ]
+         ]
+      }
+   ],
+   "objects": [
+      {
+         "name": "Light",
+         "data": {},
+         "editorData": {
+            "img": "light",
+            "width": 32,
+            "height": 32,
+            "text": ""
+         },
+         "position": {
+            "x": 7872,
+            "y": 2496
+         }
+      }
+   ]
+}

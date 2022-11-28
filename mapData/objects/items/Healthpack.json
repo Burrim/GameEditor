@@ -1,0 +1,21 @@
+{
+    "list":[
+        {
+            "name": "Health Pickup",
+            "data":{
+              "type":"item",
+              "spriteKey": "props-healthPickup",
+              "props": {
+                "type": "healthPickup",
+                "healAmount": 100
+              }
+            },
+            "editorData": {
+              "width" : 32,
+              "height" : 32,
+               "text": "Health Pickup",
+               "img": "healthPickup"
+            }
+          }  
+    ]
+}

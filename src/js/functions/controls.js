@@ -143,6 +143,7 @@ export default function initListener(){
                 if(ctrl){
                     this.customCache = selectTiles()
                     deleteArea(this.selectingRec.x,this.selectingRec.y,this.selectingRec.width,this.selectingRec.height)
+                    World.selectingRec.width = 0; World.selectingRec.height = 0
                 } 
             break;
             case 'e': changeTool('eraser'); break;
@@ -177,11 +178,21 @@ export default function initListener(){
             case 'Shift': window.shift = true; break;
             case 'Delete': 
                 if(this.selected) this.selected.delete();
-                if(this.activeTool == "selection") deleteArea(this.selectingRec.x,this.selectingRec.y,this.selectingRec.width,this.selectingRec.height)
+                if(this.activeTool == "selection"){
+                    deleteArea(this.selectingRec.x,this.selectingRec.y,this.selectingRec.width,this.selectingRec.height)
+                    this.selectingRec.width = 0; this.selectingRec.height = 0
+                } 
+            break;
+            case 'Escape':
+                //Checks if the current tool is escapable and switches to the previous tool if yes
+                let escapableTools = ['paste',"preview",'measure']
+                if(escapableTools.includes(World.activeTool)){
+                    changeTool(World.previousTool)
+                }
             break;
             case ' ':
+                //Alternative Dragging function, mostly for stylus
                 if(this.Space) return
-                console.log('space')
                 this.isDragging = true
                 this.Space = true
                 this.input.activePointer.updateWorldPoint(this.cameras.main)

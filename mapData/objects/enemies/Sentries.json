@@ -1,0 +1,43 @@
+
+[
+        {
+            "name": "Stationary Sentry",
+            "data":{
+              "key": "turret",
+              "type": "enemy",
+              "props":{"sprite" : "sentry-Sentry_Stationary", 
+              "weaponKey": "stationaryBlast", 
+              "orientation": "right",
+              "disabled": false
+            }
+      
+            },
+            "editorData": {
+              "img": "Sentry_Stationary",
+              "width" : 48,
+              "height" :32,
+              "text": "St. Sentry"
+            }
+          },
+      
+          {
+            "name": "Laser Sentry",
+            "data":{
+              "key": "turret",
+              "type": "enemy",
+              "props":{
+                "sprite" : "sentry-Sentry_Laser",
+                "weaponKey": "trackingLaser", 
+                "orientation": "right",
+                "disabled": false
+              }
+              
+            },
+            "editorData": {
+              "img": "Sentry_Laser",
+              "width" : 64,
+              "height" :32,
+              "text": "Laser Sentry"
+            }
+          }
+    ]

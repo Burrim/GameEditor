@@ -1,0 +1,24 @@
+{
+    "paralax":true,
+    "id": "verticalHole",
+    "chunkSize":32,
+    "tileheight": 32,
+    "tilewidth": 32,
+    "width":64,
+    "height":64,
+
+    "paralaxConfig":{
+        "x":5500,
+        "y":320,
+        "offsetX":0.2,
+        "offsetY":0,
+        "tint":"0xffffff"
+    },
+
+    "tilesets": [
+        "Dark_Scifi_Blocks",
+        "Dark_Scifi_Details",
+        "Nature_Blocks",
+		"Nature_Details"
+   ]    
+}

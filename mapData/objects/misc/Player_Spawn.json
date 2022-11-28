@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Player Spawn",
+        "data":{
+          "type":"player"
+        },
+        "editorData": {
+          "width" : 32,
+          "height" : 64,
+           "text": "Spawn",
+           "img": "player"
+        }
+      }
+]

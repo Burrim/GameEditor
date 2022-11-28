@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Crate",
+        "data":{
+          "key": "crate",
+          "type": "prop",
+          "props":{"sprite" : "props-crate"}
+        },
+        "editorData": {
+          "img": "crate",
+          "width" : 32,
+          "height" :32,
+          "text": ""
+        }
+      }
+]

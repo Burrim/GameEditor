@@ -1,0 +1,29 @@
+{
+    "slash":{
+        "width":1,
+        "height":1,
+        "key": "slash-SlashV5",
+        "orientation":0
+    },
+    "list":[
+        {
+            "duration": 2,
+            "position":{"x": 0,
+            "y": -64},
+            "scale":{"x":1,"y":2}
+        },
+        {
+            "duration": 2,
+            "position":{"x": 64,
+            "y": 0},
+            "scale":{"x":2,"y":3}
+        },
+        {
+            "duration": 6,
+            "position":
+            {"x": 0,
+            "y": 64},
+            "scale":{"x":1,"y":2}
+        }
+    ]
+    }

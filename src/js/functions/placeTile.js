@@ -1,4 +1,4 @@
-import getTileProps from './getTileProp'
+import removeTile from "./removeTile.js"
 
 
 
@@ -9,14 +9,16 @@ const placeTile = (X,Y,id,config) =>{
 
     World.input.activePointer.updateWorldPoint(World.cameras.main)
 
-    console.log('place')
-
     //Sets target coordinates. Takes Pointer coordinates if no specifics are given
     let x; let y
-    if(X) x = X
+    if(X != undefined) x = X
     else x = Math.floor(World.pointer.worldX / World.map.config.tilewidth)
-    if(Y) y = Y
+    if(Y != undefined) y = Y
     else y = Math.floor(World.pointer.worldY / World.map.config.tileheight)
+
+    //Checks for tile props and removes every other tile if the tile ahs the prop solid
+    let props = World.map.getPropsFromTileset(id)
+    if(props.solid) removeTile(x,y)
 
     let chunk = World.map.getChunkByTileCord(x,y,true) //Gets Chunk below cursor or creates new one if necessary
     //changes coordinates to be relative to the chunk

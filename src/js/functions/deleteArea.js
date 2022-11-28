@@ -12,7 +12,9 @@ export default function deleteArea(cordX,cordY,width,height){
 
     for(let y = 0; y < height; y += World.map.config.tileheight){
         for(let x = 0; x < width; x += World.map.config.tilewidth){
-            removeTile(Math.floor((cordX+x)/World.map.config.tilewidth), Math.floor((cordY+y)/World.map.config.tileheight))
+            let calcX = Math.floor((cordX+x)/World.map.config.tilewidth)
+            let calcY = Math.floor((cordY+y)/World.map.config.tileheight)
+            removeTile(calcX, calcY)
         }
     }
 }

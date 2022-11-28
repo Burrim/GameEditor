@@ -212,6 +212,7 @@ activeAction(){
 
         case 'paste':
             if(this.customCache != undefined) multiplace(this.customCache)
+            changeTool(this.previousTool)
         break;
 
         case 'measure': break;

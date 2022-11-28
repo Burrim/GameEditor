@@ -1,0 +1,23 @@
+
+[
+        {
+            "name": "Light",
+            "data":{
+              "type": "light",
+              "props":{
+                "size": 1000,
+                "color": "0x84e9d0",
+                "intensity": 3,
+                "key": "normal",
+                "disabled": false
+              }
+            },
+            "editorData": {
+              "img": "light",
+              "width" : 32,
+              "height" :32,
+              "text": ""
+      
+            }
+          }
+    ]

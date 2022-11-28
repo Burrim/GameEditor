@@ -1,0 +1,26 @@
+{
+    "jumpheight":{
+        "height":180,
+        "width":4
+    },
+    "jump + walljump height":{
+        "height":360,
+        "width":4
+    },
+    "jumpwidth":{
+        "height":4,
+        "width":384
+    },
+    "dashwidth":{
+        "height":4,
+        "width":256
+    },
+    "jump + Dash width":{
+        "height":4,
+        "width":864
+    },
+    "screen":{
+        "height":675,
+        "width":1200
+    }
+}

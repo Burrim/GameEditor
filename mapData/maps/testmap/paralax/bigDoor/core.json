@@ -1,0 +1,24 @@
+{
+    "paralax":true,
+    "id": "bigDoor",
+    "chunkSize":32,
+    "tileheight": 32,
+    "tilewidth": 32,
+    "width":64,
+    "height":64,
+
+    "paralaxConfig":{
+        "x":14336,
+        "y":3072,
+        "offsetX":0.2,
+        "offsetY":0,
+        "tint":"0xffffff"
+    },
+
+    "tilesets": [
+        "Dark_Scifi_Blocks",
+        "Dark_Scifi_Details",
+        "Nature_Blocks",
+		"Nature_Details"
+   ]    
+}

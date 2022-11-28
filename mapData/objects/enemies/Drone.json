@@ -1,0 +1,21 @@
+
+ [
+        {
+            "name": "Drone Spawn",
+            "data":{
+              "key": "drone",
+              "type": "enemy",
+              "props":{
+                "sprite" : "drone-body",
+                "disabled": false
+              }
+              
+            },
+            "editorData": {
+              "img": "drone",
+              "width" : 32,
+              "height" :32,
+              "text": "Drone"
+            }
+          }
+    ]

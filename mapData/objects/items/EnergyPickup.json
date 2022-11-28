@@ -1,0 +1,19 @@
+[
+    {
+        "name": "Energy Pickup",
+        "data":{
+            "type":"item",
+            "spriteKey": "props-energyPickup",
+            "props": {
+            "type": "energyPickup",
+            "healAmount": 500
+            }
+        },
+        "editorData": {
+            "width" : 32,
+            "height" : 32,
+            "text": "Energy Pickup",
+            "img": "energyPickup"
+        }
+    }
+]

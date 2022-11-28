@@ -61,13 +61,10 @@ create()
 {
     this.loadProject = function(projectUrl)
     {
-        try{ //Versucht letztes bearbeitetes Projekt zu öffnen
-            this.project = JSON.parse(fs.readFileSync(projectUrl));
-            }catch{alert('Projekt konnte nicht gefunden werden'); return;}
         
-            if(this.project.isSofits) //Frägt eine Variable ab, die sich in legitimen Projektfiles befindet. startet zusätzliche Szenen, wenn das Projekt legitim ist.
+            if(true) //veraltet
             {
-                this.path = this.config.lastProject.slice(0,this.config.lastProject.length - (this.project.name.length+5))
+                //this.path = this.config.lastProject.slice(0,this.config.lastProject.length - (this.project.name.length+5))
                 //TM.loadTileset()
 
                 //Loads Sprites in to Phaser

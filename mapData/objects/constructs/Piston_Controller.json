@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Piston Controller",
+        "data":{
+          "key": "pistonController",
+          "type": "structur",
+          "props": {"sprite" : "props-switch", "type":"pistonController", "target":"target"}
+        },
+        "editorData": {
+          "img": "crate",
+          "width" : 32,
+          "height" :32,
+          "text": "Piston Controller"
+        }
+      }
+]

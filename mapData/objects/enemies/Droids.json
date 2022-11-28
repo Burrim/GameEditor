@@ -1,0 +1,45 @@
+
+[
+        {
+            "name": "Slasher Spawn",
+            "data":{
+              "key": "slasher",
+              "type": "enemy",
+              "props":{
+                "sprite" : "alphaCharacter-Idle",
+                "disabled": false
+              }
+              
+            },
+            "editorData": {
+              "img": "slasher",
+              "width" : 32,
+              "height" :64,
+              "text": "Slasher"
+      
+            }
+          },
+      
+          {
+            "name": "Thrower Spawn",
+            "src":"Slasher Spawn",
+            "data":{
+              "key": "thrower"
+            },
+            "editorData": {
+              "img": "thrower",
+              "text": "Thrower"
+            }
+          },
+          {
+            "name": "Fodder Spawn",
+            "src":"Slasher Spawn",
+            "data":{
+              "key": "fodder"
+            },
+            "editorData": {
+              "img": "fodder",
+              "text": "Fodder"
+            }
+          }
+    ]

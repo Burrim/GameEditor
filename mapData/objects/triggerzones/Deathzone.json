@@ -1,0 +1,18 @@
+[
+    {
+        "name": "Deathzone",
+        "data":{
+          "type": "triggerpoint",
+          "props":{
+            "key": "deathzone"
+          }
+        },
+        "editorData": {
+          "img": "death",
+          "width" : 32,
+          "height" :32,
+          "text": ""
+  
+        }
+      }
+]

@@ -3,6 +3,9 @@ const changeTool = (tool) => {
     console.log(tool)
     if(World.activeTool == tool) return
 
+    //Remembers previous tool in case of a function that want to switch back
+    World.previousTool = World.activeTool
+
 
     //Executes changes depending on the previous tool 
     switch(World.activeTool){
@@ -19,6 +22,7 @@ const changeTool = (tool) => {
         break;
         case 'selection':
             World.selectingRec.setVisible(false)
+            World.selectingRec.width = 0; World.selectingRec.height = 0
         break;
         case 'measure':
             World.measurement.setVisible(false)
@@ -29,6 +33,7 @@ const changeTool = (tool) => {
                     chunk.setPosition(0,0)
                 })
             })
+            document.getElementById('Topbar-preview').parentNode.style.backgroundColor = 'transparent'
         break;
     }
     World.activeTool = tool
@@ -65,7 +70,7 @@ const changeTool = (tool) => {
         break;
         case 'paste':
             World.previewTile.setVisible(true)
-            World.previewTile.setTexture('eraserTile')
+            World.previewTile.setTexture('paster')
             World.previewTile.setScale(World.customCache.width,World.customCache.height)
         break;
         case 'selection':{

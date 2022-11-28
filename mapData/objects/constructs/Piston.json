@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Piston",
+        "data":{
+          "key": "piston",
+          "type": "structur",
+          "props":{"size" : 7, "type":"tower", "tag":"1", "range":18, "duration":180, "controller":false}
+        },
+        "editorData": {
+          "img": "piston",
+          "width" : 32,
+          "height" :32,
+          "text": ""
+        }
+      }
+]

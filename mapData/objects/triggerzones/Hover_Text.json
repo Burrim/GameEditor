@@ -1,0 +1,18 @@
+[
+    {
+        "name": "Hover Text",
+        "data":{
+          "type": "hoverText",
+          "props":{
+            "targetGroup":"tutorial","targetElement":"move"  
+          }
+        },
+        "editorData": {
+          "img": "event",
+          "width" : 32,
+          "height" :32,
+          "text": ""
+  
+        }
+      }
+]

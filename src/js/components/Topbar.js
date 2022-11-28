@@ -50,13 +50,12 @@ export default class Topbar extends React.Component {
 
                         }
                     }
+                    break;
                     case 'preview':
                         if(World.activeTool == 'preview'){
-                            changeTool(this.savedTool)
-                            document.getElementById('Topbar-preview').parentNode.style.backgroundColor = 'transparent'
+                            changeTool(World.previousTool)
                         }
                         else{
-                            this.savedTool = World.activeTool
                             changeTool('preview')
                         }
                     break;

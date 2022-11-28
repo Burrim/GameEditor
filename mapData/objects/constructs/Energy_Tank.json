@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Energy Tank",
+        "data":{
+          "key": "crate",
+          "type": "prop",
+          "props":{"sprite" : "props-energyTank", "boxType" : "energyTank" }
+        },
+        "editorData": {
+          "img": "energyTank",
+          "width" : 32,
+          "height" :32,
+          "text": ""
+        }
+      }
+]

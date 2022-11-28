@@ -23,7 +23,7 @@ import './stylesheet.css'
 import loadData from './js/functions/loadData.js'
 
 utilsInit()
-localStorage.setItem('GameEditorProject','D:/Programming_Stuff/Ongoing_Projects/Primal Complex');
+localStorage.setItem('GameEditorProject','.');
 window.path = localStorage.getItem('GameEditorProject')
 
 // *** Asset Loader *************************************************************************************************

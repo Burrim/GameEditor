@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Portal",
+        "data":{
+          "key": "portal",
+          "type": "structur",
+          "props":{"sprite" : "portal-turquoise_activating", "type":"portal", "destination":"tower","deactivated":false, "key":"0", "color":"turquoise"}
+        },
+        "editorData": {
+          "img": "portal",
+          "width" : 64,
+          "height" :64,
+          "text": "portal"
+        }
+      }
+]

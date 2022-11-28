@@ -1,0 +1,23 @@
+
+[
+        {
+            "name": "Sleeping Tower Light",
+            "data":{
+              "type": "light",
+              "props":{
+                "size": 1000,
+                "color": "0xb95e3b",
+                "intensity":3,
+                "key": "tower_sleep",
+                "disabled": false
+              }
+            },
+            "editorData": {
+              "img": "light",
+              "width" : 32,
+              "height" :32,
+              "text": ""
+      
+            }
+          }
+    ]

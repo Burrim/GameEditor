@@ -1,3 +1,5 @@
+import changeTool from "../functions/changeTool";
+
 export default class Structure_Container{
     constructor(x,y,data){
         this.layers = []
@@ -25,8 +27,11 @@ export default class Structure_Container{
         }
        
         this.cover = Structures.add.rectangle(Structures.config.entryWidth*this.x ,Structures.config.entryHeight*this.y,Structures.config.entryWidth, Structures.config.entryHeight,0xffffff)
-        this.cover.setInteractive().setOrigin(0).setAlpha(0.2).setDepth(-1)
-        this.cover.on("pointerdown",()=>{World.customCache = this.data; console.log('touch')})
+        this.cover.setInteractive().setOrigin(0).setAlpha(0.6).setDepth(-1)
+        this.cover.on("pointerdown",()=>{
+            World.customCache = this.data;
+            changeTool('paste')
+        })
          
         this.deleteButton = Structures.add.image(this.cover.getTopRight().x,this.cover.getTopRight().y,'editor-delete').setOrigin(1,0).setDepth(2)
         this.deleteButton.setInteractive()

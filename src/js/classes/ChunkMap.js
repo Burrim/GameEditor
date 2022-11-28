@@ -3,6 +3,10 @@ import Phaser from "phaser";
 import HistoryObject from "../History";
 import Chunk from "./Chunk";
 
+//************************************************************************************** */
+// The Editor uses the same class for paralax maps and chunk maps. this is not the case for primal complex
+//************************************************************************************** */
+
 export default class Map{
     constructor(data,paralax){
         this.core = World.make.tilemap({ tileWidth: data.core.tileWidth, tileHeight: data.core.tileHeight, width:data.core.width, height:data.core.height})

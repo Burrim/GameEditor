@@ -7,10 +7,12 @@ export default function removeTile(X,Y){
 
     //Sets target coordinates. Takes Pointer coordinates if no specifics are given
     let x; let y
-    if(X) x = X
+    if(X != undefined) x = X
     else x = Math.floor(World.pointer.worldX / World.map.config.tilewidth)
-    if(Y) y = Y
+    if(Y != undefined) y = Y
     else y = Math.floor(World.pointer.worldY / World.map.config.tileheight)
+
+    console.log("cords",x,y)
 
     let chunk = World.map.getChunkByTileCord(x,y) //Gets Chunk below cursor or creates new one if necessary
     if(!chunk) return
@@ -23,7 +25,6 @@ export default function removeTile(X,Y){
         if(target != null && target.index != -1){
             World.map.history.addEntry(target, target.index, -1,'tileChange')
             World.map.core.putTileAt(-1, x, y,false, chunk.layers[i] )
-
         }
 
     }

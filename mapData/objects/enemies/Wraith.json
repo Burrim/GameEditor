@@ -1,0 +1,55 @@
+
+ [
+        {
+            "name": "Wraith Spawn",
+            "data":{
+              "key": "wraith",
+              "type": "enemy",
+              "props":{
+                "sprite" : "wraith-placeholder",
+                "disabled": false,
+                "key":"boss"
+              }
+              
+            },
+            "editorData": {
+              "img": "wraith",
+              "width" :48,
+              "height" :96,
+              "text": "Wraith"
+      
+            }
+          },
+          {
+            "name": "Wraith Teleport ",
+            "data":{
+              "type": "wraithTeleport",
+              "props":{
+                "key": "boss"
+              }
+            },
+            "editorData": {
+              "img": "event",
+              "width" : 32,
+              "height" :32,
+              "text": "TP"
+      
+            }
+          },
+          {
+            "name": "Start Boss",
+            "data":{
+              "type": "triggerpoint",
+              "props":{
+                "key": "startBoss"
+              }
+            },
+            "editorData": {
+              "img": "event",
+              "width" : 32,
+              "height" :32,
+              "text": ""
+      
+            }
+          }
+    ]
